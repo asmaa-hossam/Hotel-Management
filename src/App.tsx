@@ -1,4 +1,6 @@
 import React from 'react'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import LandingPageLayout from './modules/Shared/Components/LandingPageLayout/LandingPageLayout'
 import NotFound from './modules/Shared/Components/NotFound/NotFound'
@@ -97,10 +99,9 @@ children:[
 
   ])
   return (
-    <>
     <ThemeProvider theme={theme}>
-      <RouterProvider router={routes}></RouterProvider>
-      </ThemeProvider>
-    </>
-  )
+      <RouterProvider router={routes} />
+      <ToastContainer position="top-right" autoClose={3000} />
+    </ThemeProvider>
+  );
 }

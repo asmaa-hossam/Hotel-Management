@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+
+}
+/* index.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Target autofill in Chrome, Edge, Safari */
+input.MuiInputBase-input:-webkit-autofill,
+input.MuiInputBase-input:-webkit-autofill:focus,
+input.MuiInputBase-input:-webkit-autofill:hover {
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset !important; /* replace #fff with your input bg */
+  -webkit-text-fill-color: #000 !important; /* text color */
+  transition: background-color 5000s ease-in-out 0s; /* prevent autofill flash */
+}
