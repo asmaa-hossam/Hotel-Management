@@ -1,157 +1,122 @@
+import React from "react";
 import { Box, Typography } from "@mui/material";
+import myImage from "../../../../assets/images/Group 33.png";
+import Logo from "../../../../assets/images/Staycation..svg";
 import { Outlet, useLocation } from "react-router-dom";
-import myImage from "../../../../assets/images/Rectangle 7.png";
-import logo from "../../../../assets/images/Staycation..svg";
-import Login from "../../../Authontication/Components/Login/Login";
 
 export default function AuthLayout() {
   const location = useLocation();
-  
-  // Text in img depend in route of pages
-  const getHeaderText = () => {
-    if ( location.pathname.includes("login")) {
-      return "Sign up to Roamhome";
-    } else if (location.pathname.includes("forgot-password")) {
-      return "Forgot password";
-    }else if (location.pathname.includes("changePassword")) {
-      return "Change password";
-    } else if (location.pathname.includes("resetPassword")) {
-      return "Reset password";
-    }else {
-      return "Sign in to Roamhome";
-    }
+
+  // Function to return title based on route
+  const getTitleByRoute = () => {
+    const path = location.pathname;
+    if (path.includes("login")) return "Sign in to Roamhome";
+    if (path.includes("register")) return "Sign up to Roamhome";
+    if (path.includes("forgetPassword")) 
+      return "Forget Password";
+    if (path.includes("resetPassword")) 
+      return "Reset Password";
+    if (path.includes("change-password")) return "Change Password";
+    return "Welcome  to Roamhome";
   };
 
-  const getSubText = () => {
-    if (location.pathname.includes("signup") || location.pathname.includes("register")) {
-      return "Join our community today.";
-    } else if (location.pathname.includes("forgot-password")) {
-      return "We'll help you get back in.";
-    } else {
-      return "Homes as unique as you.";
-    }
-  };
+  const title = getTitleByRoute();
+  const subtitle = "Homes as unique as you."; // same for all routes
 
   return (
     <Box
       sx={{
         display: "flex",
-        flexDirection: { xs: "column-reverse", md: "row" },
-        height: "100vh",
-        margin: 0,
-        overflow: "hidden", 
+        flexDirection: { xs: "column", md: "row" },
+        minHeight: "100vh",
+        paddingTop: "20px",
       }}
     >
-      {/* Form Section */}
-    <Box
-  sx={{
-    flex: 1,
-    backgroundColor: "#fff",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    width: { xs: "100%", md: "50%" },
-    // height: "70%",  
-    padding: { xs: 2, md: 4 },
-    overflowY: "auto", // allow scroll if content is taller
-  }}
->
-
-        {/* Logo */}
-        <Box
-          sx={{
-            width: "100%",
-            height: '15%',
-            paddingTop: { xs: 1, md: 1 },
-            paddingBottom: 3,
-            display: "flex",
-            justifyContent: "flex-start",
-          }}
-        >
-          <img
-            src={logo}
-            alt="Staycation Logo"
-            style={{
-              maxWidth: "148px",
-              maxHeight: "39px",
-              height: "auto",
-            }}
-          />
-        </Box>
-
-        {/* Form content */}
-        <Box sx={{ width: "100%"  }}>
-          
-          <Login />
-        </Box>
-      </Box>
-
-      {/* Image Section */}
+      {/* Right side - Form */}
       <Box
         sx={{
           flex: 1,
-          width: { xs: "100%", md: "50%" },
-          height: { xs: "40vh", md: "100%" },
-          order: { xs: -1, md: 1 },
-          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          p: 3,
+          bgcolor: "background.paper",
         }}
       >
-        <img
-          src={myImage}
-          alt="Auth Illustration"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            display: "block", 
-            paddingTop: '49px',
+        {/* Logo */}
+        <Box
+          component="img"
+          src={Logo}
+          alt="Logo"
+          sx={{
+            width: { xs: "120px", sm: "148px" },
+            height: "auto",
+            mb: 3,
+            alignSelf: "flex-start",
           }}
         />
 
-        {/* Overlay Text */}
+        {/* Outlet for nested routes */}
+        <Box
+          sx={{
+            height: "auto",
+            mb: 2,
+            width: "80%",
+            alignSelf: "center",
+          }}
+        >
+          <Outlet />
+        </Box>
+      </Box>
+
+      {/* Left side - Image with bottom text overlay */}
+      <Box
+        sx={{
+          flex: 1,
+          position: "relative",
+          backgroundImage: `url(${myImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          minHeight: { xs: "300px", md: "auto" },
+          display: "block",
+          paddingTop: "20px",
+        }}
+      >
+        {/* Text overlay */}
         <Box
           sx={{
             position: "absolute",
-            top: "80%",
-            left: "50%",
-            height: '80px',
-            width: '100%',
-            transform: "translate(-50%, -50%)",
-            color: "white",
-            textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            textAlign: "left",
-            maxWidth: { xs: "80%", sm: "70%", md: "70%" },
+            bottom: "10%",
+            left: 0,
+            width: "100%",
+            color: "#fff",
+            py: 5,
+            textAlign: "center",
           }}
         >
           <Typography
-            component="h3"
+            variant="h4"
             sx={{
-              margin: 0,
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: 600,
-              fontSize: { xs: "24px", sm: "32px", md: "40px" },
+              maxWidth: "435px",
+              fontWeight: 400,
               lineHeight: 1.2,
-              letterSpacing: "1px",
+              mb: 2,
+              textAlign: "center",
             }}
           >
-            {getHeaderText()}
+            {title}
           </Typography>
-
           <Typography
-            component="p"
+            variant="h5"
             sx={{
-              margin: 0,
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: 500,
-              fontSize: { xs: "14px", sm: "18px", md: "20px" },
-              letterSpacing: "1px",
+              maxWidth: "380px",
+              fontWeight: "500",
+              color: "#ffffffff",
+              lineHeight: 1.2,
+              textAlign: "center",
             }}
           >
-            {getSubText()}
+            {subtitle}
           </Typography>
         </Box>
       </Box>

@@ -1,119 +1,139 @@
-// src/pages/Login.tsx
-import React from "react";
-import { useForm } from "react-hook-form";
-import type { SubmitHandler } from "react-hook-form";
+import  { useState } from "react";
 import {
   Box,
-  Button,
   TextField,
+  Button,
   Typography,
-  Link,
   InputAdornment,
   IconButton,
-  
+  Link,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 
-interface LoginFormInputs {
-  email: string;
-  password: string;
-}
+export default function Login() {
+  const [showPassword, setShowPassword] = useState(false);
 
-const Login: React.FC = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormInputs>();
-
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
-    try {
-      const response = await axios.post(
-        "https://upskilling-egypt.com:3000/api/v0/admin/users/login",
-        data
-      );
-      toast.success("✅ Login successful!");
-      console.log("Response:", response.data);
-      // You can store token in localStorage if needed:
-      // localStorage.setItem("token", response.data.token);
-    } catch (error: any) {
-      if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error("❌ Something went wrong. Try again!");
-      }
-    }
-  };
+  const handleTogglePassword = () => setShowPassword((prev) => !prev);
 
   return (
     <Box
       sx={{
-        // minHeight: "100vh",
-         display: "flex",
-         flexDirection:"column",
-         height:'30px',
-        // alignItems: "center",
-        // justifyContent: "center",
-        // bgcolor: "#f5f5f5",
-         p: 4,
+        width: "100%",
+        maxWidth: 600,
+        mx: "auto",
+        mt: 6,
+        px: 2,
       }}
     >
-     
-        <Typography variant="h5" fontWeight="bold" gutterBottom>
-          Sign in
-        </Typography>
-
-        <Typography variant="body2" sx={{ }}>
-          If you don’t have an account register <br />
-          <Link href="#" underline="hover" fontWeight="bold" color="primary">
-            Register here !
-          </Link>
-        </Typography>
-        <br />
-
-        {/* Form */}
-            <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-      {/* Email */}
-     <TextField
-  fullWidth={false}        // disable fullWidth to use custom width
-  label="Email Address"
-  placeholder="Enter your email..."
-  margin="normal"
+      {/* Title */}
+     <Typography
+  variant="h5"
+  gutterBottom
   sx={{
-    width: '100%',            // fixed width in pixels
-    height: "60px",
+    fontFamily: "Poppins, sans-serif",
+    fontWeight: 500,
+    fontSize: "30px",
+    lineHeight: 1, // 100%
+    letterSpacing: "0%",
+    paddingY:'10px'
   }}
-  {...register("email", { required: "Email is required" })}
-  error={!!errors.email}
-  helperText={errors.email?.message}
-  InputLabelProps={{ shrink: true }}
-/>
+>
+  Sign in
+</Typography>
 
 
-      {/* Password */}
+      {/* Subtext */}
+     <Typography
+  variant="body2"
+  sx={{
+    mb: 1, // margin-bottom
+    fontFamily: "Poppins, sans-serif",
+    fontWeight: 400,
+    fontSize: "16px",
+    lineHeight: 1, // 100%
+    letterSpacing: "0%",
+  }}
+>
+  If you don't have an account register
+</Typography>
+
+     <Typography
+  variant="body2"
+  sx={{
+    mb: 3,
+    fontFamily: "Poppins, sans-serif",
+    fontWeight: 400,        
+    fontSize: "16px",
+    lineHeight: 1,          
+    letterSpacing: "0%",
+    paddingTop:'10px',
+  }}
+>
+  You can{" "}
+  <Link
+    href="/register"
+    underline="none"
+    sx={{
+      fontFamily: "Poppins, sans-serif",
+      fontWeight: 600,     
+      fontSize: "16px",
+      lineHeight: 1,
+      letterSpacing: "0.012px",
+      color: "primary.main",  
+    }}
+  >
+    Register here !
+  </Link>
+</Typography>
+
+      {/* Email Field */}
+    <Typography
+  variant="subtitle2"
+  sx={{
+    mb: 0.5,
+    fontFamily: "Poppins, sans-serif",
+    fontWeight: 400,
+    fontSize: "16px",
+    lineHeight: "170%", // 1.7 for CSS equivalent
+    letterSpacing: "0%",
+    color:"#152C5B"
+  }}
+>
+  Email Address
+</Typography>
+
       <TextField
         fullWidth
-        label="Password"
-        placeholder="Enter your password..."
+        placeholder="Please type here ..."
+        variant="outlined"
+        size="small"
+        sx={{ mb: 2 }}
+      />
+
+      {/* Password Field */}
+      <Typography variant="subtitle2" sx={{
+    mb: 0.5,
+    fontFamily: "Poppins, sans-serif",
+    fontWeight: 400,
+    fontSize: "16px",
+    lineHeight: "170%", // 1.7 for CSS equivalent
+    letterSpacing: "0%",
+    color:"#152C5B"
+  }}>
+        Password
+      </Typography>
+      <TextField
+        fullWidth
+        placeholder="Please type here ..."
+        variant="outlined"
+        size="small"
         type={showPassword ? "text" : "password"}
-        margin="normal"
-         sx={{          
-    height: "60px",
-  }}
-        {...register("password", { required: "Password is required" })}
-        error={!!errors.password}
-        helperText={errors.password?.message}
-        InputLabelProps={{ shrink: true }} 
+        sx={{ mb: 1 }}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton onClick={() => setShowPassword((prev) => !prev)}>
+              <IconButton onClick={handleTogglePassword} edge="end">
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </InputAdornment>
@@ -121,21 +141,27 @@ const Login: React.FC = () => {
         }}
       />
 
-      {/* Submit Button */}
+      {/* Forgot Password */}
+      <Box sx={{ textAlign: "right", mb: 3 }}>
+        <Link href="/forgot-password" variant="caption" color="text.secondary" underline="none">
+          Forgot Password ?
+        </Link>
+      </Box>
+
+      {/* Login Button */}
       <Button
-        type="submit"
         variant="contained"
+        color="primary"
         fullWidth
-        sx={{ mt: 2, borderRadius: 2, py: 3 }}
+        sx={{
+          textTransform: "none",
+          borderRadius: "8px",
+          backgroundColor: "#2F49D1", // match blue tone
+          fontWeight: "bold",
+        }}
       >
         Login
       </Button>
     </Box>
-
-        
-       
-    </Box>
   );
-};
-
-export default Login;
+}
