@@ -78,9 +78,9 @@ children:[
   },
   {
     path:"",element:(
-    // <ProtectedRoute>
+    <ProtectedRoute>
 <MasterLayout/>
-    // </ProtectedRoute>
+    </ProtectedRoute>
     ),
     errorElement:<NotFound/>,
     children:[
