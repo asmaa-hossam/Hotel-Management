@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Auth_URL } from "../../../../services/urls"; // Make sure Auth_URL.LOGIN is correct
 import { EMAIL_VALIDATION, PASSWORD_VALIDATION } from "../../../../services/validation";
+import { useAuthContext } from "../../../../Context/Context";
 
 // Types
 type LoginFormInputs = {
@@ -26,6 +27,7 @@ type LoginFormInputs = {
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const {SaveLogenData}=useAuthContext()
   const navigate = useNavigate();
 
   const {
@@ -41,7 +43,7 @@ export default function Login() {
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
       const res = await axios.post(Auth_URL.LOGIN, data);
-
+       SaveLogenData()
       console.log("Login response:", res.data); 
 
       const token = res?.data?.data?.token;
@@ -50,7 +52,7 @@ export default function Login() {
         localStorage.setItem("token", token);
         toast.success(res?.data?.message || "Login successful!");
         navigate("/dashboard");
-     
+        
     } catch (error: any) {
       console.error("Login error:", error);
       toast.error(error?.response?.data?.message || "Login failed!");

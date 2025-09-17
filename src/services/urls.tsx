@@ -14,6 +14,17 @@ export let axiosinstant = axios.create({
   baseURL: BASEURL,
   headers: HEADERS,
 });
+axiosinstant.interceptors.request.use(
+  (config)=>{
+ const token=localStorage.getItem("token")
+ if(token){
+  config.headers.Authorization=token
+ }
+ return config
+  },
+  (error) => Promise.reject(error)
+  
+)
 
 // auth Endpoints
 export const Auth_URL = {
