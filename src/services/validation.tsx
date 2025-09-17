@@ -8,7 +8,7 @@ export const EMAIL_VALIDATION={
 
 
 
-                              export const PASSWORD_VALIDATION={
+ export const PASSWORD_VALIDATION={
                 required:"Password is Required",
 
               }
@@ -19,11 +19,11 @@ export const EMAIL_VALIDATION={
 });
 
 
-                           export const USERNAME_VALIDATION={
+export const USERNAME_VALIDATION={
                 required:"User name is Required",
 
               }
-                         export const PHONE_VALIDATION = {
+export const PHONE_VALIDATION = {
   required: "Phone is required",
   pattern: {
     value: /^01\d{9}$/,
@@ -37,5 +37,10 @@ export const EMAIL_VALIDATION={
               }
                export const IMAGE_VALIDATION={
                 required:"Image is Required",
+
+              }
+
+                 export const OTP_VALIDATION={
+                required:"Country is Required",
 
               }

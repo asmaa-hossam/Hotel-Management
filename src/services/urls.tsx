@@ -12,16 +12,16 @@ export const HEADERS = {
 };
 
 // Axios Instance
-export let axiosinstant = axios.create({
+export let axiosInstance = axios.create({
   baseURL: BASEURL,
   headers: HEADERS,
 });
 
 // auth Endpoints
 export const Auth_URL = {
-RESETPASSWORD: 'reset-password',
+RESETPASSWORD: `/reset-password`,
 REGISTER: `${BASEURLADMIN}`,
-FORGETASSWORD: 'forgot-password',
+FORGETASSWORD: `/users`,
 CHANGEPASSWORD: 'change-password',
  LOGIN: `${BASEURL}login`,
 
