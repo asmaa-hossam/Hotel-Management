@@ -2,10 +2,9 @@ import  type {ReactNode } from "react";
 
 
 export interface ILoginData{
-    userEmail:string
-   userGroup:string
-   userId:string
-    userName:string
+    role:string
+  verified:boolean
+_id:string
 
 }
 export interface PropsType{

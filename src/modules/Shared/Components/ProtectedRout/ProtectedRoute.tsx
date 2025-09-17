@@ -4,14 +4,17 @@ import type {PropsType} from '../../../../services/interfaces'
 export default function ProtectedRoute({children}:PropsType) {
  let {loginData}=useAuthContext()
  
-  if(localStorage)
+  if(loginData?.role==='user'){
+ return <Navigate to='/home'/>
+
+  }
 
 
- if(localStorage.getItem("token")||loginData?.userGroup==="admin"){
+ if(localStorage.getItem("token")||loginData?.role==="admin"){
   return <>{children}</>;
  }
  else{
-  <Navigate to='/login'/>
+ return <Navigate to='/login'/>
  }
 
  
