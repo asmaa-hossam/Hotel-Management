@@ -11,7 +11,23 @@ export const HEADERS = {
   "Content-Type": "application/json",
 };
 
-// Axios Instance 
+// Axios Instance for admin
+export let axiosinstanceAdmin = axios.create({
+  baseURL: BASEURLADMIN,
+  headers: HEADERS,
+});
+axiosinstanceAdmin.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = token;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Axios Instance user
 export let axiosinstance = axios.create({
   baseURL: BASEURL,
   headers: HEADERS,
