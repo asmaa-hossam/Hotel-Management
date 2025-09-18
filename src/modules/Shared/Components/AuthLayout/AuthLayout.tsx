@@ -11,6 +11,7 @@ import defaultBg from "../../../../assets/images/Group 33.png";
 
 export default function AuthLayout() {
   const location = useLocation();
+  const isLoginPage = location.pathname.includes("login");
 
   const getTitleByRoute = () => {
     const path = location.pathname;
@@ -39,9 +40,13 @@ export default function AuthLayout() {
     <Box
       sx={{
         display: "flex",
-        flexDirection: { xs: "column", md: "row" },
+        flexDirection: { xs: "column", md: "column",lg:'row' },
         minHeight: "100vh",
-        paddingTop: "20px",
+                 paddingLeft: isLoginPage ? 0 : "20px",
+                 paddingTop: isLoginPage ? '20px' : "20px",
+                 paddingRight: isLoginPage ? 0 : "20px",
+
+        paddingBottom: isLoginPage ? 0 : "20px",
       }}
     >
       {/* Right side - Form */}
@@ -86,11 +91,16 @@ export default function AuthLayout() {
           position: "relative",
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundPosition: "left",
           minHeight: { xs: "300px", md: "auto" },
           display: "block",
-          paddingTop: "20px",
-           borderRadius:5,
+          // paddingTop: "10px",
+          marginBottom: isLoginPage ? 0 : "40px",
+ 
+          borderBottomLeftRadius: isLoginPage ? 0 : "20px",
+          borderBottomRightRadius: isLoginPage ? 0 : "20px",
+          borderTopLeftRadius: isLoginPage ? 0 : "20px",
+          borderTopRightRadius: isLoginPage ? 0 : "20px",
         }}
       >
         <Box
@@ -119,10 +129,12 @@ export default function AuthLayout() {
           <Typography
             variant="h5"
             sx={{
-              maxWidth: "380px",
+              maxWidth: isLoginPage ? "376px" : "455px",
+               
               fontWeight: "500",
               color: "#ffffffff",
               lineHeight: 1.2,
+              
               textAlign: "center",
             }}
           >

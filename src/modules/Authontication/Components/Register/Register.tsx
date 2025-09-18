@@ -81,7 +81,7 @@ export default function Register() {
       }
 
       // Make request
-      await axios.post(
+      let response=await axios.post(
         (Auth_URL.REGISTER),
         formData,
         {
@@ -92,7 +92,7 @@ export default function Register() {
       );
 
       // Handle successful registration
-      toast.success("response?.data?.message Registration successful! You can now login.");
+      toast.success(response?.data?.message || "Registration successful! You can now login.");
       navigate("/login");
     } catch (error: any) {
       console.error("Registration error:", error);

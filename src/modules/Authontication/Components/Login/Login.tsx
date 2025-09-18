@@ -214,7 +214,7 @@ export default function Login() {
         {/* Forgot Password */}
         <Box sx={{ textAlign: "right", mb: 3 }}>
           <Link
-            href="/forgot-password"
+            href="/forgetPassword"
             variant="caption"
             color="text.secondary"
             underline="none"

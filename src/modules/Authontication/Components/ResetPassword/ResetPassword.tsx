@@ -293,8 +293,10 @@ export default function ResetPassword({}) {
         <Controller
           name="confirmPassword"
           control={control}
-          rules={CONFIRM_PASSWORD_VALIDATION("password")}
-          render={({ field }) => (
+rules={{
+  validate: (value) =>
+    value === watch("password") || "Passwords do not match"
+}}          render={({ field }) => (
             <TextField
               {...field}
               placeholder="Please type here ..."
