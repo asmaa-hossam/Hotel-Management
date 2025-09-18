@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Auth_URL, axiosinstant } from "../../../../services/urls";
+import { Auth_URL, axiosinstance } from "../../../../services/urls";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import { Box, Button, FormLabel, IconButton, InputAdornment, TextField, Alert, Typography } from "@mui/material";
 import { toast } from "react-toastify";
@@ -45,13 +45,13 @@ export default function ChangePassword() {
     try {
       setSubmitError("");
       
-      const response = await axiosinstant.post<ChangePasswordRes>(
+      const response = await axiosinstance.post<ChangePasswordRes>(
         Auth_URL.CHANGEPASSWORD,
         data
       );
       
       toast.success(response.data.message);
-      reset(); // إعادة تعيين النموذج
+      reset();  
       navigate("/login");
       
     } catch (error: any) {

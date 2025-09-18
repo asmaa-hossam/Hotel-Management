@@ -7,7 +7,7 @@ import forgetpass from '../../../../assets/images/forget.png'
 import { Auth_URL } from "../../../../services/urls";
 import { toast } from "react-toastify";
 import { EMAIL_VALIDATION } from "../../../../services/validation";
-import { axiosInstance } from '../../../../services/urls';
+// import { axiosinstance } from '../../../../services/urls';
 
 // MUI components
 import {

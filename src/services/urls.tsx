@@ -11,12 +11,12 @@ export const HEADERS = {
   "Content-Type": "application/json",
 };
 
-// Axios Instance
-export let axiosInstance = axios.create({
+// Axios Instance 
+export let axiosinstance = axios.create({
   baseURL: BASEURL,
   headers: HEADERS,
 });
-axiosinstant.interceptors.request.use(
+axiosinstance.interceptors.request.use(
   (config)=>{
  const token=localStorage.getItem("token")
  if(token){

@@ -1,28 +1,39 @@
-
 import { Box, Typography } from "@mui/material";
-import myImage from "../../../../assets/images/Group 33.png";
 import Logo from "../../../../assets/images/Staycation..svg";
 import { Outlet, useLocation } from "react-router-dom";
 
+// Background images
+import loginBg from "../../../../assets/images/Group 33.png";
+import registerBg from "../../../../assets/images/register.png";
+import forgetPasswordBg from "../../../../assets/images/forget&reset bg.png";
+import resetPasswordBg from "../../../../assets/images/forget&reset bg.png";
+import defaultBg from "../../../../assets/images/Group 33.png";
 
 export default function AuthLayout() {
   const location = useLocation();
 
-  // Function to return title based on route
   const getTitleByRoute = () => {
     const path = location.pathname;
     if (path.includes("login")) return "Sign in to Roamhome";
     if (path.includes("register")) return "Sign up to Roamhome";
-    if (path.includes("forgetPassword")) 
-      return "Forget Password";
-    if (path.includes("resetPassword")) 
-      return "Reset Password";
-    if (path.includes("change-password")) return "Change Password";
-    return "Welcome  to Roamhome";
+    if (path.includes("forgetPassword")) return "Forget Password";
+    if (path.includes("resetPassword")) return "Reset Password";
+    if (path.includes("changepassword")) return "Change Password";
+    return "Welcome to Roamhome";
+  };
+
+  const getBackgroundImage = () => {
+    const path = location.pathname;
+    if (path.includes("login")) return loginBg;
+    if (path.includes("register")) return registerBg;
+    if (path.includes("forgetPassword")) return forgetPasswordBg;
+    if (path.includes("resetPassword")) return resetPasswordBg;
+    return defaultBg;
   };
 
   const title = getTitleByRoute();
-  const subtitle = "Homes as unique as you."; // same for all routes
+  const subtitle = "Homes as unique as you.";
+  const backgroundImage = getBackgroundImage();
 
   return (
     <Box
@@ -44,7 +55,6 @@ export default function AuthLayout() {
           bgcolor: "background.paper",
         }}
       >
-        {/* Logo */}
         <Box
           component="img"
           src={Logo}
@@ -57,7 +67,6 @@ export default function AuthLayout() {
           }}
         />
 
-        {/* Outlet for nested routes */}
         <Box
           sx={{
             height: "auto",
@@ -70,12 +79,12 @@ export default function AuthLayout() {
         </Box>
       </Box>
 
-      {/* Left side - Image with bottom text overlay */}
+      {/* Left side - Image */}
       <Box
         sx={{
           flex: 1,
           position: "relative",
-          backgroundImage: `url(${myImage})`,
+          backgroundImage: `url(${backgroundImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           minHeight: { xs: "300px", md: "auto" },
@@ -83,7 +92,6 @@ export default function AuthLayout() {
           paddingTop: "20px",
         }}
       >
-        {/* Text overlay */}
         <Box
           sx={{
             position: "absolute",
