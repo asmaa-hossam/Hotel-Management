@@ -41,6 +41,6 @@ export const PHONE_VALIDATION = {
               }
 
                  export const OTP_VALIDATION={
-                required:"Country is Required",
+                required:"code is Required",
 
               }

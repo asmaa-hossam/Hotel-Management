@@ -90,6 +90,7 @@ export default function AuthLayout() {
           minHeight: { xs: "300px", md: "auto" },
           display: "block",
           paddingTop: "20px",
+           borderRadius:5,
         }}
       >
         <Box

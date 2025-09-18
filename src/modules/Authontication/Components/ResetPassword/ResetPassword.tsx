@@ -65,41 +65,8 @@ export default function ResetPassword({}) {
 
 
   return (
-    <Box 
-      sx={{
-    display:"flex",
-           flexDirection: { xs: "column", md: "row" }, 
-
-    height: "100vh",
-    width: "100vw",
-    overflow: "hidden",  
-      }}
-    >
-
-    <Box sx={{ flex: 1,  
-     flexDirection: "column",
-      justifyContent: "center",
-      alignItems: { xs: "center", md: "flex-start" },
-      px: { xs: 2, md: 6 },
-      py: { xs: 4, md: 0 },}}>
-     <Box sx={{ width: "50%", maxWidth: 600, mx: "auto",px: 2  ,position: "fixed",
-    top: 120,
-    left: 123,}}>
-    <Box
-  component="img"
-  src={logo}
-  alt="logo"
-
-  sx={{
-    position: "fixed",
-    top: 30,
-    left: 49,
-    width: 147,
-    height: 39,
-    zIndex: 10, // make sure it stays on top
-  }}
-/>
-
+ 
+  <Box sx={{ width: "100%", maxWidth: 600, mx: "auto", mt: 6, px: 2 }}>
       {/* Title */}
       <Typography
         variant="h5"
@@ -114,7 +81,6 @@ export default function ResetPassword({}) {
       >
         Reset Password
       </Typography>
-
       {/* Subtext */}
       <Typography
         variant="body2"
@@ -380,24 +346,7 @@ export default function ResetPassword({}) {
               >
       Reset</Button>
          </form>
-
-
-    </Box>
-  {/* right Div */}
-   </Box  >
-      <Box sx={{ flex: 1,ml:4,p:2}}>
-         <Box
-  component="img"
-  //Replace this with image coming from Auth
-  src={resetpass}
-  alt="logo"
-  sx={{     height: "100%",
-    width: "100%",
-    objectFit: "cover",
-    borderRadius:5,
-}}
-/>
-      </Box>
-    </Box>
+          </Box>
+          
   );
 }
