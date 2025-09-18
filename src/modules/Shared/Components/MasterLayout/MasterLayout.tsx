@@ -8,12 +8,7 @@ export default function MasterLayout() {
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       {/* Sidebar */}
       <Box
-        sx={{
-          width: 240,
-          bgcolor: "primary.main",
-          color: "white",
-          p: 2,
-        }}
+       
       >
         <SideBar />
       </Box>

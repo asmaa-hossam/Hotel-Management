@@ -15,3 +15,14 @@ export interface ContextType{
     loginData:ILoginData|null
     logOut:()=>void
 }
+
+export interface ChangePasswordData{
+     oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+export interface ChangePasswordRes{
+    message:string
+   success:boolean
+
+}
