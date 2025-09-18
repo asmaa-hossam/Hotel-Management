@@ -31,7 +31,7 @@ axiosinstance.interceptors.request.use(
 // auth Endpoints
 export const Auth_URL = {
 RESETPASSWORD: `/reset-password`,
-REGISTER: `${BASEURLADMIN}`,
+REGISTER: `${BASEURL}`,
 FORGETASSWORD: `/users`,
 CHANGEPASSWORD: 'change-password',
  LOGIN: `${BASEURL}login`,
