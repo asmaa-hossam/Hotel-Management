@@ -8,8 +8,8 @@ import {
   Legend,
 } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { Box, Typography } from "@mui/material";
-import load from "../../../assets/react.svg";
+import { Box, Typography,CircularProgress } from "@mui/material";
+// import load from "../../../assets/react.svg";
 import { axiosinstanceAdmin } from "../../../services/urls";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -56,7 +56,7 @@ export default function DashboardCharts() {
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" mt={5}>
-        <img src={load} alt="loading..." />
+        <CircularProgress />
       </Box>
     );
   }
