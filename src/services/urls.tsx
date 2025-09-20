@@ -3,7 +3,7 @@ import axios from "axios";
 // Base URL of the API
 export const BASEURL = 'https://upskilling-egypt.com:3000/api/v0/portal/users/';
 // Base URL of the API admin
-export const BASEURLADMIN = 'https://upskilling-egypt.com:3000/api/v0/admin/users';
+export const BASEURLADMIN = 'https://upskilling-egypt.com:3000/api/v0/admin/';
 
 // HTTP Headers
 export const HEADERS = {
