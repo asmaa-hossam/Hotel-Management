@@ -1,20 +1,14 @@
-// src/pages/AdsTable.tsx
-import React, { useEffect, useState } from "react";
-import CloseIcon from "@mui/icons-material/Close";
+// src/modules/Advertisements/Components/Advertisments.tsx
+import { useEffect, useState } from "react";
 import {
-  Box,
-  Button,
-  IconButton,
-  Menu,
-  MenuItem,
-  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
+  Paper,
+  Button,
   CircularProgress,
   Dialog,
   DialogTitle,
@@ -22,256 +16,404 @@ import {
   DialogActions,
   TextField,
   Select,
-  InputLabel,
+  MenuItem,
   FormControl,
-  MenuItem as SelectMenuItem,
+  InputLabel,
+  IconButton,
+  Menu,
+  Typography,
+  Box,
 } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import axios from "axios";
-
-interface Ad {
-  id: number;
-  roomName: string;
-  price: number;
-  discount: number;
-  capacity: string;
-  active: boolean;
-  category?: string;
-}
+import { ads_URL, axiosinstanceAdmin } from "../../../services/urls";
+import DeleteConfirmation from "../../Shared/Components/deleteConfrim/deleteConfrim";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Room {
   _id: string;
-  name: string;
+  roomNumber: string;
+  price: number;
+  capacity: number;
+  discount: number;
+  images: string[];
 }
+
+interface User {
+  userName: string;
+}
+
+interface Ad {
+  _id: string;
+  isActive: boolean;
+  room: Room | string;
+  createdBy: User;
+  createdAt: string;
+  discount: number;
+}
+
+type ModalType = "view" | "edit" | "create" | null;
+
+
 
 export default function AdsTable() {
   const [ads, setAds] = useState<Ad[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedAd, setSelectedAd] = useState<number | null>(null);
-
-  // --- Create Ads Modal States ---
-  const [openCreate, setOpenCreate] = useState(false);
   const [rooms, setRooms] = useState<Room[]>([]);
-  const [selectedRoom, setSelectedRoom] = useState<string>("");
-  const [discount, setDiscount] = useState<number>(0);
-  const [isActive, setIsActive] = useState<boolean>(true);
-  const [creating, setCreating] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
+  const [modalType, setModalType] = useState<ModalType>(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedAd, setSelectedAd] = useState<Ad | null>(null);
+  const [form, setForm] = useState({ room: "", discount: 0, isActive: true });
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [menuAd, setMenuAd] = useState<Ad | null>(null);
 
-  const open = Boolean(anchorEl);
+  const token = localStorage.getItem("token");
 
-  // --- Fetch Ads ---
+  // Fetch ads + rooms
   useEffect(() => {
     const fetchAds = async () => {
+      setLoading(true);
       try {
-        const token = localStorage.getItem("token");
-        if (!token) throw new Error("No token found. Please login first.");
+        const response = await axiosinstanceAdmin.get(ads_URL.FETCH, {
+          headers: { Authorization: token },
+        });
+        setAds(response.data.data.ads);
 
-        const { data } = await axios.get(
-          "https://upskilling-egypt.com:3000/api/v0/admin/ads",
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-
-        setAds(Array.isArray(data) ? data : data?.ads || []);
-      } catch (err: any) {
-        console.error(err);
-        setError(err.response?.data?.message || err.message || "Unknown error");
+        const roomRes = await axiosinstanceAdmin.get("/rooms?page=1&size=50", {
+          headers: { Authorization: token },
+        });
+        setRooms(roomRes.data.data.rooms);
+      } catch (error: any) {
+        console.error("Error fetching ads:", error);
+        toast.error(error.response?.data?.message || "Failed to fetch data");
       } finally {
         setLoading(false);
       }
     };
+
     fetchAds();
-  }, []);
+  }, [token]);
 
-  // --- Fetch Rooms for Dropdown ---
-  useEffect(() => {
-    const fetchRooms = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-
-        const { data } = await axios.get(
-          "https://upskilling-egypt.com:3000/api/v0/admin/rooms?page=1&size=10",
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-
-        setRooms(data?.rooms || []);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchRooms();
-  }, []);
-
-  const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>, adId: number) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedAd(adId);
+  // Open Modal
+  const handleOpenModal = (type: ModalType, ad?: Ad) => {
+    setModalType(type);
+    if ((type === "edit" || type === "view") && ad) {
+      setSelectedAd(ad);
+      setForm({
+        room: typeof ad.room === "string" ? ad.room : ad.room._id,
+        discount: ad.discount,
+        isActive: ad.isActive,
+      });
+    } else if (type === "create") {
+      setForm({ room: "", discount: 0, isActive: true });
+    }
+    setOpenModal(true);
+    handleMenuClose();
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setModalType(null);
     setSelectedAd(null);
   };
 
-  // --- Handle Create Modal ---
-  const handleOpenCreate = () => setOpenCreate(true);
-  const handleCloseCreate = () => setOpenCreate(false);
+  // Create or Update
+  const handleSubmit = async () => {
+    if (!form.room) {
+      toast.error("Please select a room.");
+      return;
+    }
 
-  const handleCreateAd = async () => {
-    if (!selectedRoom) return alert("Please select a room");
-    setCreating(true);
     try {
-      const token = localStorage.getItem("token");
-      if (!token) throw new Error("No token found");
+      if (modalType === "edit" && selectedAd) {
+        const res = await axiosinstanceAdmin.put(
+          ads_URL.UPDATE(selectedAd._id),
+          {
+            discount: form.discount,
+            isActive: form.isActive,
+          },
+          { headers: { Authorization: token } }
+        );
 
-      const payload = {
-        room: selectedRoom,
-        discount,
-        isActive,
-      };
+        const updatedAd = res.data.data.ads;
+        setAds(ads.map((ad) => (ad._id === selectedAd._id ? updatedAd : ad)));
+        toast.success(res.data.message || "Ad updated successfully");
+      } else if (modalType === "create") {
+        const res = await axiosinstanceAdmin.post(ads_URL.CREATE, form, {
+          headers: { Authorization: token },
+        });
 
-      await axios.post(
-        "https://upskilling-egypt.com:3000/api/v0/admin/ads",
-        payload,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      alert("Ad created successfully");
-      handleCloseCreate();
-
-      // Refresh ads list
-      const { data } = await axios.get(
-        "https://upskilling-egypt.com:3000/api/v0/admin/ads",
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setAds(Array.isArray(data) ? data : data?.ads || []);
+        const newAd = res.data.data.ads;
+        setAds([...ads, newAd]);
+        toast.success(res.data.message || "Ad created successfully");
+      }
+      handleCloseModal();
     } catch (err: any) {
       console.error(err);
-      alert(err.response?.data?.message || err.message || "Error creating ad");
-    } finally {
-      setCreating(false);
+      toast.error(err.response?.data?.message || "Operation failed");
     }
   };
 
-  if (loading) return <Box display="flex" justifyContent="center" p={3}><CircularProgress /></Box>;
-  if (error) return <Box display="flex" justifyContent="center" p={3}><Typography color="error">{error}</Typography></Box>;
+  // Menu Actions
+  const openMenu = Boolean(anchorEl);
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>, ad: Ad) => {
+    setAnchorEl(event.currentTarget);
+    setMenuAd(ad);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setMenuAd(null);
+  };
+
+  // Delete
+  const handleOpenDeleteDialog = (ad: Ad) => {
+    setSelectedAd(ad);
+    setDeleteDialogOpen(true);
+    handleMenuClose();
+  };
+
+  const handleDelete = async () => {
+    if (!selectedAd) return;
+
+    try {
+      const res = await axiosinstanceAdmin.delete(
+        ads_URL.DELETE(selectedAd._id),
+        { headers: { Authorization: token } }
+      );
+      setAds(ads.filter((a) => a._id !== selectedAd._id));
+      toast.success(res.data.message || "Ad deleted successfully");
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || "Delete failed");
+    } finally {
+      setDeleteDialogOpen(false);
+      setSelectedAd(null);
+    }
+  };
+
+  if (loading) return <CircularProgress />;
 
   return (
-    <Box p={3}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography variant="h6">ADS Table Details</Typography>
-        <Button variant="contained" color="primary" onClick={handleOpenCreate}>
+    <>
+      {/* Header */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 2,
+          margin: "auto",
+          width: "95%",
+          padding: "5px",
+        }}
+      >
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{
+            fontFamily: "Poppins, sans-serif",
+            fontWeight: 600,
+            fontSize: "20px",
+            py: 1,
+          }}
+        >
+          ADS Table Details
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 500,
+              fontSize: "14px",
+            }}
+          >
+            You can check all details
+          </Typography>
+        </Typography>
+
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleOpenModal("create")}
+        >
           Add New Ads
         </Button>
       </Box>
 
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
-            <TableRow>
-              <TableCell>Room Name</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell>Discount</TableCell>
-              <TableCell>Capacity</TableCell>
-              <TableCell>Active</TableCell>
-              <TableCell>Category</TableCell>
-              <TableCell align="center">Actions</TableCell>
+      {/* Table */}
+      <TableContainer
+        component={Paper}
+        sx={{
+          width: "95%",
+          margin: "auto",
+          bgcolor: "transparent",
+          boxShadow: "none",
+          border: "none",
+          padding: "5px",
+        }}
+      >
+        <Table
+          sx={{
+            borderCollapse: "separate",
+            borderSpacing: 0,
+            border: "none",
+          }}
+        >
+          <TableHead>
+            <TableRow sx={{ bgcolor: "#e2e5eb" }}>
+              <TableCell sx={{ textAlign: "center", border: "none" }}>
+                Room Name
+              </TableCell>
+              <TableCell sx={{ textAlign: "center", border: "none" }}>
+                Price
+              </TableCell>
+              <TableCell sx={{ textAlign: "center", border: "none" }}>
+                Capacity
+              </TableCell>
+              <TableCell sx={{ textAlign: "center", border: "none" }}>
+                Discount
+              </TableCell>
+              <TableCell sx={{ textAlign: "center", border: "none" }}>
+                Active
+              </TableCell>
+              <TableCell sx={{ textAlign: "center", border: "none" }}>
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {ads.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={7} align="center">No ads found</TableCell>
+
+          <TableBody sx={{ bgcolor: "transparent" }}>
+            {ads.map((ad, index) => (
+              <TableRow
+                key={ad._id}
+                sx={{
+                  bgcolor: index % 2 === 0 ? "#F8F9FB" : "white",
+                  border: "none",
+                }}
+              >
+                <TableCell sx={{ textAlign: "center", border: "none" }}>
+                  {typeof ad.room === "string" ? ad.room : ad.room.roomNumber}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center", border: "none" }}>
+                  {typeof ad.room !== "string" ? ad.room.price : "-"}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center", border: "none" }}>
+                  {typeof ad.room !== "string" ? ad.room.capacity : "-"}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center", border: "none" }}>
+                  {typeof ad.room !== "string"
+                    ? ad.room.discount
+                    : ad.discount ?? "-"}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center", border: "none" }}>
+                  {ad.isActive ? "Yes" : "No"}
+                </TableCell>
+                <TableCell align="center" sx={{ border: "none" }}>
+                  <IconButton onClick={(e) => handleMenuClick(e, ad)}>
+                    <MoreVertIcon />
+                  </IconButton>
+                </TableCell>
               </TableRow>
-            ) : (
-              ads.map((ad) => (
-                <TableRow key={ad.id}>
-                  <TableCell>{ad.roomName}</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>{ad.price}</TableCell>
-                  <TableCell>{ad.discount}</TableCell>
-                  <TableCell>{ad.capacity}</TableCell>
-                  <TableCell>{ad.active ? "Yes" : "No"}</TableCell>
-                  <TableCell>{ad.category || "-"}</TableCell>
-                  <TableCell align="center">
-                    <IconButton onClick={(e) => handleMenuOpen(e, ad.id)}><MoreVertIcon /></IconButton>
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
 
-      {/* Action Menu */}
-      <Menu anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
-        <MenuItem onClick={handleMenuClose}>View</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Edit</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Delete</MenuItem>
+      {/* Actions Menu */}
+      <Menu
+        anchorEl={anchorEl}
+        open={openMenu}
+        onClose={handleMenuClose}
+        PaperProps={{
+          elevation: 3,
+          sx: { borderRadius: "10px", minWidth: 150 },
+        }}
+      >
+        <MenuItem onClick={() => handleOpenModal("view", menuAd!)}>
+          <VisibilityIcon sx={{ fontSize: 18, color: "#3f51b5", mr: 1 }} />
+          View
+        </MenuItem>
+        <MenuItem onClick={() => handleOpenModal("edit", menuAd!)}>
+          <EditIcon sx={{ fontSize: 18, color: "#203FC7", mr: 1 }} />
+          Edit
+        </MenuItem>
+        <MenuItem onClick={() => handleOpenDeleteDialog(menuAd!)}>
+          <DeleteIcon sx={{ fontSize: 18, color: "#d32f2f", mr: 1 }} />
+          Delete
+        </MenuItem>
       </Menu>
 
-      {/* --- Create Ad Modal --- */}
-      <Dialog open={openCreate} onClose={handleCloseCreate}   PaperProps={{
-    sx: {
-      width: "30vw",    
-      maxWidth: "30vw",
-    },
-  }}>
-        <DialogTitle sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-  <Typography variant="h6">ADS</Typography>
-  <IconButton
-    onClick={handleCloseCreate}
-    sx={{
-      color: "red",
-      border: "1px solid red",
-      borderRadius: "50%",
-      p: 0.5, // padding inside circle
-      width: 32,
-      height: 32,
-    }}
-  >
-    <CloseIcon fontSize="small" />
-  </IconButton>
-</DialogTitle>
-
-        <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 1 }}>
-          <FormControl fullWidth>
-            <InputLabel>Room</InputLabel>
+      {/* Create/Edit/View Modal */}
+      <Dialog open={openModal} onClose={handleCloseModal} fullWidth>
+        <DialogTitle>
+          {modalType === "create"
+            ? "Create Ad"
+            : modalType === "edit"
+            ? "Edit Ad"
+            : "View Ad"}
+        </DialogTitle>
+        <DialogContent>
+          <FormControl fullWidth required margin="dense">
+            <InputLabel shrink>Select Room</InputLabel>
             <Select
-              value={selectedRoom}
-              onChange={(e) => setSelectedRoom(e.target.value)}
-              label="Room"
+              value={form.room}
+              onChange={(e) => setForm({ ...form, room: e.target.value })}
+              disabled={modalType === "view"}
             >
+              <MenuItem value="">Select Room</MenuItem>
               {rooms.map((room) => (
-                <SelectMenuItem key={room._id} value={room._id}>
-                  {room.name}
-                </SelectMenuItem>
+                <MenuItem key={room._id} value={room._id}>
+                  {room.roomNumber}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
 
           <TextField
-            type="number"
+            fullWidth
+            margin="dense"
             label="Discount"
-            value={discount}
-            onChange={(e) => setDiscount(Number(e.target.value))}
+            type="number"
+            inputProps={{ min: 0 }}
+            value={form.discount}
+            disabled={modalType === "view"}
+            onChange={(e) =>
+              setForm({ ...form, discount: Math.max(0, Number(e.target.value)) })
+            }
           />
 
-          <FormControl fullWidth>
-            <InputLabel>Active</InputLabel>
-            <Select value={isActive ? "true" : "false"} onChange={(e) => setIsActive(e.target.value === "true")} label="Active">
-              <SelectMenuItem value="true">Yes</SelectMenuItem>
-              <SelectMenuItem value="false">No</SelectMenuItem>
+          <FormControl fullWidth margin="dense">
+            <InputLabel shrink>Active</InputLabel>
+            <Select
+              value={form.isActive ? "Yes" : "No"}
+              onChange={(e) =>
+                setForm({ ...form, isActive: e.target.value === "Yes" })
+              }
+              disabled={modalType === "view"}
+            >
+              <MenuItem value="Yes">Yes</MenuItem>
+              <MenuItem value="No">No</MenuItem>
             </Select>
           </FormControl>
         </DialogContent>
+
         <DialogActions>
-          <Button onClick={handleCreateAd} variant="contained" disabled={creating}>
-            {creating ? "Creating..." : "Create"}
-          </Button>
+          <Button onClick={handleCloseModal}>Close</Button>
+          {modalType !== "view" && (
+            <Button variant="contained" onClick={handleSubmit}>
+              Save
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
-    </Box>
+
+      {/* Delete Confirm Dialog */}
+      <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+        <DeleteConfirmation deleteItem={handleDelete} />
+      </Dialog>
+    </>
   );
 }
