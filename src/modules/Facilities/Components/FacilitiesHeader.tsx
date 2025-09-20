@@ -31,8 +31,12 @@ export default function FacilitiesHeader() {
             variant="h6"
             sx={{
               fontFamily: "Poppins, sans-serif",
-              fontWeight: 500,
-              fontSize: "20px",
+              fontWeight: 550,
+              fontSize: "15px",
+              color: "#1b2031ff",
+              // fontWeight:"bold"
+              
+
             }}
           >
             Facilities Table Details
@@ -41,8 +45,9 @@ export default function FacilitiesHeader() {
             variant="body2"
             sx={{
               fontFamily: "Poppins, sans-serif",
-              fontSize: "14px",
-              color: "text.secondary",
+              fontSize: "11px",
+              color: "#323C47",
+
             }}
           >
             You can check all details

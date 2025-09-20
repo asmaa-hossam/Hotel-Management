@@ -1,12 +1,13 @@
 
 import * as React from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import axios  from "axios";
 import type { AxiosResponse } from "axios";
 import { useAuthContext } from "../../../Context/Context";
 import { Facilities_URL } from "../../../services/urls";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import {
   Box,
@@ -58,72 +59,58 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 // ---- Dummy Data ----
 function createData(
+  _id: string,
   name: string,
   createdAt: string,
-  fat: number,
-  carbs: number,
-  protein: number
+  updatedAt: string,
+
 ) {
-  return { name, createdAt, fat, carbs, protein };
+  return { _id,name, createdAt, updatedAt};
 }
 
-const rows = [
-  createData("Frozen yoghurt", "2025-09-01", 6.0, 24, 4.0),
-  createData("Ice cream sandwich", "2025-09-05", 9.0, 37, 4.3),
-  createData("Eclair", "2025-09-10", 16.0, 24, 6.0),
-  createData("Cupcake", "2025-09-12", 3.7, 67, 4.3),
-  createData("Gingerbread", "2025-09-15", 16.0, 49, 3.9),
-];
 
 // ---- Main Component ----
-export default function Facilities() {
+
+ 
+  
+
+  export default function Facilities() {
+
 
   type Facility = {
-    name:string,
-    createdAt:string,
-    Discount	:number,
-   Capacity: string,
-   Active:Boolean
+     _id: string,
+  name: string,
+  createdAt: string,
+  updatedAt: string,
   };
-  const[FacilitiesList,setFacilitesList] =useState<Facility[]>([]);
-  const {loginData} =useAuthContext()
-
-async function getFacilities(
-
-): Promise<Facility[]> {
-  const url =  Facilities_URL.GETALL;
-  
-  try {
-    const res: AxiosResponse<any> = await axios.get(url, {
-      headers: {
-        ...(loginData ? { Authorization: `Bearer ${loginData}` } : {}),
-        "Content-Type": "application/json",
-      },
-      
-      timeout: 15000, 
-    });
 
 
-    const payload = res.data;
-   
-    setFacilitesList(payload)
-    console.log(payload)
-  
-    throw new Error("Unexpected response structure from server");
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      const msg =
-        error.response?.data?.message ||
-        error.response?.statusText ||
-        error.message;
-      throw new Error(`Failed to fetch facilities: ${msg}`);
+  const [FacilitiesList, setFacilities] = useState<Facility[]>([]);
+  const token = localStorage.getItem("token");
+  console.log(token,"tokeeeeeeeeeeeeen")
+  async function getFacilities(token: string | null): Promise<void> {
+    try {
+      if (!token) return console.warn("No token provided");
+
+      const response: AxiosResponse = await axios.get(Facilities_URL.GETALL, {
+        headers: { Authorization: `${token}` }, 
+      });
+
+      console.log("Full response:", response.data.data.facilities);
+
+      setFacilities(response.data.data.facilities)
+
+    } catch (error) {
+      console.error("Error fetching facilities:", error);
     }
-    if (error.name === "CanceledError" || error?.message === "canceled") {
-      throw new Error("Request canceled");
-    }
-    throw error;
   }
-}
+
+  useEffect(() => {
+    getFacilities(token);
+  }, [token]);
+
+
+
 
  function ThreeDotsMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -169,20 +156,17 @@ async function getFacilities(
           View
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <EditOutlinedIcon fontSize="small" sx={{ mr: 1, color: "#203FC7" }} />
-          Edit
+          {/* <EditOutlinedIcon fontSize="small" sx={{ mr: 1, color: "#203FC7" }} /> */}
+        <i className="fa fa-edit "  style={{ marginRight: 6, color: "#203FC7"}}></i>  Edit
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <DeleteOutlinedIcon fontSize="small" sx={{ mr: 1, color: "#203FC7" }} />
-          Delete
+        Delete
         </MenuItem>
       </Menu>
     </>
   );
 }
-
-
- 
 
   return (
     <Container maxWidth="xl"   sx={{ py: { xs: 2, sm: 2,md: 4 } }}>
@@ -199,6 +183,7 @@ async function getFacilities(
    <FacilitiesHeader/>
       {/* Table Section */}
 
+      {FacilitiesList.length > 0 ?
 
       <TableContainer
   component={Paper}
@@ -215,27 +200,30 @@ async function getFacilities(
     <TableHead>
       <TableRow>
         <StyledTableCell>Name</StyledTableCell>
+        <StyledTableCell>Name</StyledTableCell>
+
         <StyledTableCell align="right">Created At</StyledTableCell>
-        <StyledTableCell align="right">Discount</StyledTableCell>
-        <StyledTableCell align="right">Carbs</StyledTableCell>
-        <StyledTableCell align="right">Protein</StyledTableCell>
+        <StyledTableCell align="right">updatedAt</StyledTableCell>
+        {/* <StyledTableCell align="right">Carbs</StyledTableCell>
+        <StyledTableCell align="right">Protein</StyledTableCell> */}
         <StyledTableCell align="right">Actions</StyledTableCell> 
       </TableRow>
     </TableHead>
     <TableBody>
-      {rows.map((row) => (
-        <StyledTableRow key={row.name}>
+      {FacilitiesList.map((item) => (
+        <StyledTableRow key={item._id}>
           <StyledTableCell
             component="th"
             scope="row"
             sx={{ fontSize: { xs: "0.8rem", md: "1rem" } }}
           >
-            {row.name}
+            {item.name}
           </StyledTableCell>
-          <StyledTableCell align="right">{row.createdAt}</StyledTableCell>
-          <StyledTableCell align="right">{row.fat}</StyledTableCell>
-          <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-          <StyledTableCell align="right">{row.protein}</StyledTableCell>
+          <StyledTableCell align="left">{item.name}</StyledTableCell> 
+          <StyledTableCell align="right">{item.createdAt}</StyledTableCell>
+
+           <StyledTableCell align="right">{item.updatedAt}</StyledTableCell>
+          {/* <StyledTableCell align="right">{item.name}</StyledTableCell>  */}
 
           {/* ✅ Last cell with three dots menu */}
           <StyledTableCell align="right">
@@ -245,8 +233,8 @@ async function getFacilities(
       ))}
     </TableBody>
   </Table>
-</TableContainer>
-
+     </TableContainer>
+ :<h1>no dataaaaaaaaaa</h1>}
 
     
     </Box>
