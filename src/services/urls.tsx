@@ -2,8 +2,7 @@ import axios from "axios";
 
 // Base URL of the API
 export const BASEURL = 'https://upskilling-egypt.com:3000/api/v0/portal/users/';
-// // Base URL of the API admin
-// export const BASEURLADMIN = 'https://upskilling-egypt.com:3000/api/v0/admin/users';
+
 // Base URL of the API admin
 export const BASEURLADMIN = 'https://upskilling-egypt.com:3000/api/v0/admin/';
 
@@ -58,8 +57,8 @@ CHANGEPASSWORD: 'change-password',
 
  
 export const ads_URL = {
-  FETCH: "${BASEURLADMIN}ads", 
-  CREATE: "${BASEURLADMIN}ads",  
+  FETCH: `${BASEURLADMIN}ads`, 
+  CREATE: `${BASEURLADMIN}ads`,  
   UPDATE: (id: string) => `${BASEURLADMIN}ads/${id}`,  
   DELETE: (id: string) => `${BASEURLADMIN}ads/${id}`, 
 };

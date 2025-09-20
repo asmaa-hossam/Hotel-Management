@@ -199,49 +199,52 @@ export default function AdsTable() {
   return (
     <>
       {/* Header */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 2,
-          margin: "auto",
-          width: "95%",
-          padding: "5px",
-        }}
-      >
-        <Typography
-          variant="h5"
-          gutterBottom
-          sx={{
-            fontFamily: "Poppins, sans-serif",
-            fontWeight: 600,
-            fontSize: "20px",
-            py: 1,
-          }}
-        >
-          ADS Table Details
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: 500,
-              fontSize: "14px",
-            }}
-          >
-            You can check all details
-          </Typography>
-        </Typography>
+<Box
+  sx={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    mb: 2,
+    margin: "auto",
+    width: "95%",
+    padding: "5px",
+  }}
+>
+  {/* Left side: Titles */}
+  <Box>
+    <Typography
+      variant="h5"
+      gutterBottom
+      sx={{
+        fontFamily: "Poppins, sans-serif",
+        fontWeight: 600,
+        fontSize: "20px",
+      }}
+    >
+      ADS Table Details
+    </Typography>
+    <Typography
+      variant="subtitle1"
+      sx={{
+        fontFamily: "Poppins, sans-serif",
+        fontWeight: 500,
+        fontSize: "14px",
+      }}
+    >
+      You can check all details
+    </Typography>
+  </Box>
 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => handleOpenModal("create")}
-        >
-          Add New Ads
-        </Button>
-      </Box>
+  {/* Right side: Button */}
+  <Button
+    variant="contained"
+    color="primary"
+    onClick={() => handleOpenModal("create")}
+  >
+    Add New Ads
+  </Button>
+</Box>
+
 
       {/* Table */}
       <TableContainer
