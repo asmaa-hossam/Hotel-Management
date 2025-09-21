@@ -32,30 +32,11 @@ import { ads_URL, axiosinstanceAdmin } from "../../../services/urls";
 import DeleteConfirmation from "../../Shared/Components/deleteConfrim/deleteConfrim";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import type { Ad, Room } from "../../../services/interfaces";
+import type { ModalType } from "../../../services/types";
 
-interface Room {
-  _id: string;
-  roomNumber: string;
-  price: number;
-  capacity: number;
-  discount: number;
-  images: string[];
-}
 
-interface User {
-  userName: string;
-}
 
-interface Ad {
-  _id: string;
-  isActive: boolean;
-  room: Room | string;
-  createdBy: User;
-  createdAt: string;
-  discount: number;
-}
-
-type ModalType = "view" | "edit" | "create" | null;
 
 
 
@@ -74,29 +55,26 @@ export default function AdsTable() {
   const token = localStorage.getItem("token");
 
   // Fetch ads + rooms
-  useEffect(() => {
-    const fetchAds = async () => {
-      setLoading(true);
-      try {
-        const response = await axiosinstanceAdmin.get(ads_URL.FETCH, {
-          headers: { Authorization: token },
-        });
-        setAds(response.data.data.ads);
+ const fetchAds = async () => {
+  setLoading(true);
+  try {
+    const response = await axiosinstanceAdmin.get(ads_URL.FETCH);
+    setAds(response.data.data.ads);
 
-        const roomRes = await axiosinstanceAdmin.get("/rooms?page=1&size=50", {
-          headers: { Authorization: token },
-        });
-        setRooms(roomRes.data.data.rooms);
-      } catch (error: any) {
-        console.error("Error fetching ads:", error);
-        toast.error(error.response?.data?.message || "Failed to fetch data");
-      } finally {
-        setLoading(false);
-      }
-    };
+    const roomRes = await axiosinstanceAdmin.get("/rooms?page=1&size=50");
+    setRooms(roomRes.data.data.rooms);
+  } catch (error: any) {
+    console.error("Error fetching ads:", error);
+    toast.error(error.response?.data?.message || "Failed to fetch data");
+  } finally {
+    setLoading(false);
+  }
+};
 
-    fetchAds();
-  }, [token]);
+// 2. Call it on mount
+useEffect(() => {
+  fetchAds();
+}, [token]);
 
   // Open Modal
   const handleOpenModal = (type: ModalType, ad?: Ad) => {
@@ -136,20 +114,19 @@ export default function AdsTable() {
             discount: form.discount,
             isActive: form.isActive,
           },
-          { headers: { Authorization: token } }
+           
         );
 
         const updatedAd = res.data.data.ads;
         setAds(ads.map((ad) => (ad._id === selectedAd._id ? updatedAd : ad)));
         toast.success(res.data.message || "Ad updated successfully");
       } else if (modalType === "create") {
-        const res = await axiosinstanceAdmin.post(ads_URL.CREATE, form, {
-          headers: { Authorization: token },
-        });
+        const res = await axiosinstanceAdmin.post(ads_URL.CREATE, form,  );
 
         const newAd = res.data.data.ads;
         setAds([...ads, newAd]);
         toast.success(res.data.message || "Ad created successfully");
+        await fetchAds();
       }
       handleCloseModal();
     } catch (err: any) {
@@ -182,7 +159,7 @@ export default function AdsTable() {
     try {
       const res = await axiosinstanceAdmin.delete(
         ads_URL.DELETE(selectedAd._id),
-        { headers: { Authorization: token } }
+        
       );
       setAds(ads.filter((a) => a._id !== selectedAd._id));
       toast.success(res.data.message || "Ad deleted successfully");
@@ -375,18 +352,22 @@ export default function AdsTable() {
             </Select>
           </FormControl>
 
-          <TextField
-            fullWidth
-            margin="dense"
-            label="Discount"
-            type="number"
-            inputProps={{ min: 0 }}
-            value={form.discount}
-            disabled={modalType === "view"}
-            onChange={(e) =>
-              setForm({ ...form, discount: Math.max(0, Number(e.target.value)) })
-            }
-          />
+        <TextField
+  fullWidth
+  margin="dense"
+  label="Discount"
+  type="number"
+  inputProps={{ min: 0, step: "0.001" }}   // allow decimals
+  value={form.discount}
+  disabled={modalType === "view"}
+  onChange={(e) =>
+    setForm({
+      ...form,
+      discount: Math.max(0, parseFloat(e.target.value) || 0),
+    })
+  }
+/>
+
 
           <FormControl fullWidth margin="dense">
             <InputLabel shrink>Active</InputLabel>

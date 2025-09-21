@@ -1,5 +1,3 @@
-// src/modules/Dashboard/Components/DashboardGraph.tsx
-
 import { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
@@ -10,35 +8,22 @@ import {
 import { Doughnut } from "react-chartjs-2";
 import { Box, Typography,CircularProgress } from "@mui/material";
 // import load from "../../../assets/react.svg";
-import { axiosinstanceAdmin } from "../../../services/urls";
+import { axiosinstanceAdmin, DASHBOARD_URL } from "../../../services/urls";
+import type { IDashboardData } from "../../../services/interfaces";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-interface DashboardData {
-  bookings: {
-    pending: number;
-    completed: number;
-  };
-  users: {
-    user: number;
-    admin: number;
-  };
-}
+
 
 export default function DashboardCharts() {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<DashboardData | null>(null);
+  const [data, setData] = useState<IDashboardData | null>(null);
 
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
         const res = await axiosinstanceAdmin.get(
-          "https://upskilling-egypt.com:3000/api/v0/admin/dashboard",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
-            },
-          }
+      DASHBOARD_URL.DASHCARDS
         );
         if (res.data.success && res.data.data) {
           setData(res.data.data);

@@ -62,3 +62,8 @@ export const ads_URL = {
   UPDATE: (id: string) => `${BASEURLADMIN}ads/${id}`,  
   DELETE: (id: string) => `${BASEURLADMIN}ads/${id}`, 
 };
+
+export const DASHBOARD_URL = {
+  DASHCARDS: `${BASEURLADMIN}dashboard`, 
+ 
+};

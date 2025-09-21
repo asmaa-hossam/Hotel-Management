@@ -1,28 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import WorkIcon from "@mui/icons-material/Work";
-import axios from "axios";
+ 
+import { axiosinstanceAdmin, DASHBOARD_URL } from "../../../services/urls";
+import type { IDashboardData } from "../../../services/interfaces";
 
-interface DashboardData {
-  rooms: number;
-  facilities: number;
-  ads: number;
-}
+
 
 export default function DashboardCards() {
-  const [data, setData] = useState<DashboardData>({
+  const [data, setData] = useState<IDashboardData>({
     rooms: 0,
     facilities: 0,
     ads: 0,
   });
 
   useEffect(() => {
-    axios
-      .get("https://upskilling-egypt.com:3000/api/v0/admin/dashboard", {
-        headers: {
-          Authorization: localStorage.getItem("token") || "",
-        },
-      })
+    axiosinstanceAdmin
+      .get(DASHBOARD_URL.DASHCARDS)
       .then((res) => {
         setData({
           rooms: res.data.data.rooms,
@@ -45,7 +39,7 @@ export default function DashboardCards() {
       gap={3}
       justifyContent="center"
       mt={3}
-      flexWrap="wrap" // allow wrapping on smaller screens
+      flexWrap="wrap"  
     >
       {cards.map((card) => (
         <Card
