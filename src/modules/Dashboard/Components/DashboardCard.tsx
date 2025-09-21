@@ -3,12 +3,12 @@ import { Box, Card, CardContent, Typography } from "@mui/material";
 import WorkIcon from "@mui/icons-material/Work";
  
 import { axiosinstanceAdmin, DASHBOARD_URL } from "../../../services/urls";
-import type { IDashboardData } from "../../../services/interfaces";
+import type { DashboardData } from "../../../services/interfaces";
 
 
 
 export default function DashboardCards() {
-  const [data, setData] = useState<IDashboardData>({
+  const [data, setData] = useState<DashboardData>({
     rooms: 0,
     facilities: 0,
     ads: 0,

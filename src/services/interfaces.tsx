@@ -28,7 +28,7 @@ export interface ChangePasswordRes{
 }
 
 //dashboard graph
-export interface IDashboardData {
+export interface DashboardData {
   rooms: number;
   facilities: number;
   ads: number;
