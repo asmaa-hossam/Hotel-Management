@@ -1,4 +1,3 @@
-// src/modules/Advertisements/Components/Advertisments.tsx
 import { useEffect, useState } from "react";
 import {
   Table,
