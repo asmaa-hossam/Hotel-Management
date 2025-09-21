@@ -53,3 +53,16 @@ CHANGEPASSWORD: 'change-password',
  LOGIN: `${BASEURL}login`,
 
 };
+
+ 
+export const ads_URL = {
+  FETCH: `${BASEURLADMIN}ads`, 
+  CREATE: `${BASEURLADMIN}ads`,  
+  UPDATE: (id: string) => `${BASEURLADMIN}ads/${id}`,  
+  DELETE: (id: string) => `${BASEURLADMIN}ads/${id}`, 
+};
+
+export const DASHBOARD_URL = {
+  DASHCARDS: `${BASEURLADMIN}dashboard`, 
+ 
+};

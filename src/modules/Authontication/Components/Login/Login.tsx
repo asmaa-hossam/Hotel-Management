@@ -40,24 +40,29 @@ export default function Login() {
 
   const handleTogglePassword = () => setShowPassword((prev) => !prev);
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
-    try {
-      const res = await axios.post(Auth_URL.LOGIN, data);
-       SaveLogenData()
-      console.log("Login response:", res.data); 
+const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+  try {
+    const res = await axios.post(Auth_URL.LOGIN, data);
+    const token = res?.data?.data?.token;
+    const user = res?.data?.data?.user;  
 
-      const token = res?.data?.data?.token;
+    
 
-       
-        localStorage.setItem("token", token);
-        toast.success(res?.data?.message || "Login successful!");
-        navigate("/dashboard");
-        
-    } catch (error: any) {
-      console.error("Login error:", error);
-      toast.error(error?.response?.data?.message || "Login failed!");
+    // Save token
+    localStorage.setItem("token", token);
+    SaveLogenData(); // your context function
+    toast.success(res?.data?.message || "Login successful!");
+
+    if (user.role === "admin") {
+      navigate("/dashboard");
+    } else {
+      navigate("/");
     }
-  };
+  } catch (error: any) {
+    console.error("Login error:", error);
+    toast.error(error?.response?.data?.message || "Login failed!");
+  }
+};
 
   return (
     <Box sx={{ width: "100%", maxWidth: 600, mx: "auto", mt: 6, px: 2 }}>

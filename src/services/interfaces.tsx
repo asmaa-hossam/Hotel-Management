@@ -26,3 +26,43 @@ export interface ChangePasswordRes{
    success:boolean
 
 }
+
+//dashboard graph
+export interface DashboardData {
+  rooms: number;
+  facilities: number;
+  ads: number;
+}
+export interface IDashboardData {
+  bookings: {
+    pending: number;
+    completed: number;
+  };
+  users: {
+    user: number;
+    admin: number;
+  };
+}
+
+//ads page
+export interface Room {
+  _id: string;
+  roomNumber: string;
+  price: number;
+  capacity: number;
+  discount: number;
+  images: string[];
+}
+
+export interface User {
+  userName: string;
+}
+
+export interface Ad {
+  _id: string;
+  isActive: boolean;
+  room: Room | string;
+  createdBy: User;
+  createdAt: string;
+  discount: number;
+}

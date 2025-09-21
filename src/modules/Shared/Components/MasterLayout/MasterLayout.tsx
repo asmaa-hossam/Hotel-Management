@@ -23,6 +23,7 @@ export default function MasterLayout() {
             display: "flex",
             alignItems: "center",
             px: 2,
+            py:2
           }}
         >
           <Navbar />
