@@ -60,9 +60,23 @@ export const ads_URL = {
   CREATE: `${BASEURLADMIN}ads`,  
   UPDATE: (id: string) => `${BASEURLADMIN}ads/${id}`,  
   DELETE: (id: string) => `${BASEURLADMIN}ads/${id}`, 
+
 };
 
 export const DASHBOARD_URL = {
   DASHCARDS: `${BASEURLADMIN}dashboard`, 
  
 };
+
+//roomsEndPOint
+
+export const ROOMS_URLS={
+GETALLROOMS:`${BASEURLADMIN}rooms`,
+CREATEROOM:`${BASEURLADMIN}rooms`,
+UBDATEROOM:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
+GETFACILITES:`${BASEURLADMIN}room-facilities`,
+GET_ROOM_BY_ID:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
+DELETEROOM:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
+// GETALLUSER:`${BASEURLADMIN}/api/v0/admin/users`
+
+}
