@@ -12,6 +12,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import CloseIcon from '@mui/icons-material/Close';
+import DeleteConfirmation from "../../Shared/Components/deleteConfrim/deleteConfrim";
+import Loader from "../../Shared/Components/Loader/Loader";
 import {
   Box,
   Button,
@@ -27,13 +29,17 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Container
+  Container,
+  TextField,
+  CircularProgress,
 } from "@mui/material";
+
+
  import VisibilityIcon from "@mui/icons-material/Visibility";
  import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
  import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
  import Tooltip from "@mui/material/Tooltip";
-import FacilitiesHeader from "./FacilitiesHeader";
+import {toast } from "react-toastify";
 // ---- Table Styles ----
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -60,21 +66,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-function createData(
-  _id: string,
-  name: string,
-  createdAt: string,
-  updatedAt: string,
+// function createData(
+//   _id: string,
+//   name: string,
+//   createdAt: string,
+//   updatedAt: string,
 
-) {
-  return { _id,name, createdAt, updatedAt};
-}
+// ) {
+//   return { _id,name, createdAt, updatedAt};
+// }
 
 
 // ---- Main Component ----
-
- 
-
 
   export default function Facilities() {
 
@@ -86,8 +89,19 @@ function createData(
   updatedAt: string,
   };
 
+ type CustomizedDialogsProps = {
+  open: boolean;
+  handleClose: () => void;
+  };
+
+
+
 
   const [FacilitiesList, setFacilities] = useState<Facility[]>([]);
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
+  const handleOpenDialog = () => setOpenDialog(true);
+  const handleCloseDialog = () => setOpenDialog(false); 
   const token = localStorage.getItem("token");
   console.log(token,"tokeeeeeeeeeeeeen")
 
@@ -102,71 +116,134 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
- function CustomizedDialogs() {
-  const [open, setOpen] = React.useState(false);
+function CustomizedDialogs({ open, handleClose }: CustomizedDialogsProps) {
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const [facilityName, setFacilityName] = useState<string>("");
+
+
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  try {
+  
+    const response: AxiosResponse = await axios.post(
+      Facilities_URL.CREATE, 
+      { name: facilityName }, // request body
+      {
+        headers: {
+          Authorization: `${token}`, // if your API needs auth
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("✅ Facility added:", response.data);
+
+    // Optionally refresh facilities list
+    await getFacilities(token);
+    handleClose(); // close modal after success
+  } catch (error) {
+    console.error("❌ Error adding facility:", error);
+    toast.error("❌ Error adding facility")
+  }
+
+};
 
   return (
-    <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open dialog
-      </Button>
-      <BootstrapDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          Modal title
-        </DialogTitle>
-        <IconButton
+    <BootstrapDialog 
+      onClose={handleClose}
+      aria-labelledby="customized-dialog-title"
+      open={open}
+    >
+
+      <Box sx={{ m: 0,display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+           <DialogTitle   id="customized-dialog-title">Add Facility</DialogTitle>
+
+       <IconButton
           aria-label="close"
           onClick={handleClose}
-          sx={(theme) => ({
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: theme.palette.grey[500],
-          })}
+          sx={{ color: "#151414ff"}}
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-            magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-            ullamcorper nulla non metus auctor fringilla.
-          </Typography>
+      </Box>
+   
+
+
+
+    <form onSubmit={handleSubmit}>
+        <DialogContent >
+       <TextField
+  fullWidth
+  label="Name"
+  variant="outlined"
+  margin="normal"
+  value={facilityName}
+  required
+  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+    setFacilityName(e.target.value)
+  }
+  sx={{
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "12px", // rounded corners
+      backgroundColor: "#f9f9f9", // light background
+      "& fieldset": {
+        borderColor: "#ccc", // default border
+      },
+      "&:hover fieldset": {
+        borderColor: "#203FC7", // hover border color
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#203FC7", // focus border color
+        borderWidth: "2px",
+      },
+    },
+    "& .MuiInputLabel-root": {
+      fontFamily: "Poppins, sans-serif",
+      fontWeight: 500,
+      fontSize: "14px",
+      color: "#323C47",
+    },
+    "& .MuiInputBase-input": {
+      fontFamily: "Poppins, sans-serif",
+      fontSize: "14px",
+      padding: "12px 14px",
+    },
+  }}
+/>
+
+
+   
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions>
-      </BootstrapDialog>
-    </React.Fragment>
+              <DialogActions>
+        <Button    type="submit" variant="contained" 
+             sx={{
+               textTransform: "none",
+               borderRadius: "8px",
+               backgroundColor: "#203FC7",
+               fontWeight: "bold",
+               width: "20px",
+             }}autoFocus >
+          Save 
+        </Button>
+      </DialogActions>
+     
+      </form>
+
+
+
+
+   
+
+    </BootstrapDialog>
   );
 }
 
 
-
   async function getFacilities(token: string | null): Promise<void> {
     try {
+
+      setLoading(true)
       if (!token) return console.warn("No token provided");
 
       const response: AxiosResponse = await axios.get(Facilities_URL.GETALL, {
@@ -179,6 +256,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
     } catch (error) {
       console.error("Error fetching facilities:", error);
+    }
+    finally{
+      setLoading(false)
     }
   }
 
@@ -237,10 +317,11 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
          {/* <i className="fa fa-edit" style={{ marginRight: 6, color: "#203FC7"}}></i> */}
         Edit 
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClose }>
           <DeleteOutlinedIcon fontSize="small" sx={{ mr: 1, color: "#203FC7" }} />
         Delete
         </MenuItem>
+        
       </Menu>
     </>
   );
@@ -258,11 +339,67 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     }}
   >
 
-   <FacilitiesHeader/>
+   {/* <FacilitiesHeader /> */}
+
+         <Box
+           sx={{
+             display: "flex",
+             alignItems: "center",
+             justifyContent: "space-between",
+             mb: 3,
+           }}
+         >
+           <Box>
+             <Typography
+               variant="h6"
+               sx={{
+                 fontFamily: "Poppins, sans-serif",
+                 fontWeight: 550,
+                 fontSize: "15px",
+                 color: "#1b2031ff",
+                 // fontWeight:"bold"
+                 
+   
+               }}
+             >
+               Facilities Table Details
+             </Typography>
+             <Typography
+               variant="body2"
+               sx={{
+                 fontFamily: "Poppins, sans-serif",
+                 fontSize: "11px",
+                 color: "#323C47",
+   
+               }}
+             >
+               You can check all details
+             </Typography>
+           </Box>
+   
+           <Button   onClick={handleOpenDialog}
+             variant="contained"
+             sx={{
+               textTransform: "none",
+               borderRadius: "8px",
+               backgroundColor: "#203FC7",
+               fontWeight: "bold",
+               width: "224px",
+             }}
+           >
+             Add New Facility
+           </Button>
+           <CustomizedDialogs open={openDialog} handleClose={handleCloseDialog} />
+
+         </Box>
+
+
+
       {/* Table Section */}
-
-      {FacilitiesList.length > 0 ?
-
+      
+     {loading? (<Loader/>) :
+      FacilitiesList.length > 0 ?
+ (
       <TableContainer
   component={Paper}
   sx={{
@@ -288,7 +425,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
       </TableRow>
     </TableHead>
     <TableBody>
-      {FacilitiesList.map((item) => (
+      {FacilitiesList?.map((item) => (
         <StyledTableRow key={item._id}>
           <StyledTableCell
             component="th"
@@ -311,8 +448,10 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
       ))}
     </TableBody>
   </Table>
-     </TableContainer>
- :<NoData/>}
+     </TableContainer>)
+ :(
+      <Typography>No data found</Typography>
+    )}
 
     
     </Box>
