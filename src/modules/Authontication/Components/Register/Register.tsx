@@ -320,35 +320,47 @@ export default function Register() {
           )}
         />
 
-        {/* Profile Image Upload */}
-        <Typography variant="subtitle2" sx={{ mb: 0.5 }}>Profile Image </Typography>
-        <Controller
-          name="profileImage"
-          rules={IMAGE_VALIDATION}
-          control={control}
-          render={({ field: { onChange, value, ...field } }) => (
-            <Button
-              variant="outlined"
-              component="label"
-              fullWidth
-              sx={{
-                mb: 2,
-                py: 1,
-                backgroundColor: "#F5F6F8",
-                "&:hover": { backgroundColor: "#f1f5fdff" },
-              }}
-            >
-              {value ? "Change Image" : "Upload Image"}
-              <input
-                {...field}
-                type="file"
-                hidden
-                accept="image/*"
-                onChange={(e) => onChange(e.target.files ? e.target.files[0] : null)}
-              />
-            </Button>
-          )}
+       {/* Profile Image Upload */}
+<Typography variant="subtitle2" sx={{ mb: 0.5 }}>Profile Image</Typography>
+<Controller
+  name="profileImage"
+  rules={IMAGE_VALIDATION}
+  control={control}
+  render={({ field: { onChange, value, ...field } }) => (
+    <Box sx={{ mb: 2 }}>
+      <Button
+        variant="outlined"
+        component="label"
+        fullWidth
+        sx={{
+          py: 1,
+          backgroundColor: "#F5F6F8",
+          "&:hover": { backgroundColor: "#f1f5fdff" },
+        }}
+      >
+        {value ? "Change Image" : "Upload Image"}
+        <input
+          {...field}
+          type="file"
+          hidden
+          accept="image/*"
+          onChange={(e) => onChange(e.target.files ? e.target.files[0] : null)}
         />
+      </Button>
+
+      {/* Show error if validation fails */}
+      {errors.profileImage && (
+        <Typography
+          variant="caption"
+          color="error"
+          sx={{ display: "block", mt: 0.5 }}
+        >
+          {errors.profileImage.message}
+        </Typography>
+      )}
+    </Box>
+  )}
+/>
 
         {/* Role (hidden but included in form) */}
         <Controller

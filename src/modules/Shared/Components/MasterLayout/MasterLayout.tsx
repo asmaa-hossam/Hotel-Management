@@ -19,11 +19,11 @@ export default function MasterLayout() {
         <Box
           sx={{
             height: 64,
-            bgcolor: "secondary.main",
             color: "white",
             display: "flex",
             alignItems: "center",
             px: 2,
+            py:2
           }}
         >
           <Navbar />

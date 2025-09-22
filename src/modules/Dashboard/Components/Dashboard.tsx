@@ -1,9 +1,11 @@
-import React from 'react'
+import DashboardCards from "./DashboardCard";
+import DashboardChart from "./DashboardGraph";
 
 export default function Dashboard() {
   return (
     <div>
-      Dashboard
+      <DashboardCards />
+      <DashboardChart />
     </div>
   )
 }

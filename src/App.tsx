@@ -88,7 +88,7 @@ children:[
       {path:"rooms",element:<RoomsList/>},
       {path:"roomsForm",element:<RoomsForm/>},
        { path: "advertisments", element:<Advertisments/> },
-        { path: "booking", element:<BookingList/> },
+        { path: "bookingg", element:<BookingList/> },
         { path: "users", element:<UsersList/> },
        { path: "facilities", element:<Facilities/> },
 
