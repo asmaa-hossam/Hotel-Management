@@ -54,6 +54,7 @@ CHANGEPASSWORD: 'change-password',
 
 };
 
+<<<<<<< HEAD
 
 export const Facilities_URL = {
 GETALL: `${BASEURLDEV}/api/v0/admin/room-facilities`,
@@ -63,3 +64,31 @@ UPDATE: `${BASEURLDEV}/api/v0/admin/room-facilities/6596c316a97d4df2f140e117`,
 DETAILS: `${BASEURLDEV}/api/v0/admin/room-facilities/6596c316a97d4df2f140e117`,
 
 };
+=======
+ 
+export const ads_URL = {
+  FETCH: `${BASEURLADMIN}ads`, 
+  CREATE: `${BASEURLADMIN}ads`,  
+  UPDATE: (id: string) => `${BASEURLADMIN}ads/${id}`,  
+  DELETE: (id: string) => `${BASEURLADMIN}ads/${id}`, 
+
+};
+
+export const DASHBOARD_URL = {
+  DASHCARDS: `${BASEURLADMIN}dashboard`, 
+ 
+};
+
+//roomsEndPOint
+
+export const ROOMS_URLS={
+GETALLROOMS:`${BASEURLADMIN}rooms`,
+CREATEROOM:`${BASEURLADMIN}rooms`,
+UBDATEROOM:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
+GETFACILITES:`${BASEURLADMIN}room-facilities`,
+GET_ROOM_BY_ID:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
+DELETEROOM:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
+// GETALLUSER:`${BASEURLADMIN}/api/v0/admin/users`
+
+}
+>>>>>>> origin/development
