@@ -6,6 +6,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import axios  from "axios";
 import type { AxiosResponse } from "axios";
 import { useAuthContext } from "../../../Context/Context";
+import NoData from "../../Shared/Components/NoData/NoData";
 import { Facilities_URL } from "../../../services/urls";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
@@ -78,7 +79,7 @@ function createData(
 
 
   type Facility = {
-     _id: string,
+  _id: string,
   name: string,
   createdAt: string,
   updatedAt: string,
@@ -169,7 +170,7 @@ function createData(
 }
 
   return (
-    <Container maxWidth="xl"   sx={{ py: { xs: 2, sm: 2,md: 4 } }}>
+    <Container maxWidth="xl"   sx={{ py: { xs: 2, sm: 2,md: 2} }}>
        <Box
     sx={{
       width: "100%",
@@ -192,21 +193,21 @@ function createData(
     overflowX: "auto", // ✅ keeps responsiveness
     borderRadius: 2,
     mt: 2,
-     scrollbarWidth: "none", // Firefox
+    scrollbarWidth: "none", // Firefox
     "&::-webkit-scrollbar": { display: "none" }, // Chrome/Safari
   }}
 >
-  <Table sx={{backgroundColor: "#E2E5EB" }} aria-label="customized table">
+  <Table sx={{backgroundColor: "#E2E5EB"}} aria-label="customized table">
     <TableHead>
       <TableRow>
-        <StyledTableCell>Name</StyledTableCell>
-        <StyledTableCell>Name</StyledTableCell>
+       <StyledTableCell align="justify" >Name</StyledTableCell>
+        <StyledTableCell align="justify">Name</StyledTableCell>
 
-        <StyledTableCell align="right">Created At</StyledTableCell>
-        <StyledTableCell align="right">updatedAt</StyledTableCell>
+        <StyledTableCell align="justify">CreatedAT</StyledTableCell>
+        <StyledTableCell align="justify">updatedAT</StyledTableCell>
         {/* <StyledTableCell align="right">Carbs</StyledTableCell>
         <StyledTableCell align="right">Protein</StyledTableCell> */}
-        <StyledTableCell align="right">Actions</StyledTableCell> 
+        <StyledTableCell align="justify">Actions</StyledTableCell> 
       </TableRow>
     </TableHead>
     <TableBody>
@@ -219,14 +220,14 @@ function createData(
           >
             {item.name}
           </StyledTableCell>
-          <StyledTableCell align="left">{item.name}</StyledTableCell> 
-          <StyledTableCell align="right">{item.createdAt}</StyledTableCell>
+          <StyledTableCell align="justify">{item.name}</StyledTableCell> 
+          <StyledTableCell align="justify">{item.createdAt}</StyledTableCell>
 
-           <StyledTableCell align="right">{item.updatedAt}</StyledTableCell>
+           <StyledTableCell align="justify">{item.updatedAt}</StyledTableCell>
           {/* <StyledTableCell align="right">{item.name}</StyledTableCell>  */}
 
           {/* ✅ Last cell with three dots menu */}
-          <StyledTableCell align="right">
+          <StyledTableCell align="justify">
             <ThreeDotsMenu />
           </StyledTableCell>
         </StyledTableRow>
@@ -234,7 +235,7 @@ function createData(
     </TableBody>
   </Table>
      </TableContainer>
- :<h1>no dataaaaaaaaaa</h1>}
+ :<NoData/>}
 
     
     </Box>
