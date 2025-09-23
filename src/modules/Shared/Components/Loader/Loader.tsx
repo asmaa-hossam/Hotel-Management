@@ -5,16 +5,17 @@ export default function Loader() {
    <Box
   sx={{
     position: "absolute",
-    top: 16,
-    left: 16,
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)", 
     display: "flex",
     flexDirection: "column",
-    alignItems: "flex-start",
+    alignItems: "center",
   }}
 >
-  <CircularProgress size={50} color="primary" />
+  <CircularProgress size={100} color="primary" />
   <Typography
-    sx={{ mt: 2, fontFamily: "Poppins, sans-serif", fontSize: "18px", fontWeight: 500 }}
+    sx={{ mt: 2, fontFamily: "Poppins, sans-serif", fontSize: "10px", fontWeight: 200 }}
   >
     Loading...
   </Typography>
