@@ -66,9 +66,9 @@ DETAILS: `${BASEURLDEV}/api/v0/admin/room-facilities/{id}`,
 };
 
 export const BOOKING_URL = {
-  GETALL: `${BASEURLDEV}/api/v0/admin/booking?page=1&size=10`, 
-  DELETE: `${BASEURLDEV}`,  
-  // GETBOOKINGETAIL: (id: string) => ``,  
+  GETALL: `${BASEURLADMIN}`, 
+  DELETE: `${BASEURLADMIN}`,  
+  GETBOOKINGETAIL: (id: string) => ``,  
 };
 
 export const ads_URL = {

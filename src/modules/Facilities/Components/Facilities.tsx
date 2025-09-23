@@ -56,8 +56,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: "#ffff",
-  }, "&:nth-of-type(even)": {
-    backgroundColor: "#f1f1f6ff",
   },
   // hide last border
   "&:last-child td, &:last-child th": {
@@ -218,7 +216,7 @@ export default function Facilities()
 
 
         <form onSubmit={handleSubmit}>
-          <DialogContent  sx={{ minWidth: "400px" }}>
+          <DialogContent >
             <TextField
               fullWidth
               label="Name"
@@ -444,7 +442,7 @@ function FacilityActions() {
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100vh",
-        overflow: "hidden", 
+        overflow: "hidden", // prevents scroll
       }}>
 
       {/* <FacilitiesHeader /> */}
