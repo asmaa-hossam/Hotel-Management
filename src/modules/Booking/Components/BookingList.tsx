@@ -19,8 +19,6 @@ import {
   TableRow,
   Typography,
   IconButton,
-  Menu,
-  MenuItem,
   Container,
   TextField,
   CircularProgress,
@@ -54,7 +52,6 @@ const StyledTableRow = styled(TableRow)(() => ({
   "&:last-child td, &:last-child th": {
     border: 0,
     // background: "#F8F9FB",
-
   },
 }));
 
@@ -125,7 +122,7 @@ export default function BookingList() {
      
     setOpen(true);
     setSelectedRow(row)
-    console.log("clicked row:", row); // <--- debug: make sure this is correct
+    console.log("clicked row:", row); 
 
   }
 
@@ -180,11 +177,11 @@ export default function BookingList() {
       {!loading && BookingList.length > 0 ? (
         BookingList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => (
           <StyledTableRow key={item._id}>
-            <StyledTableCell>{item.room.roomNumber}</StyledTableCell>
-            <StyledTableCell>{item.totalPrice}</StyledTableCell>
-            <StyledTableCell>{item.startDate.split("T")[0]}</StyledTableCell>
-            <StyledTableCell>{item.endDate.split("T")[0]}</StyledTableCell>
-            <StyledTableCell>{item.user.userName}</StyledTableCell>
+            <StyledTableCell>{item?.room?.roomNumber}</StyledTableCell>
+            <StyledTableCell>{item?.totalPrice}</StyledTableCell>
+            <StyledTableCell>{item?.startDate.split("T")[0]}</StyledTableCell>
+            <StyledTableCell>{item?.endDate.split("T")[0]}</StyledTableCell>
+            <StyledTableCell>{item?.user.userName}</StyledTableCell>
             <StyledTableCell>
             
           <IconButton onClick={() => handleOpen(item)}>
@@ -239,21 +236,21 @@ export default function BookingList() {
       <>
         <TextField
           label="User"
-          value={selectedRow.user.userName}
+          value={selectedRow?.user?.userName}
           fullWidth
           margin="normal"
           InputProps={{ readOnly: true }}
         />
         <TextField
           label="Room Number"
-          value={selectedRow.room.roomNumber}
+          value={selectedRow?.room?.roomNumber}
           fullWidth
           margin="normal"
           InputProps={{ readOnly: true }}
         />
         <TextField
           label="Price"
-          value={`$${selectedRow.totalPrice}`}
+          value={`$${selectedRow?.totalPrice}`}
           fullWidth
           margin="normal"
           InputProps={{ readOnly: true }}

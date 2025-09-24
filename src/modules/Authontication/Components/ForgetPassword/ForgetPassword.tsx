@@ -1,9 +1,7 @@
 import { useForm, Controller } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
-import logo from '../../../../../src/assets/images/Staycation..svg'
-import forgetpass from '../../../../assets/images/forget.png'
+import { useNavigate } from "react-router-dom";
 import { Auth_URL } from "../../../../services/urls";
 import { toast } from "react-toastify";
 import { EMAIL_VALIDATION } from "../../../../services/validation";
@@ -170,12 +168,6 @@ export default function ForgetPass({}) {
       Send mail</Button>
          </form>
    </Box>
- 
- 
-  
-   
-
-   
   );
 }
 

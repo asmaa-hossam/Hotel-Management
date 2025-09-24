@@ -4,15 +4,19 @@ import { styled } from "@mui/material/styles";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import axios from "axios";
 import type { AxiosResponse } from "axios";
-import NoData from "../../Shared/Components/NoData/NoData";
 import { Facilities_URL } from "../../../services/urls";
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import CloseIcon from '@mui/icons-material/Close';
-import DeleteConfirmation from "../../Shared/Components/deleteConfrim/deleteConfrim";
 import Loader from "../../Shared/Components/Loader/Loader";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import EditFacilityModal from "./EditFacilityModal"; 
+import Email from '../../../assets/images/Email.png'
+import { toast } from "react-toastify";
 import {
   Box,
   Button,
@@ -30,18 +34,13 @@ import {
   MenuItem,
   Container,
   TextField,
-  CircularProgress,
-  Modal
+  Modal,
 } from "@mui/material";
 
 
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import Tooltip from "@mui/material/Tooltip";
-import { toast } from "react-toastify";
+
 // ---- Table Styles ----
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(({ }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#E2E5EB",
     color: " #1F263E",
@@ -53,11 +52,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+const StyledTableRow = styled(TableRow)(({ }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: "#ffff",
-  }, "&:nth-of-type(even)": {
-    backgroundColor: "#f1f1f6ff",
   },
   // hide last border
   "&:last-child td, &:last-child th": {
@@ -67,101 +64,152 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
-function ThreeDotsMenu() {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  return (
-    <>
-      <Tooltip title="More actions">
-        <IconButton
-          size="small"
-          aria-label="more"
-          aria-controls={open ? "three-dots-menu" : undefined}
-          aria-haspopup="true"
-          onClick={handleClick}
-        >
-          <MoreVertIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
-
-      <Menu
-        id="three-dots-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          sx: {
-            maxHeight: 48 * 4.5,
-            borderRadius: 2,
-            minWidth: 150, // ✅ safe minimum, won’t break table
-          },
-        }}
-      >
-        <MenuItem onClick={handleClose}>
-          <VisibilityIcon fontSize="small" sx={{ mr: 1, color: "#203FC7" }} />
-          View
-        </MenuItem>
-        <MenuItem onClick={handleClose} >
-          <EditOutlinedIcon fontSize="small" sx={{ mr: 1, color: "#203FC7" }} />
-          {/* <i className="fa fa-edit" style={{ marginRight: 6, color: "#203FC7"}}></i> */}
-          Edit
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <DeleteOutlinedIcon fontSize="small" sx={{ mr: 1, color: "#203FC7" }} />
-          Delete
-        </MenuItem> 
-         
-      </Menu>
-    </>
-  );
-}
-// ---- Main Component ----
-
-export default function Facilities() 
-{
-
-  type Facility = {
+const modalStyle = {
+  position: "absolute" as const,
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  borderRadius: 3,
+  p: 3,
+};
+ type Facility = {
     _id: string,
     name: string,
     createdAt: string,
     updatedAt: string,
   };
+ 
 
-  type CustomizedDialogsProps = {
-    open: boolean;
-    handleClose: () => void;
-  };
+// ---- Main Component ----
+export default function Facilities() 
+{
 
   const [FacilitiesList, setFacilities] = useState<Facility[]>([]);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const handleOpenDialog = () => setOpenDialog(true);
   const handleCloseDialog = () => setOpenDialog(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [facilityToDelete, setFacilityToDelete] = useState<string | null>(null);
   const token = localStorage.getItem("token");
+ 
 
 
 
+// Open delete dialog from action menu
+const handleDeleteClick = (id: string) => {
+  setFacilityToDelete(id);
+  setDeleteDialogOpen(true);
+};
 
+// Close dialog
+const handleCloseDeleteDialog = () => {
+  setDeleteDialogOpen(false);
+  setFacilityToDelete(null);
+};
   
 
-  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    '& .MuiDialogContent-root': {
-      padding: theme.spacing(2),
-    },
-    '& .MuiDialogActions-root': {
-      padding: theme.spacing(1),
-    },
-  }));
+
+  const handleConfirmDelete = async () => {
+  if (!facilityToDelete) return;
+  try {
+    const token = localStorage.getItem("token");
+    await axios.delete(Facilities_URL.DELETE(facilityToDelete), {
+      headers: { Authorization: `${token}` },
+    });
+    toast.success("Facility deleted successfully!");
+    handleCloseDeleteDialog();
+    getFacilities(token); // refresh table
+  } catch (error: any) {
+    toast.error(error.response?.data?.message || "Error deleting facility");
+  }
+};
+
+
+ // ---- inside Facilities component ----
+
+const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+const [selectedId, setSelectedId] = useState<string | null>(null);
+const [facilityDetails, setFacilityDetails] = useState<any>(null);
+const [openDetailsModal, setOpenDetailsModal] = useState(false);
+const [selectedFacilityId, setSelectedFacilityId] = useState<string | null>(null);
+const [editModalOpen, setEditModalOpen] = useState(false);
+
+
+// handle edit click from menu
+const handleEditFromMenu = (id: string) => {
+  setSelectedFacilityId(id);
+  setEditModalOpen(true);
+};
+
+
+// handle menu open/close
+const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>, id: string) => {
+  setAnchorEl(event.currentTarget);
+  setSelectedId(id);
+};
+const handleMenuClose = () => {
+  setAnchorEl(null);
+  setSelectedId(null);
+};
+
+// fetch details by id
+async function fetchFacilityDetails(id: string) {
+  const token = localStorage.getItem("token");
+  if (!token) return toast.error("No token found");
+
+  try {
+    setLoading(true);
+    const response: AxiosResponse = await axios.get(
+      Facilities_URL.DETAILS(id),
+      { headers: { Authorization: `${token}` } }
+      
+    );
+    const url = Facilities_URL.DETAILS(id)
+      console.log("urlllllllllllllllllllllll", url)
+      console.log("responseeeeeeeeeeeeeeeeeee",response)
+    setFacilityDetails(response?.data?.data?.facility);
+    setOpenDetailsModal(true);
+  } catch (error: any) {
+    toast.error(error.response?.data?.message || "Error fetching facility");
+  } finally {
+    setLoading(false);
+  }
+}
+
+// menu actions
+const handleView = () => {
+  if (selectedId) {
+    fetchFacilityDetails(selectedId);
+  }
+  handleMenuClose();
+};
+
+
+  type CustomizedDialogsProps = {
+    open: boolean;
+    handleClose: () => void;
+  };
+
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialog-paper": {
+    width: "500px", 
+    maxWidth: "90%", 
+    borderRadius: "10px",
+  },
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+    borderTop: `1px solid ${theme.palette.divider}`,   
+    borderBottom: `1px solid ${theme.palette.divider}`, 
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
 
   function CustomizedDialogs({ open, handleClose }: CustomizedDialogsProps) {
 
@@ -185,7 +233,6 @@ export default function Facilities()
         console.log("✅ Facility added:", response.data);
          toast.success(response?.data?.message)
 
-        await getFacilities(token);
         handleClose(); // close modal after success
         } 
        catch (error:any) {
@@ -202,7 +249,7 @@ export default function Facilities()
         open={open}
       >
 
-        <Box sx={{ m: 0, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Box sx={{ m: 0, display: "flex", justifyContent: "space-between",variant:"h6" ,fontWeight:"bold", alignItems: "center" }}>
           <DialogTitle id="customized-dialog-title">Add Facility</DialogTitle>
 
           <IconButton
@@ -218,7 +265,7 @@ export default function Facilities()
 
 
         <form onSubmit={handleSubmit}>
-          <DialogContent  sx={{ minWidth: "400px" }}>
+          <DialogContent >
             <TextField
               fullWidth
               label="Name"
@@ -279,6 +326,8 @@ export default function Facilities()
     );
   }
 
+
+
   // GET ALL FACILITIES 
   async function getFacilities(token: string | null): Promise<void> {
     try {
@@ -309,129 +358,7 @@ export default function Facilities()
    
 
 
-const modalStyle = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  borderRadius: "10px",
-  boxShadow: 24,
-  p: 4,
-};
 
-function FacilityActions() {
-  const [open, setOpen] = useState(false);
-  const [actionType, setActionType] = useState<"view" | "edit" | "delete" | null>(null);
-
-  const handleOpen = (type: "view" | "edit" | "delete") => {
-    setActionType(type);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setActionType(null);
-  };
-
-  // Example data
-  const facility = { id: 1, name: "OOP Facility", location: "Cairo" };
-
-  return (
-    <>
-      {/* Action Menu Items */}
-      <MenuItem onClick={() => handleOpen("view")}>
-        <VisibilityIcon fontSize="small" sx={{ mr: 1, color: "#203FC7" }} />
-        View
-      </MenuItem>
-      <MenuItem onClick={() => handleOpen("edit")}>
-        <EditOutlinedIcon fontSize="small" sx={{ mr: 1, color: "#203FC7" }} />
-        Edit
-      </MenuItem>
-      <MenuItem onClick={() => handleOpen("delete")}>
-        <DeleteOutlinedIcon fontSize="small" sx={{ mr: 1, color: "#203FC7" }} />
-        Delete
-      </MenuItem>
-
-      {/* Modal */}
-      <Modal open={open} onClose={handleClose}>
-        <Box sx={modalStyle}>
-          {actionType === "view" && (
-            <>
-              <Typography variant="h6">View Facility</Typography>
-              <Typography>Name: {facility.name}</Typography>
-              <Typography>Location: {facility.location}</Typography>
-              <Button onClick={handleClose} sx={{ mt: 2 }} variant="contained">
-                Close
-              </Button>
-            </>
-          )}
-
-          {actionType === "edit" && (
-            <>
-              <Typography variant="h6">Edit Facility</Typography>
-              <TextField
-                label="Name"
-                fullWidth
-                margin="normal"
-                defaultValue={facility.name}
-              />
-              <TextField
-                label="Location"
-                fullWidth
-                margin="normal"
-                defaultValue={facility.location}
-              />
-              <Box sx={{ mt: 2, display: "flex", justifyContent: "space-between" }}>
-                <Button onClick={handleClose} color="secondary">
-                  Cancel
-                </Button>
-                <Button
-                  onClick={() => {
-                    // ✅ Call API to update
-                    console.log("Update facility");
-                    handleClose();
-                  }}
-                  variant="contained"
-                >
-                  Save
-                </Button>
-              </Box>
-            </>
-          )}
-
-          {actionType === "delete" && (
-            <>
-              <Typography variant="h6" color="error">
-                Delete Facility
-              </Typography>
-              <Typography sx={{ mt: 1 }}>
-                Are you sure you want to delete <b>{facility.name}</b>?
-              </Typography>
-              <Box sx={{ mt: 3, display: "flex", justifyContent: "space-between" }}>
-                <Button onClick={handleClose} color="secondary">
-                  Cancel
-                </Button>
-                <Button
-                  onClick={() => {
-                    // ✅ Call API to delete
-                    console.log("Delete facility");
-                    handleClose();
-                  }}
-                  variant="contained"
-                  color="error"
-                >
-                  Delete
-                </Button>
-              </Box>
-            </>
-          )}
-        </Box>
-      </Modal>
-    </>
-  );
-}
 
 
 
@@ -444,7 +371,7 @@ function FacilityActions() {
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100vh",
-        overflow: "hidden", 
+        overflow: "hidden", // prevents scroll
       }}>
 
       {/* <FacilitiesHeader /> */}
@@ -519,23 +446,239 @@ function FacilityActions() {
                       {item.name}
                     </StyledTableCell>
                     <StyledTableCell align="justify">{item.name}</StyledTableCell>
-                    <StyledTableCell align="justify">{item.createdAt}</StyledTableCell>
+                    <StyledTableCell align="justify">{item.createdAt.split("T")[0]}</StyledTableCell>
 
-                    <StyledTableCell align="justify">{item.updatedAt}</StyledTableCell>
+                    <StyledTableCell align="justify">{item.updatedAt.split("T")[0]}</StyledTableCell>
                     <StyledTableCell align="justify">{item.name}</StyledTableCell>
+{/* ✅ Last cell: Action menu */}
+  <StyledTableCell align="justify">
+    <IconButton onClick={(e) => handleMenuClick(e, item._id)}>
+      <MoreVertIcon />
+    </IconButton>
+  </StyledTableCell>
 
-                    {/* ✅ Last cell with three dots menu */}
-                    <StyledTableCell align="justify">
-                      <ThreeDotsMenu />
-                    </StyledTableCell>
-                  </StyledTableRow>
+
+
+              </StyledTableRow>
                 ))}
               </TableBody>
             </Table>
+            
           </TableContainer>)
           : (
             <Typography>No data found</Typography>
           )}
+
+
+<Menu
+  anchorEl={anchorEl}
+  open={Boolean(anchorEl)}
+  onClose={handleMenuClose}
+>
+  <MenuItem onClick={handleView}>
+    <VisibilityIcon fontSize="small" sx={{ mr: 1 , color: "primary.main"}} /> View
+  </MenuItem>
+  <MenuItem
+    onClick={() => {
+      if (selectedId) handleEditFromMenu(selectedId);
+      handleMenuClose();
+    }}
+  >
+    <EditOutlinedIcon fontSize="small" sx={{ mr: 1 , color: "primary.main"}} /> Edit
+  </MenuItem>
+  
+  <MenuItem
+  onClick={() => {
+    if (selectedId) handleDeleteClick(selectedId);
+    handleMenuClose();
+  }}
+>
+  <DeleteOutlinedIcon fontSize="small" sx={{ mr: 1, color: "primary.main" }} /> Delete
+  
+</MenuItem>
+</Menu>
+
+
+<Modal open={openDetailsModal} onClose={() => setOpenDetailsModal(false)}>
+  <Box
+    sx={{
+      ...modalStyle,
+      bgcolor: "background.paper",
+      borderRadius: 3,
+      p: 3,
+      boxShadow: 24,
+      width: { xs: "90%", sm: 500 },
+      maxHeight: "90vh",
+      overflowY: "auto",
+    }}
+  >
+    {/* Header */}
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        borderBottom: "1px solid #e0e0e0",
+        pb: 1,
+        mb: 2,
+      }}
+    >
+      <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+        Facility Details
+      </Typography>
+      <IconButton
+        onClick={() => setOpenDetailsModal(false)}
+        sx={{
+          color: "#555",
+          "&:hover": { bgcolor: "#f0f0f0" },
+          borderRadius: "50%",
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
+    </Box>
+
+    {/* Content: Read-only inputs */}
+    {loading ? (
+      <Loader />
+    ) : facilityDetails ? (
+      <Box
+        component="form"
+        sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+      >
+        <TextField
+          label="ID"
+          value={facilityDetails?._id}
+          InputProps={{ readOnly: true }}
+          fullWidth
+          variant="outlined"
+        />
+        <TextField
+          label="Name"
+          value={facilityDetails?.name}
+          InputProps={{ readOnly: true }}
+          fullWidth
+          variant="outlined"
+        />
+        <TextField
+          label="Created At"
+          value={facilityDetails?.createdAt?.split("T")[0]}
+          InputProps={{ readOnly: true }}
+          fullWidth
+          variant="outlined"
+        />
+      </Box>
+    ) : (
+      <Typography>No details found</Typography>
+    )}
+
+    {/* Footer Close Button */}
+    <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
+      <Button
+        variant="contained"
+        onClick={() => setOpenDetailsModal(false)}
+        sx={{
+          textTransform: "none",
+          borderRadius: "8px",
+          borderColor: "#203FC7",
+          color: "#ffff",
+        }}
+      >
+        Close
+      </Button>
+    </Box>
+  </Box>
+</Modal>
+
+
+
+{selectedFacilityId && (
+  <EditFacilityModal
+    open={editModalOpen}
+    handleClose={() => setEditModalOpen(false)}
+    facilityId={selectedFacilityId}
+    onUpdated={() => getFacilities(token)}   // refresh table after edit
+  />
+)} 
+
+
+
+
+<Modal
+  open={deleteDialogOpen}
+  onClose={() => setDeleteDialogOpen(false)}
+  aria-labelledby="delete-dialog-title"
+  aria-describedby="delete-dialog-description"
+  closeAfterTransition
+  slotProps={{
+    backdrop: {
+      sx: { backgroundColor: "rgba(0,0,0,0.5)" }, // dark overlay
+    },
+  }}
+>
+  <Box
+    sx={{
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      bgcolor: "background.paper",
+      borderRadius: 3,
+      p: 4,
+      boxShadow: 24,
+      width: { xs: "90%", sm: 400 },
+      textAlign: "center",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: 2,
+    }}
+  >
+    {/* Illustration */}
+    <Box
+      component="img"
+      src={Email} // your illustration
+      alt="Delete Illustration"
+      sx={{ width: "20%", mb: 2 }}
+    />
+
+    {/* Heading */}
+    <Typography
+      variant="h5"
+      sx={{ fontWeight: "bold", fontSize: "24px", color: "#494949" }}
+    >
+      Delete This Item?
+    </Typography>
+
+    {/* Description */}
+    <Typography
+      variant="body1"
+      sx={{ color: "#929292", fontSize: "16px", mb: 3 }}
+    >
+      Are you sure you want to delete this item? If you are sure, just click on delete.
+    </Typography>
+
+    {/* Buttons */}
+    <Box display="flex" gap={2}>
+      <Button
+        variant="contained"
+        color="error"
+        onClick={handleConfirmDelete}
+        sx={{ textTransform: "none", borderRadius: "8px" }}
+      >
+        Delete
+      </Button>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => setDeleteDialogOpen(false)}
+        sx={{ textTransform: "none", borderRadius: "8px" }}
+      >
+        Cancel
+      </Button>
+    </Box>
+  </Box>
+</Modal>
 
     </Container>
 
