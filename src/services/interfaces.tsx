@@ -5,6 +5,8 @@ export interface ILoginData{
     role:string
   verified:boolean
 _id:string
+  userName: string;   
+  email: string;    token: string;
 
 }
 export interface PropsType{

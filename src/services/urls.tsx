@@ -4,7 +4,7 @@ import axios from "axios";
 export const BASEURL = 'https://upskilling-egypt.com:3000/api/v0/portal/users/';
 // Base URL of the API admin
 export const BASEURLADMIN = 'https://upskilling-egypt.com:3000/api/v0/admin/';
-
+export const BASEURLDEV =`https://upskilling-egypt.com:3000`
 // HTTP Headers
 export const HEADERS = {
   Authorization: localStorage.getItem("token"),
@@ -54,7 +54,24 @@ CHANGEPASSWORD: 'change-password',
 
 };
 
- 
+
+
+export const Facilities_URL = {
+GETALL: `${BASEURLDEV}/api/v0/admin/room-facilities`,
+CREATE: `${BASEURLDEV}/api/v0/admin/room-facilities`,
+UPDATE: (id: string) =>`${BASEURLDEV}/api/v0/admin/room-facilities/${id}`,  
+DELETE: (id: string) =>`${BASEURLDEV}/api/v0/admin/room-facilities/${id}`, 
+DETAILS:(id: string) =>`${BASEURLDEV}/api/v0/admin/room-facilities/${id}`,
+
+
+};
+
+export const BOOKING_URL = {
+  GETALL: `${BASEURLDEV}/api/v0/admin/booking?page=1&size=10`, 
+  DELETE: `${BASEURLDEV}`,  
+  // GETBOOKINGETAIL: (id: string) => ``,  
+};
+
 export const ads_URL = {
   FETCH: `${BASEURLADMIN}ads`, 
   CREATE: `${BASEURLADMIN}ads`,  
