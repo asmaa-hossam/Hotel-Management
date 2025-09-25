@@ -59,9 +59,10 @@ CHANGEPASSWORD: 'change-password',
 export const Facilities_URL = {
 GETALL: `${BASEURLDEV}/api/v0/admin/room-facilities`,
 CREATE: `${BASEURLDEV}/api/v0/admin/room-facilities`,
-DELETE: `${BASEURLDEV}/api/v0/admin/room-facilities/{id}`,
-UPDATE: `${BASEURLDEV}/api/v0/admin/room-facilities/{id}`,
-DETAILS: `${BASEURLDEV}/api/v0/admin/room-facilities/{id}`,
+UPDATE: (id: string) =>`${BASEURLDEV}/api/v0/admin/room-facilities/${id}`,  
+DELETE: (id: string) =>`${BASEURLDEV}/api/v0/admin/room-facilities/${id}`, 
+DETAILS:(id: string) =>`${BASEURLDEV}/api/v0/admin/room-facilities/${id}`,
+
 
 };
 

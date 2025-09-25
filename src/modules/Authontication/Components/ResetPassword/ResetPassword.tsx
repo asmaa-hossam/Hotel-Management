@@ -1,15 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
  import { useForm, Controller } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { useNavigate ,useLocation} from "react-router-dom";
-import logo from '../../../../../src/assets/images/Staycation..svg'
-import resetpass from '../../../../assets/images/Group 34.png'
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Auth_URL } from "../../../../services/urls";
 import { toast } from "react-toastify";
-import { EMAIL_VALIDATION ,PASSWORD_VALIDATION,CONFIRM_PASSWORD_VALIDATION,OTP_VALIDATION} from "../../../../services/validation";
+import { EMAIL_VALIDATION ,PASSWORD_VALIDATION,OTP_VALIDATION} from "../../../../services/validation";
 // MUI components
 import {
   Box,
@@ -149,7 +147,7 @@ export default function ResetPassword({}) {
               error={!!errors.email}
               helperText={errors.email?.message}
               sx={{
-                mb: 2,
+                 mb: 3,
                 width:429,
                 height:35,
                 "& .MuiOutlinedInput-root": {
@@ -195,7 +193,7 @@ export default function ResetPassword({}) {
               error={!!errors.seed}
               helperText={errors.seed?.message}
               sx={{
-                mb: 2,
+                mb: 3,
                 width:429,
                 height:35,
                 "& .MuiOutlinedInput-root": {
@@ -243,7 +241,7 @@ export default function ResetPassword({}) {
               error={!!errors.password}
               helperText={errors.password?.message}
               sx={{
-                 mb: 2,
+                 mb: 3,
                 width:429,
                 height:35,
                 "& .MuiOutlinedInput-root": {
@@ -306,7 +304,7 @@ rules={{
               type={showPassword ? "text" : "password"}
               helperText={errors.confirmPassword?.message}
               sx={{
-                mb: 2,
+                mb: 3,
                 width:429,
                 height:49,
                 "& .MuiOutlinedInput-root": {
