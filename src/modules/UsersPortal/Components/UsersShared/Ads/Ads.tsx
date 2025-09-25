@@ -43,10 +43,10 @@ useEffect(() => {
 
 
   return (
-    <Container maxWidth="lg"  sx={{ mt: 4 }}>
+    // <Container maxWidth="lg"  sx={{ mt: 4 }}>
     
     <Box sx={{ }}> 
-  <Typography
+  {/* <Typography
     variant="h5"
     sx={{
       fontFamily: "Poppins, sans-serif",
@@ -59,13 +59,13 @@ useEffect(() => {
     }}
   >
     Ads
-  </Typography>
+  </Typography> */}
 
   {/* Slider */}
   <CustomSlider slides={ads}/>
 </Box>
 
-    </Container>
+    // </Container>
 
 
 

@@ -225,7 +225,44 @@ const CustomSlider: React.FC<CustomSliderProps> = ({ slides }) => {
   };
 
   return (
-    <Box sx={{ maxWidth: 1200, width: "100%", mx: "auto", px: 2 }}>
+    <Box  sx={{
+        width: "100%",
+        maxWidth: 1200,
+        mx: "auto",
+        px: 2,
+        py: 2,
+        borderRadius: 3,
+        overflow: "hidden",
+        textAlign: "left",
+      }}>
+         <Box
+      sx={{
+        width: "100%",
+        maxWidth: 1200,
+        mx: "auto",
+        px: 2,
+        py: 2,
+        borderRadius: 3,
+        overflow: "hidden",
+        textAlign: "left",
+      }}
+    >
+              <Typography
+    variant="h5"
+    sx={{
+      fontFamily: "Poppins, sans-serif",
+      fontWeight: 600,
+      fontSize: "24px",
+      letterSpacing: "0%",
+      color: "#152C5B",
+      pl:5,
+      textAlign: "left",
+    }}
+  >
+    Ads
+  </Typography>
+    </Box>
+   
       <Slider {...settings}>
         {slidesWithRandomText.map((slide:any) => (
           <Box
@@ -237,8 +274,12 @@ const CustomSlider: React.FC<CustomSliderProps> = ({ slides }) => {
               display: "flex",
               flexDirection: "column",
               textAlign: "left",
+              width: "1500px",
+              height: "305px",
+          
             }}
           >
+            
             {/* Image */}
             <Box
               component="img"
