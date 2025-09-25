@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Box, Typography } from "@mui/material";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -19,34 +18,35 @@ const PhotoGrid = ({ gridTitle, photos }: PhotoGridProps) => {
   return (
     <Box
       sx={{
-        // width: "1142px",
+        width: "1142px",
         height: "305px",
         opacity: 1,
         borderRadius: "15px",
         mx: "auto", 
         overflow:"hidden",
-        mb:0
+        mb:0,
+        textAlign:"left"
       }}
     >
       {/* Title */}
-      <Typography
+      <Box sx={{ width: "100%", textAlign: "left" }}>      <Typography
         variant="h5"
-        sx={{
-      fontFamily: "Poppins, sans-serif",
-      fontWeight: 600,
-      fontSize: "24px",
-      lineHeight: "100%",
-      letterSpacing: "0%",
-      mb: 3,
-      color: "#152C5B",
-      ml: 28, 
-     
-    }}
+       sx={{
+    fontFamily: "Poppins, sans-serif",
+    fontWeight: 600,
+    fontSize: "24px",
+    lineHeight: "100%",
+    letterSpacing: "0%",
+    mb: 1,
+    color: "#152C5B",
+    textAlign: "left",
+    ml: 5, 
+  }}
       >
         {gridTitle}
       </Typography>
+      </Box>
 
-      {/* Grid */}
       <Box
         sx={{
           display: "flex",
@@ -113,6 +113,8 @@ const PhotoGrid = ({ gridTitle, photos }: PhotoGridProps) => {
               letterSpacing: "0%",
               mb: 0.5,
               color: "#152C5B",
+              textAlign: "left",
+             
             }}
           >
             {photo.title}
@@ -124,9 +126,10 @@ const PhotoGrid = ({ gridTitle, photos }: PhotoGridProps) => {
               fontFamily: "Poppins, sans-serif",
               fontWeight: 300,
               fontSize: "15px",
-              lineHeight: "100%",
+              // lineHeight: "100%",
               letterSpacing: "0%",
               color: "#B0B0B0",
+              textAlign: "left",
             }}
           >
             {photo.subtitle}
