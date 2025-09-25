@@ -255,7 +255,7 @@ const CustomSlider: React.FC<CustomSliderProps> = ({ slides }) => {
       fontSize: "24px",
       letterSpacing: "0%",
       color: "#152C5B",
-      pl:5,
+     
       textAlign: "left",
     }}
   >
