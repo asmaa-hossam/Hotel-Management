@@ -165,7 +165,6 @@ const CustomSlider: React.FC<CustomSliderProps> = ({ slides }) => {
         ))}
       </Slider>
     </Box>
-
   );
 };
 
