@@ -9,15 +9,11 @@ import App from "./App";
 import "./i18n"; // لتفعيل الترجمة في المشروع
 
 
-import AuthContextProvider from "./Context/Context.tsx";
-import { FavoritesProvider } from "./Context/FavoritesContext.tsx";
-
-createRoot(document.getElementById("root")!).render(
+import AuthContextProvider from './Context/Context.tsx'
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthContextProvider>
-      <FavoritesProvider>
-        <App />
-      </FavoritesProvider>
+    <App />
     </AuthContextProvider>
-  </StrictMode>
-);
+  </StrictMode>,
+)

@@ -5,8 +5,6 @@ export interface ILoginData{
     role:string
   verified:boolean
 _id:string
-  userName: string;   
-  email: string;    token: string;
 
 }
 export interface PropsType{
@@ -122,23 +120,20 @@ export interface Facility {
   _id: string;
 }
 
-export interface User {
-  _id: string;
-  userName: string;
-  email: string;
-  country?: string;
-  createdAt: string;
-  updatedAt: string;
-  profileImage?: string;
-  phoneNumber:string
-  role:string
-  verified:boolean
-  // ... any other fields
-}
+// export interface User {
+//   _id: string;
+//   userName: string;
+//   email: string;
+//   country?: string;
+//   createdAt: string;
+//   updatedAt: string;
+//   profileImage?: string;
+//   // ... any other fields
+// }
 
-export interface UserRes{
-  success: boolean,
-    message: string,
-    data:{users:User[]}
-    totalCount:number
-}
+// export interface UserRes{
+//   success: boolean,
+//     message: string,
+//     data:{users:User[]}
+//     totalCount:number
+// }
