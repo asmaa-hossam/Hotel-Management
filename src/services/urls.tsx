@@ -77,6 +77,11 @@ UBDATEROOM:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
 GETFACILITES:`${BASEURLADMIN}room-facilities`,
 GET_ROOM_BY_ID:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
 DELETEROOM:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
-// GETALLUSER:`${BASEURLADMIN}/api/v0/admin/users`
+GETALLUSER:`${BASEURLADMIN}users`
 
+}
+//users Url
+
+export const USERS_URL={
+  GETALLROOMS:`https://upskilling-egypt.com:3000/api/v0/portal/rooms/available`
 }
