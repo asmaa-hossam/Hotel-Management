@@ -19,7 +19,9 @@ function Ads() {
   subtitle?: string;
   url: string;
   price:string
+  rooms:{images:[]}
 }
+ 
 
  const getAds = async (): Promise<Ad[]> => {
   try {

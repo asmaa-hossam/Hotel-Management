@@ -3,7 +3,7 @@ import axios from "axios";
 // Base URL of the API
 export const BASEURL = 'https://upskilling-egypt.com:3000/api/v0/portal/users/';
 // Base URL of the API admin
-export const BASEURLADMIN = 'https://upskilling-egypt.com:3000/api/v0/admin/users';
+export const BASEURLADMIN = 'https://upskilling-egypt.com:3000/api/v0/admin/';
 export const BASEURLDEV =`https://upskilling-egypt.com:3000`
 // HTTP Headers
 export const HEADERS = {
@@ -95,7 +95,11 @@ UBDATEROOM:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
 GETFACILITES:`${BASEURLADMIN}room-facilities`,
 GET_ROOM_BY_ID:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
 DELETEROOM:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
-// GETALLUSER:`${BASEURLADMIN}/api/v0/admin/users`
+GETALLUSER:`${BASEURLADMIN}users`
 
 }
+//users Url
 
+export const USERS_URL={
+  GETALLROOMS:`https://upskilling-egypt.com:3000/api/v0/portal/rooms/available`
+}
