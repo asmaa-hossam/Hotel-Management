@@ -1,21 +1,12 @@
-// src/components/CustomSlider.tsx
-import React from "react";
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Box, Typography } from "@mui/material";
 
-interface Slide {
- id: number;
- url:string
- title: string;
- subtitle?: string;
-}
 
 
-
-
-
+// Random title/subtitle
 const getRandomTitle = () => {
   const titles = ["PS Wood", "One Five", "Hot Deal", "Minimal", "Green Park", "Podo Wae","Silver Rain","Cashville"];
   return titles[Math.floor(Math.random() * titles.length)];
@@ -36,46 +27,77 @@ const getRandomSubtitle = () => {
 };
 
 
-const CustomSlider: React.FC<CustomSliderProps> = ({ slides }) => {
 
-      const slidesWithRandomText = slides.map((slide:any) => ({
-  ...slide,
-  title: getRandomTitle(),
-  subtitle: getRandomSubtitle(),
-}));
+type UnevenSetsInfiniteProps = {
+  slides: string[];
+};
+ function UnevenSetsInfinite({ slides }: UnevenSetsInfiniteProps)  {
 
-
-  const settings = {
+    const slidesWithRandomText = slides.map((slide:any) => ({
+    ...slide,
+    title: getRandomTitle(),
+    subtitle: getRandomSubtitle(),
+  }));
+  var settings = {
     dots: true,
     infinite: true,
     speed: 500,
+    slidesToScroll: 4,
     slidesToShow: 4,
-    slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,
-    arrows: true,
+    responsive: [
+        
 
-   responsive: [
-  {
-    breakpoint: 1024,
-    settings: { slidesToShow: 2, arrows: true },
-  },
-  {
-    breakpoint: 768,
-    settings: { slidesToShow: 1, arrows: true },
-  },
-]
-
+      { breakpoint: 1200, settings: { slidesToShow: 4, arrows: true } },
+      { breakpoint: 900, settings: { slidesToShow: 3, arrows: true } },
+      {breakpoint: 768,settings: { slidesToShow: 2, arrows: true },},
+      { breakpoint: 600, settings: { slidesToShow: 1, arrows: true } },
+    ],
   };
-
-  
-
   return (
-
-
-    <Box sx={{}}>
-      <Slider {...settings}>
-        {slidesWithRandomText.map((slide) => (
+     <Box  sx={{
+        width: "100%",
+        maxWidth: 1200,
+        mx: "auto",
+        px: 5,
+        py: 5,
+        borderRadius: 3,
+        overflow: "hidden",
+        textAlign: "left",
+        ".slick-prev:before, .slick-next:before": {
+          color: "#ffff",   
+          fontSize: "30px",
+        },
+      }}>
+         <Box
+      sx={{
+        width: "100%",
+        maxWidth: 1200,
+        mx: "auto",
+        px: 2,
+        borderRadius: 3,
+        overflow: "hidden",
+        textAlign: "left",
+      }}
+    >
+              <Typography
+    variant="h5"
+    sx={{
+      fontFamily: "Poppins, sans-serif",
+      fontWeight: 600,
+      fontSize: "24px",
+      letterSpacing: "0%",
+      color: "#152C5B",
+      textAlign: "left",
+    }}
+  >
+    Ads
+  </Typography>
+    </Box>
+   
+     <Slider {...settings}>
+        {slidesWithRandomText.map((slide:any) => (
           <Box
             key={slide.id}
             sx={{
@@ -156,9 +178,10 @@ const CustomSlider: React.FC<CustomSliderProps> = ({ slides }) => {
           </Box>
         ))}
       </Slider>
-    </Box>
 
+</Box>
+ 
   );
-};
+}
 
-export default CustomSlider;
+export default UnevenSetsInfinite;
