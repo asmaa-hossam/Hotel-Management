@@ -10,11 +10,11 @@ export default function Home() {
   return (
     <div>
 home
- {/* <CalenderBooking/>
-<MostPopularAds/> */}
- <Houses/>
+ <CalenderBooking/>
+<MostPopularAds/> 
+ {/* <Houses/>
  <Hotels/> 
-<Ads/> 
+<Ads/>  */}
 {/* <LandingPageFooter/> */}
 
 {/* <Reviews/> */}
