@@ -1,7 +1,4 @@
 
- 
-
-
 import React from "react";
 import { Container, Box, Typography, Divider } from "@mui/material";
 import logo from "../../../../assets/images/Staycation..svg";
