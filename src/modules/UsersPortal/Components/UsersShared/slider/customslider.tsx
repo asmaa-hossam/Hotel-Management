@@ -1,6 +1,8 @@
 // src/components/CustomSlider.tsx
 import React from "react";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { Box, Typography } from "@mui/material";
 
 interface Slide {
@@ -11,17 +13,7 @@ interface Slide {
 }
 
 
- interface Ad {
-  id: string;
-  title: string;
-  subtitle?: string;
-  url: string;
-  price:string
-}
 
-interface CustomSliderProps {
-  slides: Ad[]; // array of ads passed as props
-}
 
 
 const getRandomTitle = () => {

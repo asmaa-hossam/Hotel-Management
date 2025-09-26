@@ -77,7 +77,7 @@ export const ads_URL = {
   CREATE: `${BASEURLADMIN}ads`,  
   UPDATE: (id: string) => `${BASEURLADMIN}ads/${id}`,  
   DELETE: (id: string) => `${BASEURLADMIN}ads/${id}`, 
-
+  GETADS:'${BASEURLDEV}/api/v0/portal/ads'
 };
 
 export const DASHBOARD_URL = {
