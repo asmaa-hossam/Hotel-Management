@@ -12,11 +12,13 @@ _id:string
 export interface PropsType{
     children:ReactNode
 }
-export interface ContextType{
-    SaveLogenData:()=>void
-    loginData:ILoginData|null
-    logOut:()=>void
+export interface ContextType {
+  SaveLogenData: () => void;
+  loginData: ILoginData | null;
+  logOut: () => void;
+  profile?: any;
 }
+
 
 export interface ChangePasswordData{
      oldPassword: string;
@@ -141,4 +143,31 @@ export interface UserRes{
     message: string,
     data:{users:User[]}
     totalCount:number
+}
+
+//navbar landing page
+export interface ProfileType {
+  _id: string;
+  userName: string;
+  email: string;
+  phoneNumber: number;
+  country: string;
+  role: string;
+  profileImage?: string;
+  verified: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ApiResponse {
+  data: {
+    user: ProfileType;
+  };
+  message?: string;
+  status?: string;
+}
+export interface IFavoritesContext {
+  favorites: Set<string>;
+  toggleFavorite: (roomId: string) => void;
+  loading: boolean;
 }

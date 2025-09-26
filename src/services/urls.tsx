@@ -102,3 +102,11 @@ GETALLUSER:`${BASEURLADMIN}users`
 export const USERS_URL={
   GETALLROOMS:`https://upskilling-egypt.com:3000/api/v0/portal/rooms/available`
 }
+
+export const ads_PORTAL_URL = {
+  FETCH: `${BASEURLDEV}/api/v0/portal/ads`,
+};
+// favorites URLs
+export const FAVORITES_URL = {
+  BASE: `${BASEURLDEV}/api/v0/portal/favorite-rooms`,
+};

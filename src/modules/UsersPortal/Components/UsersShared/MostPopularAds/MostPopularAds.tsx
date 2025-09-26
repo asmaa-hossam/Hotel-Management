@@ -7,11 +7,13 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CloseIcon from "@mui/icons-material/Close";
-import axios from "axios";
-import { useFavorites } from "../../../../../Context/FavoritesContext";
+ import { useFavorites } from "../../../../../Context/FavoritesContext";
 import { useAuthContext } from "../../../../../Context/Context"; 
 import { useNavigate } from "react-router-dom";
 import loginBg from "../../../../../assets/images/Group 33.png";
+import { ads_PORTAL_URL } from "../../../../../services/urls";
+import { axiosinstance } from "../../../../../services/urls";
+
 
 interface Ad {
   _id: string;
@@ -32,26 +34,25 @@ const MostPopularAds: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const res = await axios.get(
-          "https://upskilling-egypt.com:3000/api/v0/portal/ads"
-        );
-        if (res.data.success && res.data.data.ads) {
-          setAds(res.data.data.ads);
-        } else {
-          setAds([]);
-        }
-      } catch (error) {
-        console.error(error);
+useEffect(() => {
+  const fetchAds = async () => {
+    try {
+      const res = await axiosinstance.get(ads_PORTAL_URL.FETCH);
+      if (res.data.success && res.data.data.ads) {
+        setAds(res.data.data.ads);
+      } else {
         setAds([]);
-      } finally {
-        setLoading(false);
       }
-    };
-    fetchAds();
-  }, []);
+    } catch (error) {
+      console.error(error);
+      setAds([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchAds();
+}, []);
+
 
   const handleFavoriteClick = (roomId: string) => {
     if (!loginData) setOpenModal(true);

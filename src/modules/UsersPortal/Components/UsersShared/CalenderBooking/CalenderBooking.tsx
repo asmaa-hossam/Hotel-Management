@@ -81,7 +81,7 @@ export default function CalenderBooking() {
   };
 
   return (
-    <Box sx={{p:10}}>
+    <Box sx={{p:15}}>
       {/* parent Grid */}
       <Grid container spacing={2}>
         {/* first Grid child */}

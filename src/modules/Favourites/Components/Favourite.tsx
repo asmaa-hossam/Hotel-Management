@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Box, Card, CardMedia, Typography, IconButton } from "@mui/material";
+import { Box, Card, CardMedia, Typography, IconButton, CircularProgress } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import axios from "axios";
 import { useFavorites } from "../../../Context/FavoritesContext";
-import { useAuthContext } from "../../../Context/Context"; 
 import loginBg from "../../../assets/images/Group 33.png";
 import NoData from "../../Shared/Components/NoData/NoData";
+import { axiosinstance, ads_PORTAL_URL } from "../../../services/urls";
 
 interface Ad {
   _id: string;
@@ -20,70 +19,81 @@ interface Ad {
 
 const FavoritesPage: React.FC = () => {
   const [ads, setAds] = useState<Ad[]>([]);
-  const { favorites, toggleFavorite } = useFavorites();
-  // const { loginData } = useAuthContext();
+  const [adsLoading, setAdsLoading] = useState(true); // Local loading for ads
+  const { favorites, toggleFavorite, loading: favLoading } = useFavorites();
 
   useEffect(() => {
     const fetchAds = async () => {
+      setAdsLoading(true);
       try {
-        const res = await axios.get(
-          "https://upskilling-egypt.com:3000/api/v0/portal/ads"
-        );
+        const res = await axiosinstance.get(ads_PORTAL_URL.FETCH);
         if (res.data.success && res.data.data.ads) {
           setAds(res.data.data.ads);
         }
       } catch (error) {
-        console.error(error);
+        console.error("Failed to fetch ads:", error);
+      } finally {
+        setAdsLoading(false);
       }
     };
     fetchAds();
   }, []);
 
-  const favAds = ads.filter(ad => favorites.has(ad.room._id));
+  // Filter ads that are in favorites
+  const favAds = ads.filter((ad) => favorites.has(ad.room._id));
+
+  // Show loading if favorites or ads are still loading
+  if (favLoading || adsLoading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "60vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
-    <Box sx={{ padding: 2 }}>
-<Box 
-  display="flex" 
-  // alignItems="center" 
-  justifyContent="space-between"
-  position="relative"
-  padding={'25px'}
-  
- 
- 
->
-  {/* Left side */}
-  <Typography  mb={2} sx={{ color: "#B0B0B0",fontSize:"18px"}}>
-    Home / Favorites
-  </Typography>
+    <Box sx={{ padding: 15 }}>
+      {/* Header */}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        position="relative"
+        padding="30px"
+      >
+        <Typography   sx={{ color: "#B0B0B0", fontSize: "18px",mt:"20px" }}>
+          Home / Favorites
+        </Typography>
 
-  {/* Centered text */}
-  <Typography 
-    variant="h6" 
-    mb={2} 
-    sx={{ 
-      color: "#152C5B", 
-      position: "absolute", 
-      left: "50%", 
-      transform: "translateX(-50%)", 
-      fontSize:"36px",
-      fontWeight:"600"
-    }}
-  >
-    Your Favorites
-  </Typography>
-</Box>
+        <Typography
+          variant="h6"
+           
+          sx={{
+            color: "#152C5B",
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+            fontSize: "36px",
+            fontWeight: 600,
+          }}
+        >
+          Your Favorites
+        </Typography>
+      </Box>
 
-
-
-
+      {/* Favorites Grid */}
       <Box
         sx={{
           display: "grid",
           gridTemplateColumns: { xs: "1fr", sm: "1fr", md: "repeat(3, 1fr)" },
           gap: 3,
-          width: "88%",
+          width: "92%",
           margin: "auto",
         }}
       >
@@ -106,7 +116,7 @@ const FavoritesPage: React.FC = () => {
                 alt={ad.room.roomNumber}
               />
 
-              {/* Overlay with favorite toggle */}
+              {/* Favorite Overlay */}
               <Box
                 className="overlay"
                 sx={{
@@ -131,7 +141,7 @@ const FavoritesPage: React.FC = () => {
                 </IconButton>
               </Box>
 
-              {/* Room info */}
+              {/* Room Info */}
               <Box
                 sx={{
                   position: "absolute",
@@ -145,12 +155,14 @@ const FavoritesPage: React.FC = () => {
                 <Typography variant="subtitle1" fontWeight="bold">
                   {ad.room.roomNumber}
                 </Typography>
-                <Typography variant="body2">Capacity: {ad.room.capacity}</Typography>
+                <Typography variant="body2">
+                  Capacity: {ad.room.capacity}
+                </Typography>
               </Box>
             </Card>
           ))
         ) : (
-          <Typography><NoData /></Typography>
+          <NoData />
         )}
       </Box>
     </Box>

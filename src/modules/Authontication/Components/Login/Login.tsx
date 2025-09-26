@@ -7,6 +7,7 @@ import {
   InputAdornment,
   IconButton,
   Link,
+  CircularProgress,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -18,23 +19,29 @@ import axios from "axios";
 import { Auth_URL } from "../../../../services/urls";
 import { EMAIL_VALIDATION, PASSWORD_VALIDATION } from "../../../../services/validation";
 import { useAuthContext } from "../../../../Context/Context";
-import { useTranslation } from "react-i18next"; // ✅ استدعاء الترجمة
+import { useTranslation } from "react-i18next";
 
-type LoginFormInputs = { email: string; password: string; };
+type LoginFormInputs = { email: string; password: string };
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);  
   const { SaveLogenData } = useAuthContext();
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation("login"); // ✅ namespace login
+  const { t, i18n } = useTranslation("login");
 
-  const { control, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInputs>({
     defaultValues: { email: "", password: "" },
   });
 
-  const handleTogglePassword = () => setShowPassword(prev => !prev);
+  const handleTogglePassword = () => setShowPassword((prev) => !prev);
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+    setLoading(true); 
     try {
       const res = await axios.post(Auth_URL.LOGIN, data);
       const token = res?.data?.data?.token;
@@ -49,21 +56,23 @@ export default function Login() {
     } catch (error: any) {
       console.error("Login error:", error);
       toast.error(error?.response?.data?.message || t("login"));
+    } finally {
+      setLoading(false); 
     }
   };
 
   return (
     <Box
-  sx={{
-    width: "100%",
-    maxWidth: 600,
-    mx: "auto",
-    mt: 6,
-    px: 2,
-    direction: i18n.language === "ar" ? "rtl" : "ltr",
-    textAlign: i18n.language === "ar" ? "right" : "left",  
-  }}
->
+      sx={{
+        width: "100%",
+        maxWidth: 600,
+        mx: "auto",
+        mt: 6,
+        px: 2,
+        direction: i18n.language === "ar" ? "rtl" : "ltr",
+        textAlign: i18n.language === "ar" ? "right" : "left",
+      }}
+    >
       <Typography variant="h5" gutterBottom sx={{ fontWeight: 500, fontSize: "30px", py: 1 }}>
         {t("signin")}
       </Typography>
@@ -73,12 +82,17 @@ export default function Login() {
       </Typography>
 
       <Typography variant="body2" sx={{ mb: 3 }}>
-        <Link href="/register" underline="none" sx={{ fontWeight: 600, color: "primary.main" }}>
+        <Link
+          href="/register"
+          underline="none"
+          sx={{ fontWeight: 600, color: "primary.main" }}
+        >
           {t("register_here")}
         </Link>
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
+        {/* Email */}
         <Typography variant="subtitle2" sx={{ mb: 0.5, color: "#152C5B" }}>
           {t("email")}
         </Typography>
@@ -87,13 +101,20 @@ export default function Login() {
           control={control}
           rules={EMAIL_VALIDATION}
           render={({ field }) => (
-            <TextField {...field} fullWidth size="small" variant="outlined"
+            <TextField
+              {...field}
+              fullWidth
+              size="small"
+              variant="outlined"
               placeholder={t("placeholder")}
-              error={!!errors.email} helperText={errors.email?.message} sx={{ mb: 2 }}
+              error={!!errors.email}
+              helperText={errors.email?.message}
+              sx={{ mb: 2 }}
             />
           )}
         />
 
+        {/* Password */}
         <Typography variant="subtitle2" sx={{ mb: 0.5, color: "#152C5B" }}>
           {t("password")}
         </Typography>
@@ -102,10 +123,15 @@ export default function Login() {
           control={control}
           rules={PASSWORD_VALIDATION}
           render={({ field }) => (
-            <TextField {...field} fullWidth size="small" variant="outlined"
+            <TextField
+              {...field}
+              fullWidth
+              size="small"
+              variant="outlined"
               type={showPassword ? "text" : "password"}
               placeholder={t("placeholder")}
-              error={!!errors.password} helperText={errors.password?.message}
+              error={!!errors.password}
+              helperText={errors.password?.message}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -113,7 +139,7 @@ export default function Login() {
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
-                )
+                ),
               }}
               sx={{ mb: 2 }}
             />
@@ -121,16 +147,28 @@ export default function Login() {
         />
 
         <Box sx={{ textAlign: "right", mb: 3 }}>
-          <Link href="/forgetPassword" variant="caption" color="text.secondary" underline="none">
+          <Link
+            href="/forgetPassword"
+            variant="caption"
+            color="text.secondary"
+            underline="none"
+          >
             {t("forgot_password")}
           </Link>
         </Box>
 
-        <Button fullWidth variant="contained" color="primary" type="submit">
-          {t("login")}
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          type="submit"
+          disabled={loading}
+          sx={{ height: 45 }}
+        >
+          {loading ? <CircularProgress size={24} color="inherit" /> : t("login")}
         </Button>
 
-        {/* أزرار لتغيير اللغة */}
+        {/* Language Switch */}
         <Box sx={{ mt: 2, textAlign: "center" }}>
           <Button onClick={() => i18n.changeLanguage("en")}>English</Button>
           <Button onClick={() => i18n.changeLanguage("ar")}>العربية</Button>

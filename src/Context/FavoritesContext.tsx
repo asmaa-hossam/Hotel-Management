@@ -1,58 +1,64 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
 import { useAuthContext } from "./Context";
+import { FAVORITES_URL } from "../services/urls";
+import { axiosinstance } from "../services/urls";
+import type { IFavoritesContext } from "../services/interfaces";
 
-interface IFavoritesContext {
-  favorites: Set<string>;
-  toggleFavorite: (roomId: string) => void;
-}
+
 
 const FavoritesContext = createContext<IFavoritesContext>({
   favorites: new Set(),
   toggleFavorite: () => {},
+  loading: true,
 });
 
 export const FavoritesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { loginData } = useAuthContext();
-  const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [favorites, setFavorites] = useState<Set<string>>(() => {
+    const saved = localStorage.getItem("favorites");
+    return saved ? new Set(JSON.parse(saved)) : new Set<string>();
+  });
 
-  // جلب المفضلات عند تسجيل الدخول
+  const [loading, setLoading] = useState(true);
+
+  // Fetch favorites
   useEffect(() => {
     if (!loginData) return;
 
     const fetchFavorites = async () => {
+      setLoading(true);
       try {
-        const res = await axios.get(
-          "https://upskilling-egypt.com:3000/api/v0/portal/favorite-rooms",
-          { headers: { Authorization: `Bearer ${loginData.token}` } }
-        );
-
+        const res = await axiosinstance.get(FAVORITES_URL.BASE);
         if (res.data.success && res.data.data.favoriteRoom) {
-          setFavorites(new Set(res.data.data.favoriteRoom.rooms));
+          const rooms: string[] = res.data.data.favoriteRoom.rooms.map(String);
+          const favSet: Set<string> = new Set(rooms);
+          setFavorites(favSet);
+          localStorage.setItem("favorites", JSON.stringify([...favSet]));
         }
       } catch (err) {
         console.error("Failed to fetch favorites", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchFavorites();
   }, [loginData]);
 
-  // إضافة/إزالة من المفضلة
+  // Persist favorites to localStorage
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify([...favorites]));
+  }, [favorites]);
+
   const toggleFavorite = async (roomId: string) => {
     if (!loginData) return;
 
     try {
-      const isFav = favorites.has(roomId);
-      await axios.post(
-        "https://upskilling-egypt.com:3000/api/v0/portal/favorite-rooms",
-        { roomId },
-        { headers: { Authorization: `Bearer ${loginData.token}` } }
-      );
+      await axiosinstance.post(FAVORITES_URL.BASE, { roomId });
 
       setFavorites((prev) => {
-        const newSet = new Set(prev);
-        if (isFav) newSet.delete(roomId);
+        const newSet: Set<string> = new Set(prev);
+        if (newSet.has(roomId)) newSet.delete(roomId);
         else newSet.add(roomId);
         return newSet;
       });
@@ -62,7 +68,7 @@ export const FavoritesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   return (
-    <FavoritesContext.Provider value={{ favorites, toggleFavorite }}>
+    <FavoritesContext.Provider value={{ favorites, toggleFavorite, loading }}>
       {children}
     </FavoritesContext.Provider>
   );
