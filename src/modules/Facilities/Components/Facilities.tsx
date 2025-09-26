@@ -39,8 +39,8 @@ import {
 
 
 
-// ---- Table Styles ----
-const StyledTableCell = styled(TableCell)(({ }) => ({
+//Table Styles 
+const StyledTableCell = styled(TableCell)(({}) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#E2E5EB",
     color: " #1F263E",
@@ -52,17 +52,21 @@ const StyledTableCell = styled(TableCell)(({ }) => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ }) => ({
+const StyledTableRow = styled(TableRow)(() => ({
   "&:nth-of-type(odd)": {
     backgroundColor: "#ffff",
+  },
+    "&:nth-of-type(even)": {
+    backgroundColor: "#F8F9FB",
   },
   // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
     background: "#F8F9FB",
-
   },
 }));
+
+
 
 const modalStyle = {
   position: "absolute" as const,
