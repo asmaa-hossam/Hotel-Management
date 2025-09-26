@@ -356,7 +356,7 @@ useEffect(() => {
   margin="dense"
   label="Discount"
   type="number"
-  inputProps={{ min: 0, step: "0.001" }}   
+  inputProps={{ min: 0, step: "0.001" }}   // allow decimals
   value={form.discount}
   disabled={modalType === "view"}
   onChange={(e) =>

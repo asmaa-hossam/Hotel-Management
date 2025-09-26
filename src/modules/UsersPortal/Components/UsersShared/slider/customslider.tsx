@@ -4,11 +4,19 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Box, Typography } from "@mui/material";
 
+interface Slide {
+ id: number;
+ url:string
+ title: string;
+ subtitle?: string;
+}
 
 
-// Random title/subtitle
+
+
+
 const getRandomTitle = () => {
-  const titles = ["PS Wood", "One Five", "Hot Deal", "Minimal", "Green Park", "Podo Wae", "Silver Rain", "Cashville"];
+  const titles = ["PS Wood", "One Five", "Hot Deal", "Minimal", "Green Park", "Podo Wae","Silver Rain","Cashville"];
   return titles[Math.floor(Math.random() * titles.length)];
 };
 
@@ -20,10 +28,12 @@ const getRandomSubtitle = () => {
     "Tangerang, Indonesia",
     "Madiun, Indonesia",
     "Bandung, Indonesia",
-    "Kemang, Indonesia",
+    "Kemang, Indonesia"
   ];
+
   return subtitles[Math.floor(Math.random() * subtitles.length)];
 };
+
 
 
 type UnevenSetsInfiniteProps = {
@@ -99,18 +109,22 @@ type UnevenSetsInfiniteProps = {
           <Box
             key={slide.id}
             sx={{
-              p: 1,
               borderRadius: 4,
-              overflow: "hidden",
+              width: "1142px",
+              height: "305px",
               display: "flex",
               flexDirection: "column",
               textAlign: "left",
-              width: "1500px",
-              height: "305px",
+            //   p: 1, 
+              opacity: 1,
+              mx: "auto", 
           
+              overflow: "hidden", 
+   
             }}
-          >
+
             
+          >
             {/* Image */}
             <Box
               component="img"
@@ -118,7 +132,7 @@ type UnevenSetsInfiniteProps = {
               alt={slide.title}
               sx={{
                 width: "95%",
-                height: { xs: 150, sm: 180, md: 200 },
+                height: 200,
                 objectFit: "cover",
                 borderRadius: 4,
                 mb: 1,
@@ -126,25 +140,44 @@ type UnevenSetsInfiniteProps = {
             />
 
             {/* Title */}
+            
             <Typography
               sx={{
                 fontFamily: "Poppins, sans-serif",
                 fontWeight: 500,
-                fontSize: { xs: "16px", sm: "18px", md: "20px" },
+                fontSize: "20px",
                 lineHeight: 1.2,
+                letterSpacing: "0%",
                 color: "#152C5B",
                 mb: 0.5,
+                testalignment:"left"
               }}
             >
               {slide.title}
             </Typography>
-
+             <Box sx={{ width: "100%", textAlign: "left" }}>
+            <Typography
+              sx={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 500,
+                fontSize: "20px",
+                lineHeight: 1.2,
+                letterSpacing: "0%",
+                color: "#152C5B",
+                mb: 0.5,
+                testalignment:"left",
+            
+              }}
+            >
+              {slide.title}
+            </Typography>
+             </Box>
             {/* Subtitle */}
             <Typography
               sx={{
                 fontFamily: "Poppins, sans-serif",
                 fontWeight: 300,
-                fontSize: { xs: "12px", sm: "14px", md: "15px" },
+                fontSize: "15px",
                 color: "#B0B0B0",
               }}
             >

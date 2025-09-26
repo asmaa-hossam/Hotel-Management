@@ -3,7 +3,7 @@ import axios from "axios";
 // Base URL of the API
 export const BASEURL = 'https://upskilling-egypt.com:3000/api/v0/portal/users/';
 // Base URL of the API admin
-export const BASEURLADMIN = 'https://upskilling-egypt.com:3000/api/v0/admin/';
+export const BASEURLADMIN = 'https://upskilling-egypt.com:3000/api/v0/admin/users';
 export const BASEURLDEV =`https://upskilling-egypt.com:3000`
 // HTTP Headers
 export const HEADERS = {
@@ -77,8 +77,7 @@ export const ads_URL = {
   CREATE: `${BASEURLADMIN}ads`,  
   UPDATE: (id: string) => `${BASEURLADMIN}ads/${id}`,  
   DELETE: (id: string) => `${BASEURLADMIN}ads/${id}`, 
-  GETADS: `${BASEURLDEV}/api/v0/portal/ads`,
-
+  GETADS:'${BASEURLDEV}/api/v0/portal/ads'
 };
 
 export const DASHBOARD_URL = {
@@ -95,11 +94,7 @@ UBDATEROOM:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
 GETFACILITES:`${BASEURLADMIN}room-facilities`,
 GET_ROOM_BY_ID:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
 DELETEROOM:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
-GETALLUSER:`${BASEURLADMIN}users`
+// GETALLUSER:`${BASEURLADMIN}/api/v0/admin/users`
 
 }
-//users Url
 
-export const USERS_URL={
-  GETALLROOMS:`https://upskilling-egypt.com:3000/api/v0/portal/rooms/available`
-}

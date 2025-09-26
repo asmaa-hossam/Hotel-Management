@@ -15,97 +15,194 @@ import type { SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { Auth_URL } from "../../../../services/urls";
+import { Auth_URL } from "../../../../services/urls"; // Make sure Auth_URL.LOGIN is correct
 import { EMAIL_VALIDATION, PASSWORD_VALIDATION } from "../../../../services/validation";
 import { useAuthContext } from "../../../../Context/Context";
-import { useTranslation } from "react-i18next"; // ✅ استدعاء الترجمة
 
-type LoginFormInputs = { email: string; password: string; };
+// Types
+type LoginFormInputs = {
+  email: string;
+  password: string;
+};
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const { SaveLogenData } = useAuthContext();
+  const {SaveLogenData}=useAuthContext()
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation("login"); // ✅ namespace login
 
-  const { control, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInputs>({
     defaultValues: { email: "", password: "" },
   });
 
-  const handleTogglePassword = () => setShowPassword(prev => !prev);
+  const handleTogglePassword = () => setShowPassword((prev) => !prev);
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
-    try {
-      const res = await axios.post(Auth_URL.LOGIN, data);
-      const token = res?.data?.data?.token;
-      const user = res?.data?.data?.user;
+const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+  try {
+    const res = await axios.post(Auth_URL.LOGIN, data);
+    const token = res?.data?.data?.token;
+    const user = res?.data?.data?.user;  
 
-      localStorage.setItem("token", token);
-      SaveLogenData();
-      toast.success(res?.data?.message || t("login"));
+    
 
-      if (user.role === "admin") navigate("/dashboard");
-      else navigate("/");
-    } catch (error: any) {
-      console.error("Login error:", error);
-      toast.error(error?.response?.data?.message || t("login"));
+    // Save token
+    localStorage.setItem("token", token);
+    SaveLogenData(); // your context function
+    toast.success(res?.data?.message || "Login successful!");
+
+    if (user.role === "admin") {
+      navigate("/dashboard");
+    } else {
+      navigate("/");
     }
-  };
+  } catch (error: any) {
+    console.error("Login error:", error);
+    toast.error(error?.response?.data?.message || "Login failed!");
+  }
+};
 
   return (
-    <Box
-  sx={{
-    width: "100%",
-    maxWidth: 600,
-    mx: "auto",
-    mt: 6,
-    px: 2,
-    direction: i18n.language === "ar" ? "rtl" : "ltr",
-    textAlign: i18n.language === "ar" ? "right" : "left",  
-  }}
->
-      <Typography variant="h5" gutterBottom sx={{ fontWeight: 500, fontSize: "30px", py: 1 }}>
-        {t("signin")}
+    <Box sx={{ width: "100%", maxWidth: 600, mx: "auto", mt: 6, px: 2 }}>
+      {/* Title */}
+      <Typography
+        variant="h5"
+        gutterBottom
+        sx={{
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: 500,
+          fontSize: "30px",
+          py: 1,
+        }}
+      >
+        Sign in
       </Typography>
 
-      <Typography variant="body2" sx={{ mb: 1 }}>
-        {t("no_account")}
+      {/* Subtext */}
+      <Typography
+        variant="body2"
+        sx={{
+          mb: 1,
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: 400,
+          fontSize: "16px",
+        }}
+      >
+        If you don't have an account register
       </Typography>
 
-      <Typography variant="body2" sx={{ mb: 3 }}>
-        <Link href="/register" underline="none" sx={{ fontWeight: 600, color: "primary.main" }}>
-          {t("register_here")}
+      <Typography
+        variant="body2"
+        sx={{
+          mb: 3,
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: 400,
+          fontSize: "16px",
+        }}
+      >
+        You can{" "}
+        <Link
+          href="/register"
+          underline="none"
+          sx={{
+            fontFamily: "Poppins, sans-serif",
+            fontWeight: 600,
+            fontSize: "16px",
+            color: "primary.main",
+          }}
+        >
+          Register here!
         </Link>
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Typography variant="subtitle2" sx={{ mb: 0.5, color: "#152C5B" }}>
-          {t("email")}
+        {/* Email Field */}
+        <Typography
+          variant="subtitle2"
+          sx={{
+            mb: 0.5,
+            fontFamily: "Poppins, sans-serif",
+            fontWeight: 400,
+            fontSize: "16px",
+            color: "#152C5B",
+          }}
+        >
+          Email Address
         </Typography>
         <Controller
           name="email"
           control={control}
           rules={EMAIL_VALIDATION}
           render={({ field }) => (
-            <TextField {...field} fullWidth size="small" variant="outlined"
-              placeholder={t("placeholder")}
-              error={!!errors.email} helperText={errors.email?.message} sx={{ mb: 2 }}
+            <TextField
+              {...field}
+              fullWidth
+              placeholder="Please type here ..."
+              size="small"
+              variant="outlined"
+              error={!!errors.email}
+              helperText={errors.email?.message}
+              sx={{
+                mb: 2,
+                "& .MuiOutlinedInput-root": {
+                  backgroundColor: "#F5F6F8",
+                  "&:hover": { backgroundColor: "#f1f5fdff" },
+                  "&.Mui-focused": { backgroundColor: "#f1f5fdff" },
+                  "& input:-webkit-autofill": {
+                    WebkitBoxShadow:
+                      "0 0 0 1000px #f1f5fdff inset !important",
+                    WebkitTextFillColor: "#5d5e61",
+                  },
+                },
+                "& input": { color: "#5d5e61" },
+              }}
             />
           )}
         />
 
-        <Typography variant="subtitle2" sx={{ mb: 0.5, color: "#152C5B" }}>
-          {t("password")}
+        {/* Password Field */}
+        <Typography
+          variant="subtitle2"
+          sx={{
+            mb: 0.5,
+            fontFamily: "Poppins, sans-serif",
+            fontWeight: 400,
+            fontSize: "16px",
+            color: "#152C5B",
+          }}
+        >
+          Password
         </Typography>
         <Controller
           name="password"
           control={control}
           rules={PASSWORD_VALIDATION}
           render={({ field }) => (
-            <TextField {...field} fullWidth size="small" variant="outlined"
+            <TextField
+              {...field}
+              fullWidth
+              placeholder="Please type here ..."
+              size="small"
+              variant="outlined"
               type={showPassword ? "text" : "password"}
-              placeholder={t("placeholder")}
-              error={!!errors.password} helperText={errors.password?.message}
+              error={!!errors.password}
+              helperText={errors.password?.message}
+              sx={{
+                mb: 2,
+                "& .MuiOutlinedInput-root": {
+                  backgroundColor: "#F5F6F8",
+                  "&:hover": { backgroundColor: "#f1f5fdff" },
+                  "&.Mui-focused": { backgroundColor: "#f1f5fdff" },
+                  "& input:-webkit-autofill": {
+                    WebkitBoxShadow:
+                      "0 0 0 1000px #f1f5fdff inset !important",
+                    WebkitTextFillColor: "#5d5e61",
+                  },
+                },
+                "& input": { color: "#5d5e61" },
+              }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -113,28 +210,39 @@ export default function Login() {
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
-                )
+                ),
               }}
-              sx={{ mb: 2 }}
             />
           )}
         />
 
+        {/* Forgot Password */}
         <Box sx={{ textAlign: "right", mb: 3 }}>
-          <Link href="/forgetPassword" variant="caption" color="text.secondary" underline="none">
-            {t("forgot_password")}
+          <Link
+            href="/forgetPassword"
+            variant="caption"
+            color="text.secondary"
+            underline="none"
+          >
+            Forgot Password?
           </Link>
         </Box>
 
-        <Button fullWidth variant="contained" color="primary" type="submit">
-          {t("login")}
+        {/* Submit Button */}
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          type="submit"
+          sx={{
+            textTransform: "none",
+            borderRadius: "8px",
+            backgroundColor: "#2F49D1",
+            fontWeight: "bold",
+          }}
+        >
+          Login
         </Button>
-
-        {/* أزرار لتغيير اللغة */}
-        <Box sx={{ mt: 2, textAlign: "center" }}>
-          <Button onClick={() => i18n.changeLanguage("en")}>English</Button>
-          <Button onClick={() => i18n.changeLanguage("ar")}>العربية</Button>
-        </Box>
       </form>
     </Box>
   );
