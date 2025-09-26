@@ -8,7 +8,7 @@ import CustomSlider from '../../UsersShared/slider/customslider'
 import { useState,useEffect } from "react";
 import { ads_URL } from "../../../../../services/urls";
 import axios from "axios";
-
+import UnevenSetsInfinite from '../../UsersShared/slider/customslider'
 function Ads() {
   const [ads, setAds] = useState<Ad[]>([]);
 
@@ -62,7 +62,8 @@ useEffect(() => {
   </Typography> */}
 
   {/* Slider */}
-  <CustomSlider slides={ads}/>
+  {/* <CustomSlider slides={ads}/> */}
+  <UnevenSetsInfinite slides={ads}/>
 </Box>
 
     // </Container>
