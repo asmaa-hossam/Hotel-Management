@@ -10,8 +10,8 @@ export default function Home() {
   return (
     <div>
 home
- {/* <CalenderBooking/>
-<MostPopularAds/> */}
+  <CalenderBooking/> 
+<MostPopularAds/> 
  <Houses/>
  <Hotels/> 
 <Ads/> 

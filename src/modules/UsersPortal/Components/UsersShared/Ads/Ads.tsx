@@ -11,7 +11,7 @@ import axios from "axios";
 import UnevenSetsInfinite from '../../UsersShared/slider/customslider'
 function Ads() {
   const [ads, setAds] = useState<Ad[]>([]);
-
+  const token = localStorage.getItem("token")
 
  interface Ad {
   id: string;
@@ -25,8 +25,10 @@ function Ads() {
 
  const getAds = async (): Promise<Ad[]> => {
   try {
-    const response = await axios.get(ads_URL.GETADS);
-    console.log("resposeeeeeeeee",response.data)
+    const response = await axios.get(ads_URL.GETADS, {
+    headers: { Authorization: `${token}` }
+})
+    console.log("respose",response.data)
     return response?.data?.data?.ads || [];
   } catch (error) {
     console.error("Failed to fetch ads:", error);
