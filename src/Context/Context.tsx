@@ -30,9 +30,16 @@ function logOut(){
   localStorage.removeItem("token")
     setLoginData(null)
 }
-useEffect(()=>{
-SaveLogenData()
-},[])
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const decoded = jwtDecode<ILoginData>(token);
+    setLoginData(decoded);
+  } else {
+    setLoginData(null);
+  }
+}, []);
+
 
     return <AuthContext.Provider value={{SaveLogenData,loginData,logOut}}>
 {children }

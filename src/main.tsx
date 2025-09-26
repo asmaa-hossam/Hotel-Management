@@ -9,11 +9,15 @@ import "@fontsource/poppins/700.css";
 import "./i18n"; // لتفعيل الترجمة في المشروع
 
 
-import AuthContextProvider from './Context/Context.tsx'
-createRoot(document.getElementById('root')!).render(
+import AuthContextProvider from "./Context/Context.tsx";
+import { FavoritesProvider } from "./Context/FavoritesContext.tsx";
+
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthContextProvider>
-    <App />
+      <FavoritesProvider>
+        <App />
+      </FavoritesProvider>
     </AuthContextProvider>
-  </StrictMode>,
-)
+  </StrictMode>
+);
