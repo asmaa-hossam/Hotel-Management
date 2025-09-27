@@ -29,7 +29,9 @@
     "react-i18next": "^15.7.3",
     "react-pro-sidebar": "^1.1.0",
     "react-router-dom": "^7.9.1",
+    "react-slick": "^0.31.0",
     "react-toastify": "^11.0.5",
+    "slick-carousel": "^1.8.1",
     "swiper": "^6.8.4"
   },
   "devDependencies": {
