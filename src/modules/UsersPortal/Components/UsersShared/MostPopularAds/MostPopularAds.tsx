@@ -9,7 +9,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import CloseIcon from "@mui/icons-material/Close";
  import { useFavorites } from "../../../../../Context/FavoritesContext";
 import { useAuthContext } from "../../../../../Context/Context"; 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginBg from "../../../../../assets/images/Group 33.png";
 import { ads_PORTAL_URL } from "../../../../../services/urls";
 import { axiosinstance } from "../../../../../services/urls";
@@ -62,43 +62,10 @@ useEffect(() => {
   if (loading) return <Typography>Loading ads...</Typography>;
 
   return (
-    // <Box sx={{ padding: 2 }}>
-    <Box
-      sx={{
-        width: "100%",
-        maxWidth: 1200,
-        mx: "auto",
-        px: 2,
-        py: 2,
-        borderRadius: 3,
-        overflow: "hidden",
-        textAlign: "left",
-      }}
-    >
-
-       <Box
-      sx={{
-        width: "100%",
-        maxWidth: 1200,
-        mx: "auto",
-        px: 2,
-        py: 2,
-        borderRadius: 3,
-        overflow: "hidden",
-        textAlign: "left",
-      }}
-    >
-        <Typography variant="h5" mb={2} sx={{
-          fontFamily: "Poppins, sans-serif",
-          fontWeight: 600,
-          fontSize: { xs: "20px", sm: "22px", md: "24px" },
-          mb: 2,
-          color: "#152C5B",
-        }}>
+    <Box sx={{ padding: 2 }}>
+      <Typography variant="h6" mb={2} sx={{ color: "#152C5B" }}>
         Most Popular Ads
       </Typography>
-    </Box>
-    
 
       <Box
         sx={{
@@ -106,7 +73,7 @@ useEffect(() => {
           gridTemplateColumns: { xs: "1fr", sm: "1fr", md: "repeat(3, 1fr)" },
           gridAutoRows: "auto",
           gap: 5,
-          width: "100%",
+          width: "88%",
           margin: "auto",
         }}
       >
@@ -154,9 +121,13 @@ useEffect(() => {
                 transition: "opacity 0.3s ease",
               }}
             >
-              <IconButton sx={{ color: "#fff" }}>
+              {/* <Link to={`/details/${ad.room._id}`}> */}
+              <IconButton sx={{ color: "#fff" }}
+              onClick={()=>navigate(`/details/${ad.room._id}`)}
+              >
                 <VisibilityIcon />
               </IconButton>
+              {/* </Link> */}
               <IconButton
                 sx={{ color: "#fff" }}
                 onClick={() => handleFavoriteClick(ad.room._id)}

@@ -1,10 +1,5 @@
 // CalenderBooking.tsx
 import React, { useState } from "react";
-const float = keyframes`
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-`;
 import DatePicker from "./DatePicker";
 import {
   Box,
@@ -14,7 +9,7 @@ import {
   TextField,
   Typography,
   FormHelperText,
-  keyframes 
+  keyframes,
 } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { axiosinstance, USERS_URL } from "../../../../../services/urls";
@@ -85,25 +80,16 @@ export default function CalenderBooking() {
       setLoading(false);
     }
   };
-
+const float = keyframes`
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+`;
   return (
-      <Box
-      sx={{
-        width: "100%",
-        maxWidth: 1200,
-        mx: "auto",
-        px: 2,
-        py: 2,
-        borderRadius: 3,
-        overflow: "hidden",
-        textAlign: "left",
-      }}
-    >
-    <Box sx={{pt:15,width:"100%"}}>
+    <Box sx={{p:15}}>
       {/* parent Grid */}
-      <Grid container spacing={2} >
+      <Grid container spacing={2}>
         {/* first Grid child */}
-        <Grid  size={{xs:12 ,sm:8 }}>
+        <Grid  size={{xs:12 ,sm:8}}>
           <Typography
             variant="h2"
             sx={{
@@ -112,7 +98,7 @@ export default function CalenderBooking() {
               marginBottom: ".2rem",
               color: "#152C5B",
               lineHeight: "1.2",
-              textAlign: "left",
+              textAlign: "start",
             }}
           >
             Forget Busy Work, <br />
@@ -209,45 +195,42 @@ export default function CalenderBooking() {
 
         {/* second Grid child */}
         <Grid size={{xs:12 ,sm:4}}>
-           <Box
-            sx={{
-              width: { xs: "250px", sm: "80%" },
-              height: { xs: "450px", sm: "490px" },
-              borderRadius: "15px",
-              position: "relative",
-              marginTop: { xs: "6rem", sm: "2.5rem" },
-              marginInline: { xs: "auto", sm: "0rem" },
-              marginBottom: { xs: "1rem", sm: "0rem" },
-             
-            }}
-          >
-         <Box
-         component={"img"}
-         src={landingImg}
+            <Box
+        sx={{
+          width: { xs: "250px", sm: "80%" },
+          height: { xs: "450px", sm: "490px" },
+          borderRadius: "15px",
+          position: "relative",
+          marginTop: { xs: "6rem", sm: "2.5rem" },
+          marginInline: { xs: "auto", sm: "0rem" },
+          marginBottom: { xs: "1rem", sm: "0rem" },
+        }}
+      >
+        <Box
+          component={"img"}
+          src={landingImg}
           sx={{
-                width: {
-                  xs: "95%",
-                  sm: "130%",
-                },
-                height: "100%",
-                borderRadius: "105px 20px 20px 20px",
-                position: "absolute",
-                bottom: "40px",
-
-                 // Animation بسيط
+            width: { xs: "95%", sm: "130%" },
+            height: "100%",
+            borderRadius: "105px 20px 20px 20px",
+            position: "absolute",
+            bottom: "40px",
+            right: "40px",
+            
+            // Animation بسيط
             animation: `${float} 3s ease-in-out infinite`,
             
             // Hover effect بسيط
             "&:hover": {
               transform: "scale(1.05)",
-              transition: "transform 0.3s ease",}
-              }}
-         />
-</Box>
+              transition: "transform 0.3s ease",
+            }
+          }}
+        />
+      </Box>
 
         </Grid>
       </Grid>
-    </Box>
     </Box>
   );
 }

@@ -30,7 +30,7 @@ export default function MasterLayout() {
         </Box>
 
         {/* Page Content */}
-        <Box sx={{ flexGrow: 1, p: 2 }}>
+        <Box sx={{ flexGrow: 1, py: 2 }}>
           <Outlet />
         </Box>
       </Box>

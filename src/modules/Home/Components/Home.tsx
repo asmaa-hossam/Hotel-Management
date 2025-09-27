@@ -9,7 +9,7 @@ import LandingPageFooter from '../../Shared/Components/LandingPageFooter/Landing
 export default function Home() {
   return (
     <div>
-
+home
   <CalenderBooking/> 
 <MostPopularAds/> 
  <Houses/>
@@ -17,7 +17,7 @@ export default function Home() {
 <Ads/> 
 {/* <LandingPageFooter/> */}
 
- <Reviews/> 
+{/* <Reviews/> */}
   </div>
   )
 }

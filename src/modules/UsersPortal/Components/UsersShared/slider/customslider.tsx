@@ -26,19 +26,11 @@ const getRandomSubtitle = () => {
   return subtitles[Math.floor(Math.random() * subtitles.length)];
 };
 
- interface Ads {
-  id: string;
-  title: string;
-  subtitle?: string;
-  url: string;
-  price:string
-  rooms:{images:[]}
-}
 
-interface UnevenSetsInfiniteProps {
-  slides:[]
-}
 
+type UnevenSetsInfiniteProps = {
+  slides: string[];
+};
  function UnevenSetsInfinite({ slides }: UnevenSetsInfiniteProps)  {
 
     const slidesWithRandomText = slides.map((slide:any) => ({
@@ -105,7 +97,7 @@ interface UnevenSetsInfiniteProps {
     </Box>
    
      <Slider {...settings}>
-        {slidesWithRandomText.filter((slide: any) => slide?.room?.images!= null).map((slide:any) => (
+        {slidesWithRandomText.map((slide:any) => (
           <Box
             key={slide.id}
             sx={{
@@ -125,62 +117,36 @@ interface UnevenSetsInfiniteProps {
 
             
           >
-
- <Box sx={{ position: "relative", display: "inline-block", width: "95%" }}>
-  {/* Image */}
-  <Box
-    component="img"
-    src={slide.room.images[0]}
-    alt={slide.title}
-    sx={{
-      width: "100%",
-      height: 200,
-      objectFit: "cover",
-      borderRadius: 4,
-      mb: 1,
-    }}
-  />
-
-  {/* Conditional label */}
-{(slide.room.discount != 0) && (
-  <Box
-    sx={{
-      position: "absolute",
-      top: 0,
-      right: 0,
-      backgroundColor: "#FF498B",
-      borderBottomLeftRadius: "15px",
-      borderTopRightRadius: "15px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      color: "white",
-      fontWeight: 600,
-      width: { xs: "120px", sm: "150px", md: "180px" },
-      height: { xs: "30px", sm: "35px", md: "40px" },
-      zIndex: 1,
-    }}
-  >
-    <Typography
-      sx={{
-        fontFamily: "Poppins, sans-serif",
-        fontWeight: 500,
-        fontSize: { xs: "12px", sm: "14px", md: "16px" },
-        color: "#fff",
-      }}
-    >
-      {slide?.room?.discount}% Off
-    </Typography>
-  </Box>
-)}
-
-
-</Box>
-
-
-            
+            {/* Image */}
+            <Box
+              component="img"
+              src={slide.room.images}
+              alt={slide.title}
+              sx={{
+                width: "95%",
+                height: 200,
+                objectFit: "cover",
+                borderRadius: 4,
+                mb: 1,
+              }}
+            />
 
             {/* Title */}
+            
+            <Typography
+              sx={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 500,
+                fontSize: "20px",
+                lineHeight: 1.2,
+                letterSpacing: "0%",
+                color: "#152C5B",
+                mb: 0.5,
+                testalignment:"left"
+              }}
+            >
+              {slide.title}
+            </Typography>
              <Box sx={{ width: "100%", textAlign: "left" }}>
             <Typography
               sx={{

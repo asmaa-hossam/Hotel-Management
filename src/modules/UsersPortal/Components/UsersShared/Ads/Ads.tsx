@@ -3,7 +3,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import 'swiper/swiper-bundle.min.css';
 import 'swiper/swiper.min.css';
-import { Box } from "@mui/material";
+import { Box, Typography, Container } from "@mui/material";
+import CustomSlider from '../../UsersShared/slider/customslider'
 import { useState,useEffect } from "react";
 import { ads_URL } from "../../../../../services/urls";
 import axios from "axios";
@@ -44,13 +45,30 @@ useEffect(() => {
 
 
   return (
+    // <Container maxWidth="lg"  sx={{ mt: 4 }}>
     
-    <Box > 
+    <Box sx={{ }}> 
+  {/* <Typography
+    variant="h5"
+    sx={{
+      fontFamily: "Poppins, sans-serif",
+      fontWeight: 600,
+      fontSize: "24px",
+      letterSpacing: "0%",
+      color: "#152C5B",
+      pl:5,
+      textAlign: "left",
+    }}
+  >
+    Ads
+  </Typography> */}
 
+  {/* Slider */}
+  {/* <CustomSlider slides={ads}/> */}
   <UnevenSetsInfinite slides={ads}/>
-   </Box>
+</Box>
 
- 
+    // </Container>
 
 
 
