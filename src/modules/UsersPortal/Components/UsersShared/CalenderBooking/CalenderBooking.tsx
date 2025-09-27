@@ -81,11 +81,23 @@ export default function CalenderBooking() {
   };
 
   return (
-    <Box sx={{p:15}}>
+      <Box
+      sx={{
+        width: "100%",
+        maxWidth: 1200,
+        mx: "auto",
+        px: 2,
+        py: 2,
+        borderRadius: 3,
+        overflow: "hidden",
+        textAlign: "left",
+      }}
+    >
+    <Box sx={{pt:15,width:"100%"}}>
       {/* parent Grid */}
-      <Grid container spacing={2}>
+      <Grid container spacing={2} >
         {/* first Grid child */}
-        <Grid  size={{xs:12 ,sm:8}}>
+        <Grid  size={{xs:12 ,sm:8 }}>
           <Typography
             variant="h2"
             sx={{
@@ -94,7 +106,7 @@ export default function CalenderBooking() {
               marginBottom: ".2rem",
               color: "#152C5B",
               lineHeight: "1.2",
-              textAlign: "start",
+              textAlign: "left",
             }}
           >
             Forget Busy Work, <br />
@@ -200,6 +212,7 @@ export default function CalenderBooking() {
               marginTop: { xs: "6rem", sm: "2.5rem" },
               marginInline: { xs: "auto", sm: "0rem" },
               marginBottom: { xs: "1rem", sm: "0rem" },
+             
             }}
           >
          <Box
@@ -214,13 +227,14 @@ export default function CalenderBooking() {
                 borderRadius: "105px 20px 20px 20px",
                 position: "absolute",
                 bottom: "40px",
-                right: "40px",
+                // right: "0px",
               }}
          />
 </Box>
 
         </Grid>
       </Grid>
+    </Box>
     </Box>
   );
 }
