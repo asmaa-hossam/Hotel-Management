@@ -75,8 +75,7 @@ export default function DetailsPage() {
         
         {!loading && (
           <Box
-          onClick={()=>navigate(`/`)}
-          sx={{cursor:"pointer"}}
+         
           >
             {/* Breadcrumb */}
             <Typography 
