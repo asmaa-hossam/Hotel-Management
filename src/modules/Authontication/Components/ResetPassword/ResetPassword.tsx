@@ -299,6 +299,7 @@ rules={{
 }}          render={({ field }) => (
             <TextField
               {...field}
+              
              placeholder={t("emailPlaceholder")}
               size="small"
               variant="outlined"
