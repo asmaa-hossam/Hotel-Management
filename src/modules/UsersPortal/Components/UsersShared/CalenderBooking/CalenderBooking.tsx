@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
   FormHelperText,
+  keyframes,
 } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { axiosinstance, USERS_URL } from "../../../../../services/urls";
@@ -79,7 +80,10 @@ export default function CalenderBooking() {
       setLoading(false);
     }
   };
-
+const float = keyframes`
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+`;
   return (
     <Box sx={{p:10}}>
       {/* parent Grid */}
@@ -191,33 +195,39 @@ export default function CalenderBooking() {
 
         {/* second Grid child */}
         <Grid size={{xs:12 ,sm:4}}>
-           <Box
-            sx={{
-              width: { xs: "250px", sm: "80%" },
-              height: { xs: "450px", sm: "490px" },
-              borderRadius: "15px",
-              position: "relative",
-              marginTop: { xs: "6rem", sm: "2.5rem" },
-              marginInline: { xs: "auto", sm: "0rem" },
-              marginBottom: { xs: "1rem", sm: "0rem" },
-            }}
-          >
-         <Box
-         component={"img"}
-         src={landingImg}
+            <Box
+        sx={{
+          width: { xs: "250px", sm: "80%" },
+          height: { xs: "450px", sm: "490px" },
+          borderRadius: "15px",
+          position: "relative",
+          marginTop: { xs: "6rem", sm: "2.5rem" },
+          marginInline: { xs: "auto", sm: "0rem" },
+          marginBottom: { xs: "1rem", sm: "0rem" },
+        }}
+      >
+        <Box
+          component={"img"}
+          src={landingImg}
           sx={{
-                width: {
-                  xs: "95%",
-                  sm: "130%",
-                },
-                height: "100%",
-                borderRadius: "105px 20px 20px 20px",
-                position: "absolute",
-                bottom: "40px",
-                right: "40px",
-              }}
-         />
-</Box>
+            width: { xs: "95%", sm: "130%" },
+            height: "100%",
+            borderRadius: "105px 20px 20px 20px",
+            position: "absolute",
+            bottom: "40px",
+            right: "40px",
+            
+            // Animation بسيط
+            animation: `${float} 3s ease-in-out infinite`,
+            
+            // Hover effect بسيط
+            "&:hover": {
+              transform: "scale(1.05)",
+              transition: "transform 0.3s ease",
+            }
+          }}
+        />
+      </Box>
 
         </Grid>
       </Grid>

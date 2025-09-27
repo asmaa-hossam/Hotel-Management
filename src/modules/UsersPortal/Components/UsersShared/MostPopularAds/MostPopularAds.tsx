@@ -10,7 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { useFavorites } from "../../../../../Context/FavoritesContext";
 import { useAuthContext } from "../../../../../Context/Context"; 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginBg from "../../../../../assets/images/Group 33.png";
 
 interface Ad {
@@ -120,9 +120,13 @@ const MostPopularAds: React.FC = () => {
                 transition: "opacity 0.3s ease",
               }}
             >
-              <IconButton sx={{ color: "#fff" }}>
+              {/* <Link to={`/details/${ad.room._id}`}> */}
+              <IconButton sx={{ color: "#fff" }}
+              onClick={()=>navigate(`/details/${ad.room._id}`)}
+              >
                 <VisibilityIcon />
               </IconButton>
+              {/* </Link> */}
               <IconButton
                 sx={{ color: "#fff" }}
                 onClick={() => handleFavoriteClick(ad.room._id)}

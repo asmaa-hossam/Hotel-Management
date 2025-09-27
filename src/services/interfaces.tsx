@@ -92,8 +92,14 @@ export interface ResRoomData{
   message:string
 success:boolean
 data:{'rooms':RoomsData[],"totalCount":number}
-
 }
+export interface ResRoomDetails{
+  message:string
+success:boolean
+data:{'room':RoomsData}
+}
+
+
 export interface RoomAs{
 
             roomNumber:string,

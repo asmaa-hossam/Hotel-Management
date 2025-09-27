@@ -1,4 +1,3 @@
-import React from 'react'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -42,7 +41,7 @@ export default function App() {
       { index:true,element:<Home/>},
        {path:"home", element:<Home/>},
        {path:"explore",element:<ExplorPage/>},
-        {path:"details",element:<DetailsPage/>},
+        {path:"details/:roomid",element:<DetailsPage/>},
 
         {path:"favourite",element:(
         //  <UserProtectedRoute>
@@ -53,7 +52,7 @@ export default function App() {
     ]
   },
   {
-path:"booking",
+path:"booking/:roomId",
 element:<BookingPage/>,
 errorElement:<NotFound/>,
 children:[
