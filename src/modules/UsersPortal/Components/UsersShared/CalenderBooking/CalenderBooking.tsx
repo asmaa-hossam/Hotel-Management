@@ -1,5 +1,11 @@
 // CalenderBooking.tsx
 import React, { useState } from "react";
+import { keyframes } from "@emotion/react";
+const float = keyframes`
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+`;
 import DatePicker from "./DatePicker";
 import {
   Box,
@@ -227,7 +233,14 @@ export default function CalenderBooking() {
                 borderRadius: "105px 20px 20px 20px",
                 position: "absolute",
                 bottom: "40px",
-                // right: "0px",
+
+                 // Animation بسيط
+            animation: `${float} 3s ease-in-out infinite`,
+            
+            // Hover effect بسيط
+            "&:hover": {
+              transform: "scale(1.05)",
+              transition: "transform 0.3s ease",}
               }}
          />
 </Box>
