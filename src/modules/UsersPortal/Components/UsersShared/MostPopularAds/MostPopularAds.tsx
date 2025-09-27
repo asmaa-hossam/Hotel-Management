@@ -9,7 +9,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import CloseIcon from "@mui/icons-material/Close";
  import { useFavorites } from "../../../../../Context/FavoritesContext";
 import { useAuthContext } from "../../../../../Context/Context"; 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginBg from "../../../../../assets/images/Group 33.png";
 import { ads_PORTAL_URL } from "../../../../../services/urls";
 import { axiosinstance } from "../../../../../services/urls";
@@ -121,9 +121,13 @@ useEffect(() => {
                 transition: "opacity 0.3s ease",
               }}
             >
-              <IconButton sx={{ color: "#fff" }}>
+              {/* <Link to={`/details/${ad.room._id}`}> */}
+              <IconButton sx={{ color: "#fff" }}
+              onClick={()=>navigate(`/details/${ad.room._id}`)}
+              >
                 <VisibilityIcon />
               </IconButton>
+              {/* </Link> */}
               <IconButton
                 sx={{ color: "#fff" }}
                 onClick={() => handleFavoriteClick(ad.room._id)}

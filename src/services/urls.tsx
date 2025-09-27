@@ -100,7 +100,14 @@ GETALLUSER:`${BASEURLADMIN}users`
 //users Url
 
 export const USERS_URL={
-  GETALLROOMS:`https://upskilling-egypt.com:3000/api/v0/portal/rooms/available`
+  GETALLROOMS:`https://upskilling-egypt.com:3000/api/v0/portal/rooms/available`,
+  GETROOMDETAILS:(id:string)=>`https://upskilling-egypt.com:3000/api/v0/portal/rooms/${id}`
+}
+
+//BOOKING_URL
+
+export const BOOKINGG_USER_URL={
+CREATE_BOOKING:`https://upskilling-egypt.com:3000/api/v0/portal/booking`
 }
 
 export const ads_PORTAL_URL = {
