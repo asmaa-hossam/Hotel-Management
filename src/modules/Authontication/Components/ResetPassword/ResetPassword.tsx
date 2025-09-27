@@ -7,7 +7,6 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Auth_URL } from "../../../../services/urls";
 import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
 import { EMAIL_VALIDATION ,PASSWORD_VALIDATION,OTP_VALIDATION} from "../../../../services/validation";
 // MUI components
 import {
@@ -16,8 +15,8 @@ import {
   TextField,
   Typography,
   IconButton,
-  Link,
-  InputAdornment,
+   Link,
+    InputAdornment,
 
 } from "@mui/material";
 
@@ -31,8 +30,6 @@ interface FormData {
 }
 
 export default function ResetPassword({}) {
-     const { t, i18n } = useTranslation("resetpassword");
-  
    const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location =useLocation();
@@ -67,8 +64,7 @@ export default function ResetPassword({}) {
 
   return (
  
-  <Box sx={{ width: "100%", maxWidth: 600, mx: "auto", mt: 6, px: 2 ,direction: i18n.language === "ar" ? "rtl" : "ltr",
-      textAlign: i18n.language === "ar" ? "right" : "left",}}>
+  <Box sx={{ width: "100%", maxWidth: 600, mx: "auto", mt: 6, px: 2 }}>
       {/* Title */}
       <Typography
         variant="h5"
@@ -80,7 +76,8 @@ export default function ResetPassword({}) {
           py: 1,
           color:"rgba(0, 0, 0, 1)",
         }}
-      >{t("title")}
+      >
+        Reset Password
       </Typography>
       {/* Subtext */}
       <Typography
@@ -92,7 +89,8 @@ export default function ResetPassword({}) {
           fontSize: "16px",
         }}
       >
-{t("subtext1")}      </Typography>
+        If you don't have an account register
+      </Typography>
 
       <Typography
         variant="body2"
@@ -103,7 +101,7 @@ export default function ResetPassword({}) {
           fontSize: "16px",
         }}
       >
-        {t("subtext2")}{" "}
+        You can{" "}
         <Link
           href="/login"
           underline="none"
@@ -114,7 +112,7 @@ export default function ResetPassword({}) {
             color: "rgba(235, 81, 72, 1)",  
           }}
         >
-         {t("loginLink")}
+          Login here!
         </Link>
       </Typography>
 
@@ -133,7 +131,7 @@ export default function ResetPassword({}) {
             color: "#152C5B",
           }}
         >
-        {t("emailLabel")}
+          Email 
         </Typography>
         <Controller
           name="email"
@@ -142,8 +140,8 @@ export default function ResetPassword({}) {
           render={({ field }) => (
             <TextField
               {...field}
-           placeholder={t("emailPlaceholder")}              
-           size="small"
+              placeholder="Please type here ..."
+              size="small"
               disabled
               variant="outlined"
               error={!!errors.email}
@@ -177,10 +175,10 @@ export default function ResetPassword({}) {
             fontFamily: "Poppins, sans-serif",
             fontWeight: 400,
             fontSize: "16px",
-            color: "#152C5B",   
+            color: "#152C5B",
           }}
         >
-         {t("OTPLabel")}
+          OTP
         </Typography>
         <Controller
           name="seed"
@@ -189,8 +187,8 @@ export default function ResetPassword({}) {
           render={({ field }) => (
             <TextField
               {...field}
-         placeholder={t("emailPlaceholder")}             
-         size="small"
+              placeholder="Please type here ..."
+              size="small"
               variant="outlined"
               error={!!errors.seed}
               helperText={errors.seed?.message}
@@ -226,7 +224,7 @@ export default function ResetPassword({}) {
             color: "#152C5B",
           }}
         >
-         {t("password")}
+          Password
         </Typography>
         <Controller
           name="password"
@@ -236,8 +234,8 @@ export default function ResetPassword({}) {
             <TextField
               {...field}
               fullWidth
-           placeholder={t("emailPlaceholder")}    
-           size="small"
+              placeholder="Please type here ..."
+              size="small"
               variant="outlined"
               type={showPassword ? "text" : "password"}
               error={!!errors.password}
@@ -288,7 +286,7 @@ export default function ResetPassword({}) {
             color: "#152C5B",
           }}
         >
-         {t("Confirm Password")}
+          Confirm Password
         </Typography>
         <Controller
           name="confirmPassword"
@@ -299,7 +297,7 @@ rules={{
 }}          render={({ field }) => (
             <TextField
               {...field}
-             placeholder={t("emailPlaceholder")}
+              placeholder="Please type here ..."
               size="small"
               variant="outlined"
               error={!!errors.confirmPassword}
@@ -338,25 +336,17 @@ rules={{
               color="primary"
               type="submit"
               sx={{
-              textTransform: "none",
-              borderRadius: "4px",
-              height:50,
-              fontWeight: "Poppins",
-              width:429,
-              color:"primary"
+            textTransform: "none",
+            borderRadius: "4px",
+            height:50,
+            backgroundColor: " #3252DF",
+            fontWeight: "Poppins",
+            width:429
           }}
               >
-      {t("Reset")}</Button>
+      Reset</Button>
          </form>
-
-  <Box 
-          sx={{ mt: 2, textAlign: "center" }}>
-          <Button   sx= {{color:"primary"}} onClick={() => i18n.changeLanguage("en")}>English</Button>
-          <Button   sx= {{color:"primary",...(i18n.language === "ar"
-        ? { ml: "25%" }
-        : { mr: "25%" }),}} onClick={() => i18n.changeLanguage("ar")}>العربية</Button>
-         </Box>
-        </Box>
+          </Box>
           
   );
 }

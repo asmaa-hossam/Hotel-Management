@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Auth_URL } from "../../../../services/urls";
 import { toast } from "react-toastify";
 import { EMAIL_VALIDATION } from "../../../../services/validation";
-import { useTranslation } from "react-i18next";
-import { Trans } from "react-i18next";
+// import { axiosinstance } from '../../../../services/urls';
 
 // MUI components
 import {
@@ -22,11 +21,7 @@ interface FormData {
 }
 
 export default function ForgetPass({}) {
-   const { t,i18n } = useTranslation("forgetpassword");
- 
-
   const navigate = useNavigate();
-
   
   const {
     control,
@@ -53,9 +48,7 @@ export default function ForgetPass({}) {
 
   return (
    
-     <Box sx={{ width: "100%", maxWidth: 600, mx: "auto", mt: 6, px: 2  , 
-      direction: i18n.language === "ar" ? "rtl" : "ltr",
-      textAlign: i18n.language === "ar" ? "right" : "left",}}>
+     <Box sx={{ width: "100%", maxWidth: 600, mx: "auto", mt: 6, px: 2 }}>
       {/* Title */}
       <Typography
         variant="h5"
@@ -66,9 +59,9 @@ export default function ForgetPass({}) {
           fontSize: "30px",
           py: 1,
           color:"rgba(0, 0, 0, 1)",
-         
         }}
-      >  {t("title")}
+      >
+        Forgot password
       </Typography>
 
       {/* Subtext */}
@@ -80,8 +73,8 @@ export default function ForgetPass({}) {
           fontWeight: 400,
           fontSize: "16px",
         }}
-      >  {t("subtext1")}
-        
+      >
+        If you don't have an account register
       </Typography>
 
       <Typography
@@ -92,9 +85,8 @@ export default function ForgetPass({}) {
           fontWeight: 400,
           fontSize: "16px",
         }}
-      > 
-      {t("subtext2")} {" "}
-     
+      >
+        You can{" "}
         <Link
           href="/login"
           underline="none"
@@ -104,8 +96,8 @@ export default function ForgetPass({}) {
             fontSize: "16px",
             color: "rgba(235, 81, 72, 1)",  
           }}
-        >  {t("loginLink")}
-        
+        >
+          Login here!
         </Link>
       </Typography>
 
@@ -123,21 +115,17 @@ export default function ForgetPass({}) {
             fontSize: "16px",
             color: "#152C5B",
           }}
-        > 
-        {t("sendMail")}
-         
+        >
+          Email 
         </Typography>
-        
         <Controller
           name="email"
           control={control}
           rules={EMAIL_VALIDATION}
-          
           render={({ field }) => (
             <TextField
-            
               {...field}
-              placeholder={t("emailPlaceholder")}
+              placeholder="Please type here ..."
               size="small"
               variant="outlined"
               error={!!errors.email}
@@ -158,13 +146,9 @@ export default function ForgetPass({}) {
                 },
                 "& input": { color: "#5d5e61" },
               }}
-
             />
-            
           )}
-          
         />
-    
 
 
          <Button  disabled= {isSubmitting} fullWidth variant="contained"  
@@ -174,24 +158,15 @@ export default function ForgetPass({}) {
             textTransform: "none",
             borderRadius: "4px",
             height:50,
+            backgroundColor: " #3252DF",
             fontWeight: "Poppins",
-            width:429,
+            width:429
           }}
               
               >
       
-{t("sendMail")}      
-      </Button>
+      Send mail</Button>
          </form>
-         
-          <Box 
-          sx={{ mt: 2, textAlign: "center" }}>
-          <Button   sx= {{color:"primary"}} onClick={() => i18n.changeLanguage("en")}>English</Button>
-          <Button   sx= {{color:"primary",...(i18n.language === "ar"
-        ? { ml: "25%" }
-        : { mr: "25%" }),}} onClick={() => i18n.changeLanguage("ar")}>العربية</Button>
-         </Box>
-       
    </Box>
   );
 }

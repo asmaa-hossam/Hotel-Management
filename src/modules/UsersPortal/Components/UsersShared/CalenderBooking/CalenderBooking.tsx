@@ -1,10 +1,5 @@
 // CalenderBooking.tsx
 import React, { useState } from "react";
-const float = keyframes`
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-`;
 import DatePicker from "./DatePicker";
 import {
   Box,
@@ -14,7 +9,7 @@ import {
   TextField,
   Typography,
   FormHelperText,
-  keyframes 
+  keyframes,
 } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { axiosinstance, USERS_URL } from "../../../../../services/urls";
