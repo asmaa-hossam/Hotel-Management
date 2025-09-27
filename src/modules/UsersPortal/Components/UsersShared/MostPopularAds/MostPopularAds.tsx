@@ -62,10 +62,43 @@ useEffect(() => {
   if (loading) return <Typography>Loading ads...</Typography>;
 
   return (
-    <Box sx={{ padding: 2 }}>
-      <Typography variant="h6" mb={2} sx={{ color: "#152C5B" }}>
+    // <Box sx={{ padding: 2 }}>
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: 1200,
+        mx: "auto",
+        px: 2,
+        py: 2,
+        borderRadius: 3,
+        overflow: "hidden",
+        textAlign: "left",
+      }}
+    >
+
+       <Box
+      sx={{
+        width: "100%",
+        maxWidth: 1200,
+        mx: "auto",
+        px: 2,
+        py: 2,
+        borderRadius: 3,
+        overflow: "hidden",
+        textAlign: "left",
+      }}
+    >
+        <Typography variant="h5" mb={2} sx={{
+          fontFamily: "Poppins, sans-serif",
+          fontWeight: 600,
+          fontSize: { xs: "20px", sm: "22px", md: "24px" },
+          mb: 2,
+          color: "#152C5B",
+        }}>
         Most Popular Ads
       </Typography>
+    </Box>
+    
 
       <Box
         sx={{
@@ -73,7 +106,7 @@ useEffect(() => {
           gridTemplateColumns: { xs: "1fr", sm: "1fr", md: "repeat(3, 1fr)" },
           gridAutoRows: "auto",
           gap: 5,
-          width: "88%",
+          width: "100%",
           margin: "auto",
         }}
       >

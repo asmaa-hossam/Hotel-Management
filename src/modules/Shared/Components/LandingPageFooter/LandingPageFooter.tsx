@@ -21,23 +21,14 @@ export default function Footer() {
                 fontSize: "16px",
                 color: "#B0B0B0",
                 mt: 2,
-                width:"258px"
+                 width:"270px",
+                textAlign:"left"
               }}
             >
-              We kaboom your beauty holiday 
+              We kaboom your beauty holiday <br />
+                instantly and memorable.
             </Typography>
-            <Typography
-              sx={{
-                fontFamily: "Poppins",
-                fontWeight: 300,
-                fontSize: "16px",
-                color: "#B0B0B0",
-                mt: 2,
-                width:"258px"
-              }}
-            >
-           instantly and memorable.
-            </Typography>
+       
           </Box>
         </Grid>
 
