@@ -106,9 +106,11 @@ export const USERS_URL={
 
 //BOOKING_URL
 
-export const BOOKINGG_USER_URL={
-CREATE_BOOKING:`https://upskilling-egypt.com:3000/api/v0/portal/booking`
-}
+export const BOOKINGG_USER_URL = {
+  CREATE_BOOKING: `${BASEURLDEV}/api/v0/portal/booking`,
+  PAY_BOOKING: (id: string) => `${BASEURLDEV}/api/v0/portal/booking/${id}/pay`,
+};
+
 
 export const ads_PORTAL_URL = {
   FETCH: `${BASEURLDEV}/api/v0/portal/ads`,

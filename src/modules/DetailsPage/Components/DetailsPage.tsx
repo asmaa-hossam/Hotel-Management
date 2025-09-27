@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import {  useParams } from 'react-router-dom'
 import { axiosinstance, USERS_URL } from '../../../services/urls'
 import  type {ResRoomDetails,RoomsData}from '../../../services/interfaces'
 import { toast } from 'react-toastify'
@@ -16,13 +16,12 @@ import img6 from "../../../assets/images/ic_tv.svg";
 import img7 from "../../../assets/images/ic_wifi 1.svg";
 import img8 from "../../../assets/images/ic_bedroom (1).svg";
 import BookingDetails from '../../UsersPortal/Components/UsersShared/BookingDetails/BookingDetails'
-
+  
 export default function DetailsPage() {
   let [roomDetails,setRoomDetails]=useState<RoomsData>()
   let {roomid}=useParams()
   let [loading,setLoading]=useState(false)
-  let navigate=useNavigate()
-  let ImgsStyles={
+   let ImgsStyles={
     borderRadius: '1rem',
     width:'100%',
     height:'100%',
@@ -199,6 +198,7 @@ export default function DetailsPage() {
               
               {/* Right Side - Booking Section  */}
              <Grid size={{xs:12,sm:6}}  >
+              
             <BookingDetails roomId={roomDetails?._id!} totalPrice={roomDetails?.price!} capacity={roomDetails?.capacity!}/>
 
              </Grid>

@@ -164,9 +164,13 @@ export default function BookingDetails({
           );
         }
         
-        navigate(`/booking/${roomId}/userInfo`, {
-          state: { bookingId: res?.data?.data?.booking._id },
-        });
+       navigate(`/booking/${roomId}`, {
+  state: { 
+    bookingId: res?.data?.data?.booking._id,
+    totalPrice: totalPrice * numBookingDays // pass calculated total
+  }
+});
+
       }
 
     } catch (error: any) {
