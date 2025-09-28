@@ -111,6 +111,3 @@ export const FAVORITES_URL = {
   BASE: `${BASEURLDEV}/api/v0/portal/favorite-rooms`,
 };
 
-export const SUBMITCOMENT_URL={
-  SUBMITCOMMIT:'https://upskilling-egypt.com:3000/api/v0/portal/room-comments'
-}
