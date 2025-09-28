@@ -36,7 +36,7 @@ const getRandomSubtitle = () => {
 }
 
 interface UnevenSetsInfiniteProps {
-  slides:[]
+  slides:Ads[]
 }
 
  function UnevenSetsInfinite({ slides }: UnevenSetsInfiniteProps)  {

@@ -11,7 +11,7 @@ export default function Footer() {
 
       <Grid container spacing={10}>
         {/* Logo + text */}
-        <Grid xs={12} md={4}>
+        <Grid  sx = {{xs:12 ,md :"4"}}>
           <Box>
             <img src={logo} alt="Staycation" />
             <Typography
@@ -35,7 +35,7 @@ export default function Footer() {
 
 
         {/* Column 1 */}
-        <Grid xs={6} md={2}>
+        <Grid     sx= {{xs:"6", md:"2"}}>
           <Typography
             sx={{ fontFamily: "Poppins", fontWeight: 500, color: "#152C5B", mb: 2,fontsize:"18px",height:"24px"  }}
           >
