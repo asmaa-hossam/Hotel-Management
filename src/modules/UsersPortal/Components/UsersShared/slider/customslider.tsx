@@ -26,11 +26,19 @@ const getRandomSubtitle = () => {
   return subtitles[Math.floor(Math.random() * subtitles.length)];
 };
 
+ interface Ads {
+  id: string;
+  title: string;
+  subtitle?: string;
+  url: string;
+  price:string
+  rooms:{images:[]}
+}
 
+interface UnevenSetsInfiniteProps {
+  slides:Ads[]
+}
 
-type UnevenSetsInfiniteProps = {
-  slides: string[];
-};
  function UnevenSetsInfinite({ slides }: UnevenSetsInfiniteProps)  {
 
     const slidesWithRandomText = slides.map((slide:any) => ({
