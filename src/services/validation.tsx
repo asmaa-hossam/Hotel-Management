@@ -64,3 +64,18 @@ export const PHONE_VALIDATION = {
     },
   };
 };
+
+export const getCommentValidationRules = () => {
+  return {
+    comment: {
+      required: {
+        value: true,
+        message: "this field is required"
+      },
+      maxLength: {
+        value: 200,
+        message: "Comment must be less than 200 characters",
+      },
+    },
+  };
+};

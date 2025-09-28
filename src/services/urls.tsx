@@ -128,3 +128,8 @@ export const SUBMITCOMENT_URL={
 export const ROOM_REVIEWS={
   CREATE_REVIEW:`https://upskilling-egypt.com:3000/api/v0/portal/room-reviews`
 }
+
+//comments endpoints
+export const COMMENTS_URLS = {
+  addComment: `https://upskilling-egypt.com:3000/api/v0/portal/room-comments`,
+};
