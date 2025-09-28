@@ -30,6 +30,9 @@ import UsersList from './modules/User/Components/UsersList'
 import Facilities from './modules/Facilities/Components/Facilities'
 import { ThemeProvider } from '@mui/material/styles'
 import theme from './themes/themes'
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+
 export default function App() {
 
 
@@ -43,7 +46,6 @@ export default function App() {
        {path:"home", element:<Home/>},
        {path:"explore",element:<ExplorPage/>},
         {path:"details",element:<DetailsPage/>},
-
         {path:"favourite",element:(
         //  <UserProtectedRoute>
           <Favourite/>
