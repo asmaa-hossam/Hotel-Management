@@ -109,7 +109,7 @@ const Reviews = () => {
   };
 
   return (
-    <Box sx={{ paddingInlineStart: "100px" }}>
+    <Box sx={{ paddingInlineStart: "200px" }}>
       <Box
         sx={{
           display: "flex",
