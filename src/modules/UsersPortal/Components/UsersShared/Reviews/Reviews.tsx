@@ -24,7 +24,7 @@ export default function Reviews() {
 
 
       {/* Image */}
-      <Grid xs={12} md={6}>
+      <Grid  sx = {{xs:12, md:"6"}}>
         <Box
           component="img"
           src={photo}
@@ -34,7 +34,7 @@ export default function Reviews() {
       </Grid>
 
       {/* Con tent */}
-      <Grid xs={12} md={6} >
+      <Grid  sx = {{xs :"12" ,md:"6"}} >
         <Typography  variant="h5"
         sx={{
           fontFamily: "Poppins, sans-serif",
