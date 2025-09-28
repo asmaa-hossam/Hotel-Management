@@ -1,10 +1,10 @@
-import { Box, Button, CircularProgress, styled, Typography, Alert } from "@mui/material"
+import { Box, Button, CircularProgress, styled, Typography, Alert, Modal } from "@mui/material"
 import DatePicker from "../CalenderBooking/DatePicker"
 import { useState } from "react"
 import { useAuthContext } from "../../../../../Context/Context";
 import { axiosinstance, BOOKINGG_USER_URL } from "../../../../../services/urls";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CustomBox = styled(Box)({
     borderRadius: "20px",
@@ -48,7 +48,18 @@ const PriceContainer = styled(Box)({
         opacity: 0.1,
     }
 });
-
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "none",
+  borderRadius: "1rem",
+  boxShadow: 24,
+  p: 4,
+};
 const DateSection = styled(Box)({
     marginTop: "32px",
     marginBottom: "24px",
@@ -129,7 +140,9 @@ export default function BookingDetails({
   const [error, setError] = useState<string>("");
   const { loginData } = useAuthContext()
   let navigate = useNavigate()
-
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const numBookingDays = dateRange.startDate && dateRange.endDate
     ? Math.ceil(
         (dateRange.endDate.getTime() - dateRange.startDate.getTime())
@@ -164,13 +177,11 @@ export default function BookingDetails({
           );
         }
         
-       navigate(`/booking/${roomId}`, {
-  state: { 
-    bookingId: res?.data?.data?.booking._id,
-    totalPrice: totalPrice * numBookingDays // pass calculated total
-  }
-});
-
+        navigate(`/booking/${roomId}/userInfo`, {
+          state: { bookingId: res?.data?.data?.booking._id },
+        });
+      }else{
+        handleOpen()
       }
 
     } catch (error: any) {
@@ -321,6 +332,50 @@ export default function BookingDetails({
           )}
         </StyledButton>
       </CustomBox>
+       <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Continue Booking
+            </Typography>
+            <Button
+              sx={{ ":hover": { backgroundColor: "unset" } }}
+              onClick={handleClose}
+            >
+             
+            </Button>
+          </Box>
+          <Typography
+            id="modal-modal-description"
+            sx={{ mt: 2, color: ""}}
+          >
+            You need to log in to continue with your booking. Please log in or
+            sign up for prooceed.
+            <Typography></Typography>
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
+            >
+              <Link
+                to="/login"
+                style={{ textDecoration: "none", color: "#3252DF" }}
+              >
+                Login?
+              </Link>
+              <Link
+                to="/register"
+                style={{ textDecoration: "none", color: "#3252DF" }}
+              >
+                Sign Up?
+              </Link>
+            </Box>
+          </Typography>
+        </Box>
+      </Modal>
     </>
   )
 }

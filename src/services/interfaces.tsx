@@ -150,30 +150,26 @@ export interface UserRes{
     data:{users:User[]}
     totalCount:number
 }
+export interface ReviewResponse{
 
-//navbar landing page
-export interface ProfileType {
-  _id: string;
-  userName: string;
-  email: string;
-  phoneNumber: number;
-  country: string;
-  role: string;
-  profileImage?: string;
-  verified: boolean;
-  createdAt: string;
-  updatedAt: string;
+        "success": boolean,
+        "message": string,
+        "data": {
+            "roomReview": {
+                "room": string,
+                "user": string,
+                "rating": number,
+                "review": string,
+                "_id": string,
+                "createdAt": string,
+                "updatedAt": string
+            }
+        }
+
 }
 
-export interface ApiResponse {
-  data: {
-    user: ProfileType;
-  };
-  message?: string;
-  status?: string;
-}
-export interface IFavoritesContext {
-  favorites: Set<string>;
-  toggleFavorite: (roomId: string) => void;
-  loading: boolean;
+export interface Review{
+    roomId:string,
+    rating:number,
+    review:string
 }
