@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import {  useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { axiosinstance, USERS_URL } from '../../../services/urls'
 import  type {ResRoomDetails,RoomsData}from '../../../services/interfaces'
 import { toast } from 'react-toastify'
-import {Box, CircularProgress, Grid, Stack, Typography,} from "@mui/material";
+import {Box, CircularProgress, Grid, Stack, styled, Typography,} from "@mui/material";
 import roomImg1 from "../../../assets/images/room-img1.png";
 import roomImg2 from "../../../assets/images/room-img2.png";
 import roomImg3 from "../../../assets/images/room-img3.png";
@@ -16,12 +16,20 @@ import img6 from "../../../assets/images/ic_tv.svg";
 import img7 from "../../../assets/images/ic_wifi 1.svg";
 import img8 from "../../../assets/images/ic_bedroom (1).svg";
 import BookingDetails from '../../UsersPortal/Components/UsersShared/BookingDetails/BookingDetails'
-  
+import { useAuthContext } from '../../../Context/Context'
+import ReviewForm from '../../UsersPortal/Components/ReviewForm/ReviewForm'
+const StyleBox=styled(Box)(()=>({
+  display:'flex',
+  width:"90%",
+  marginInline:"auto",
+  mb:"2rem"
+}))
 export default function DetailsPage() {
+  let {loginData}=useAuthContext()
   let [roomDetails,setRoomDetails]=useState<RoomsData>()
   let {roomid}=useParams()
   let [loading,setLoading]=useState(false)
-   let ImgsStyles={
+  let ImgsStyles={
     borderRadius: '1rem',
     width:'100%',
     height:'100%',
@@ -206,7 +214,34 @@ export default function DetailsPage() {
             </Grid>
           </Box>
         )}
+
+{loginData?.role==="user"?<StyleBox
+  sx={{
+            flexDirection: {
+              xs: "column",
+              lg: "row",
+            },
+            gap: {
+              xs: "3rem",
+              md: "2rem",
+              lg: "5rem",
+            },
+            paddingX: {
+              xs: "1rem",
+              sm: "5.25rem",
+            },
+            paddingY: "35px",
+          }}
+>
+<ReviewForm roomId={roomDetails?._id!}/>
+
+</StyleBox>
+:""
+}
+
       </Box>
+
+
     </>
   )
 }
