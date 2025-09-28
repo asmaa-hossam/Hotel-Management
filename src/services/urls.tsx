@@ -97,6 +97,8 @@ DELETEROOM:(id:string)=>`${BASEURLADMIN}rooms/${id}`,
 GETALLUSER:`${BASEURLADMIN}users`
 
 }
+
+
 //users Url
 
 export const USERS_URL={
@@ -106,6 +108,8 @@ export const USERS_URL={
 export const ads_PORTAL_URL = {
   FETCH: `${BASEURLDEV}/api/v0/portal/ads`,
 };
+
+
 // favorites URLs
 export const FAVORITES_URL = {
   BASE: `${BASEURLDEV}/api/v0/portal/favorite-rooms`,
