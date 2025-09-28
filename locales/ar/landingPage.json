@@ -8,11 +8,30 @@
     "register": "إنشاء حساب",
     "logout": "تسجيل الخروج"
   },
-  "ads": {
-    "title": "الإعلانات الأكثر شيوعًا",
+  "mostPopularAds": {
+    "title": "الإعلانات الأكثر شعبية",
     "capacity": "السعة",
-    "price": "{{price}} لليلة",
-    "loginRequiredTitle": "مطلوب تسجيل الدخول",
-    "loginRequired": "يجب تسجيل الدخول لإضافة للمفضلة."
+    "pricePerNight": "${{price}} لكل ليلة",
+    "loginRequiredTitle": "تسجيل الدخول مطلوب",
+    "loginRequiredMessage": "يجب تسجيل الدخول لإضافة المفضلة.",
+    "loginBtn": "تسجيل الدخول",
+    "registerBtn": "إنشاء حساب"
+  }
+,
+  
+  "booking": {
+    "forgetBusyWork": "انسَ الأعمال المرهقة،",
+    "startNextVacation": "ابدأ عطلتك القادمة",
+    "holidayDescription1": "نوفّر لك كل ما تحتاجه للاستمتاع بإجازتك مع العائلة.",
+    "holidayDescription2": "حان الوقت لصنع لحظات لا تُنسى.",
+    "startBooking": "ابدأ الحجز",
+    "capacity": "السعة",
+    "person": "شخص",
+    "searching": "جاري البحث...",
+    "explore": "استكشف",
+    "errorPickDate": "يرجى اختيار تاريخ بدء وتاريخ انتهاء.",
+    "errorFetchRooms": "فشل في جلب الغرف"
   }
 }
+
+

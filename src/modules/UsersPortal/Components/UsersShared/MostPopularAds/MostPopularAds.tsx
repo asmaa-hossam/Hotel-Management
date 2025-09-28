@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { 
   Box, Card, CardMedia, Typography, Chip, IconButton, Dialog, 
-  DialogTitle, DialogContent, DialogActions, Button 
+  DialogTitle, DialogContent, DialogActions, Button, CircularProgress 
 } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CloseIcon from "@mui/icons-material/Close";
- import { useFavorites } from "../../../../../Context/FavoritesContext";
+import { useFavorites } from "../../../../../Context/FavoritesContext";
 import { useAuthContext } from "../../../../../Context/Context"; 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import loginBg from "../../../../../assets/images/Group 33.png";
-import { ads_PORTAL_URL } from "../../../../../services/urls";
-import { axiosinstance } from "../../../../../services/urls";
-
+import { ads_PORTAL_URL, axiosinstance } from "../../../../../services/urls";
+import { useTranslation } from "react-i18next";
 
 interface Ad {
   _id: string;
@@ -27,6 +26,7 @@ interface Ad {
 }
 
 const MostPopularAds: React.FC = () => {
+  const { t } = useTranslation("navbar"); 
   const [ads, setAds] = useState<Ad[]>([]);
   const [loading, setLoading] = useState(true);
   const { favorites, toggleFavorite } = useFavorites();
@@ -34,39 +34,52 @@ const MostPopularAds: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
-useEffect(() => {
-  const fetchAds = async () => {
-    try {
-      const res = await axiosinstance.get(ads_PORTAL_URL.FETCH);
-      if (res.data.success && res.data.data.ads) {
-        setAds(res.data.data.ads);
-      } else {
+  // Fetch Ads from API
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const res = await axiosinstance.get(ads_PORTAL_URL.FETCH);
+        if (res.data.success && res.data.data.ads) {
+          setAds(res.data.data.ads);
+        } else {
+          setAds([]);
+        }
+      } catch (error) {
+        console.error(error);
         setAds([]);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error(error);
-      setAds([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchAds();
-}, []);
-
+    };
+    fetchAds();
+  }, []);
 
   const handleFavoriteClick = (roomId: string) => {
     if (!loginData) setOpenModal(true);
     else toggleFavorite(roomId);
   };
 
-  if (loading) return <Typography>Loading ads...</Typography>;
+  // ✅ Show loader while fetching
+  if (loading) {
+    return (
+      <Box 
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "300px" }}
+      >
+        <CircularProgress size={50} sx={{ color: "#152C5B" }} />
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ padding: 2 }}>
-      <Typography variant="h6" mb={2} sx={{ color: "#152C5B" }}>
-        Most Popular Ads
+      {/* Title */}
+      <Box sx={{width:"50%",paddingY:"20px"}}>
+        <Typography variant="h4" mb={2} sx={{ color: "#152C5B" , width: "76%",margin:"auto"}}>
+        {t("mostPopularAds.title")}
       </Typography>
+      </Box>
 
+      {/* Ads Grid */}
       <Box
         sx={{
           display: "grid",
@@ -89,7 +102,9 @@ useEffect(() => {
               gridRow: {
                 xs: "auto",
                 sm: "auto",
-                md: index === 0 ? "1 / span 2" : `${Math.floor((index - 1) / 2) + 1} / ${Math.floor((index - 1) / 2) + 2}`,
+                md: index === 0 
+                  ? "1 / span 2" 
+                  : `${Math.floor((index - 1) / 2) + 1} / ${Math.floor((index - 1) / 2) + 2}`,
               },
               position: "relative",
               borderRadius: 5,
@@ -97,6 +112,7 @@ useEffect(() => {
               "&:hover .overlay": { opacity: 1 },
             }}
           >
+            {/* Room Image */}
             <CardMedia
               component="img"
               height={index === 0 ? 400 : 180}
@@ -104,6 +120,7 @@ useEffect(() => {
               alt={ad.room.roomNumber}
             />
 
+            {/* Overlay Icons */}
             <Box
               className="overlay"
               sx={{
@@ -121,13 +138,12 @@ useEffect(() => {
                 transition: "opacity 0.3s ease",
               }}
             >
-              {/* <Link to={`/details/${ad.room._id}`}> */}
-              <IconButton sx={{ color: "#fff" }}
-              onClick={()=>navigate(`/details/${ad.room._id}`)}
+              <IconButton 
+                sx={{ color: "#fff" }}
+                onClick={() => navigate(`/details/${ad.room._id}`)}
               >
                 <VisibilityIcon />
               </IconButton>
-              {/* </Link> */}
               <IconButton
                 sx={{ color: "#fff" }}
                 onClick={() => handleFavoriteClick(ad.room._id)}
@@ -136,8 +152,9 @@ useEffect(() => {
               </IconButton>
             </Box>
 
+            {/* Price Chip */}
             <Chip
-              label={`$${ad.room.price} per night`}
+              label={t("mostPopularAds.pricePerNight", { price: ad.room.price })}
               sx={{
                 position: "absolute",
                 top: 0,
@@ -149,6 +166,7 @@ useEffect(() => {
               }}
             />
 
+            {/* Room Info */}
             <Box
               sx={{
                 position: "absolute",
@@ -162,30 +180,35 @@ useEffect(() => {
               <Typography variant="subtitle1" fontWeight="bold">
                 {ad.room.roomNumber}
               </Typography>
-              <Typography variant="body2">Capacity: {ad.room.capacity}</Typography>
+              <Typography variant="body2">
+                {t("mostPopularAds.capacity")}: {ad.room.capacity}
+              </Typography>
             </Box>
           </Card>
         ))}
       </Box>
 
-      {/* Modal login */}
+      {/* Login Modal */}
       <Dialog open={openModal} onClose={() => setOpenModal(false)}>
-        <DialogTitle sx={{ fontWeight: "bold", color: "#152C5B", display: "flex", justifyContent: "space-between", alignItems: "center", px: 2, py: 1.5 }}>
-          Login Required
+        <DialogTitle 
+          sx={{ fontWeight: "bold", color: "#152C5B", display: "flex", justifyContent: "space-between", alignItems: "center", px: 2, py: 1.5 }}
+        >
+          {t("mostPopularAds.loginRequiredTitle")}
           <IconButton onClick={() => setOpenModal(false)} edge="end" aria-label="close" sx={{ color: "#152C5B" }}>
             <CloseIcon />
           </IconButton>
         </DialogTitle>
 
         <DialogContent>
-          <Typography>You must be logged in to add favorites.</Typography>
+          <Typography>{t("mostPopularAds.loginRequiredMessage")}</Typography>
         </DialogContent>
+
         <DialogActions>
           <Button onClick={() => navigate("/login")} variant="contained" color="primary">
-            Login
+            {t("mostPopularAds.loginBtn")}
           </Button>
           <Button onClick={() => navigate("/register")} variant="outlined" color="secondary">
-            Register
+            {t("mostPopularAds.registerBtn")}
           </Button>
         </DialogActions>
       </Dialog>
@@ -194,19 +217,3 @@ useEffect(() => {
 };
 
 export default MostPopularAds;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

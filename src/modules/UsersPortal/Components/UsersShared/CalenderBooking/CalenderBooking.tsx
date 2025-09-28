@@ -17,8 +17,11 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import landingImg from '../../../../../assets/images/landing.png'
+import { useTranslation } from "react-i18next";
 
 export default function CalenderBooking() {
+  const { t } = useTranslation("navbar");
+
   const [count, setCount] = useState(1);
   const handleDecrease = () => {
     if (count > 1) {
@@ -101,9 +104,11 @@ const float = keyframes`
               textAlign: "start",
             }}
           >
-            Forget Busy Work, <br />
-            Start Next Vacation
-          </Typography>
+            
+  {t("booking.forgetBusyWork")} <br />
+  {t("booking.startNextVacation")}
+</Typography>
+      
 
           <Typography
             sx={{
@@ -114,10 +119,11 @@ const float = keyframes`
               lineHeight: "1.7rem",
             }}
           >
-            We provide what you need to enjoy your holiday with family.
-            <br />
-            Time to make another memorable moments.
-          </Typography>
+           
+  {t("booking.holidayDescription1")}
+  <br />
+  {t("booking.holidayDescription2")}
+</Typography>
 
           <Typography
             variant="h3"
@@ -131,7 +137,8 @@ const float = keyframes`
               textAlign: "start",
             }}
           >
-            Start Booking
+             {t("booking.startBooking")}
+
           </Typography>
 
           {/* DatePicker component (receives dateRange & setter) */}
@@ -139,9 +146,11 @@ const float = keyframes`
 
           {/* show error under the picker if exists */}
           {error && (
-            <FormHelperText error sx={{ mt: 1 }}>
-              {error}
-            </FormHelperText>
+             <FormHelperText error sx={{ mt: 1 }}>
+    {error === "Please pick a start and end date."
+      ? t("booking.errorPickDate")
+      : t("booking.errorFetchRooms")}
+  </FormHelperText>
           )}
 
           {/* capacity controls */}
@@ -189,7 +198,7 @@ const float = keyframes`
             onClick={getRooms}
             disabled={loading}
           >
-            {loading ? "Searching..." : "Explore"}
+  {loading ? t("booking.searching") : t("booking.explore")}
           </Button>
         </Grid>
 

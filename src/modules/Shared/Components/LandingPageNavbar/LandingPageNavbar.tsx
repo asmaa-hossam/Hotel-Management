@@ -18,10 +18,8 @@ import { useAuthContext } from "../../../../Context/Context";
 import Logo from "../../../../assets/images/Staycation..svg";
 import { useNavigate } from "react-router-dom";
 import { axiosinstance } from "../../../../services/urls";
-import type { ProfileType, ApiResponse } from '../../../../services/interfaces';
-
-
-
+import type { ProfileType, ApiResponse } from "../../../../services/interfaces";
+import { useTranslation } from "react-i18next";
 
 const Navbar: React.FC = () => {
   const { favorites } = useFavorites();
@@ -29,6 +27,8 @@ const Navbar: React.FC = () => {
   const [profile, setProfile] = useState<ProfileType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+
+  const { t, i18n } = useTranslation("navbar"); // 👈 استخدام الترجمة
   const navigate = useNavigate();
 
   // Dropdown menu state
@@ -44,75 +44,84 @@ const Navbar: React.FC = () => {
   };
 
   // Fetch profile data
-useEffect(() => {
-  const fetchProfile = async () => {
-    if (!loginData?._id) return;
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!loginData?._id) return;
 
-    setLoading(true);
-    setError("");
+      setLoading(true);
+      setError("");
 
-    try {
-      const res = await axiosinstance.get<ApiResponse>(`${loginData._id}`);
-      if (res.data.data) {
-        setProfile(res.data.data.user);
-      } else {
-        setError("Unexpected response structure");
+      try {
+        const res = await axiosinstance.get<ApiResponse>(`${loginData._id}`);
+        if (res.data.data) {
+          setProfile(res.data.data.user);
+        } else {
+          setError("Unexpected response structure");
+        }
+      } catch (err: any) {
+        setError(err.response?.data?.message || "Failed to fetch profile");
+      } finally {
+        setLoading(false);
       }
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to fetch profile");
-    } finally {
-      setLoading(false);
+    };
+
+    fetchProfile();
+  }, [loginData]);
+
+  // 👇 ضبط الاتجاه (RTL للغة العربية)
+  useEffect(() => {
+    if (i18n.language === "ar") {
+      document.body.dir = "rtl";
+    } else {
+      document.body.dir = "ltr";
     }
-  };
-
-  fetchProfile();
-}, [loginData]);
-
+  }, [i18n.language]);
 
   const getDisplayName = () => profile?.userName || loginData?.userName || "";
   const getProfileImage = () => profile?.profileImage || "";
 
   return (
-<AppBar
-  position="fixed"
-  sx={{
-    bgcolor: "white",
-    color: "black",
-    padding: "12px",
-    borderBottom: "1px solid #E5E5E5",
-    boxShadow: "none",
-    zIndex: (theme) => theme.zIndex.drawer + 1, // keep it above other elements
-  }}
->
-
+    <AppBar
+      position="fixed"
+      sx={{
+        bgcolor: "white",
+        color: "black",
+        padding: "12px",
+        borderBottom: "1px solid #E5E5E5",
+        boxShadow: "none",
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+      }}
+    >
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        {/* Logo */}
         <Box>
           <img src={Logo} alt="Logo" style={{ height: 39, width: 148 }} />
         </Box>
 
+        {/* Buttons */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
           <Button color="inherit" onClick={() => navigate("/")}>
-            Home
+            {t("nav.home")}
           </Button>
           <Button color="inherit" onClick={() => navigate("/explore")}>
-            Explore
+            {t("nav.explore")}
           </Button>
 
           {loginData ? (
             <>
               <Button color="inherit" onClick={() => navigate("/")}>
-                Reviews
+                {t("nav.reviews")}
               </Button>
               <Button
                 color="inherit"
                 startIcon={
-                  <Badge badgeContent={favorites.size} color="error">
+                  <Badge badgeContent={favorites.size} color="error" sx={{px:"10px"}}>
                     <FavoriteIcon />
                   </Badge>
                 }
                 onClick={() => navigate("/favourite")}
               >
-                Favorites
+                {t("nav.favorites")}
               </Button>
 
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -142,10 +151,10 @@ useEffect(() => {
                     onClick={() => {
                       handleMenuClose();
                       logOut();
-                      navigate("/"); 
+                      navigate("/");
                     }}
                   >
-                    Logout
+                    {t("nav.logout")}
                   </MenuItem>
                 </Menu>
               </Box>
@@ -166,7 +175,7 @@ useEffect(() => {
                   boxShadow: "4px 4px 5px #323edf75",
                 }}
               >
-                Login Now
+                {t("nav.login")}
               </Button>
 
               <Button
@@ -179,10 +188,24 @@ useEffect(() => {
                   boxShadow: "4px 4px 5px #323edf75",
                 }}
               >
-                Register
+                {t("nav.register")}
               </Button>
             </>
           )}
+
+          {/* 🌐 زر تغيير اللغة */}
+          <Button
+            onClick={() =>
+              i18n.changeLanguage(i18n.language === "en" ? "ar" : "en")
+            }
+            sx={{
+              border: "1px solid #3252DF",
+              color: "#3252DF",
+              fontWeight: "bold",
+            }}
+          >
+            {i18n.language === "en" ? "AR" : "EN"}
+          </Button>
         </Box>
       </Toolbar>
     </AppBar>
