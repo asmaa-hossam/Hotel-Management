@@ -1,0 +1,18 @@
+{
+  "nav": {
+    "home": "Home",
+    "explore": "Explore",
+    "reviews": "Reviews",
+    "favorites": "Favorites",
+    "login": "Login Now",
+    "register": "Register",
+    "logout": "Logout"
+  },
+  "ads": {
+    "title": "Most Popular Ads",
+    "capacity": "Capacity",
+    "price": "{{price}} per night",
+    "loginRequiredTitle": "Login Required",
+    "loginRequired": "You must be logged in to add favorites."
+  }
+}
