@@ -1,6 +1,5 @@
 import React from 'react'
 import CommentForm from '../Components/Comments/CommentForm';
-import RoomComments from'./Comments/RoomComments'
 export default function DetailsPage() {
 
 
@@ -12,7 +11,6 @@ export default function DetailsPage() {
   return (
     <div>
       <h2>Post Details</h2>
-     <RoomComments roomId={roomId} />
     </div>
   );
 
