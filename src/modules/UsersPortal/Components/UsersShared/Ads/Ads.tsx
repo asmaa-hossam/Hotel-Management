@@ -21,7 +21,9 @@ function Ads() {
   price:string
   rooms:{images:[]}
 }
- 
+  
+
+
 
  const getAds = async (): Promise<Ad[]> => {
   try {
@@ -77,4 +79,9 @@ useEffect(() => {
 }
 
 export default Ads;
+
+
+
+
+
 
