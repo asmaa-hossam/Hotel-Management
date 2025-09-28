@@ -1,4 +1,3 @@
-import React from 'react'
 import CalenderBooking from '../../UsersPortal/Components/UsersShared/CalenderBooking/CalenderBooking'
 import Houses from '../../UsersPortal/Components/UsersShared/Houses/Houses'
 import Hotels from '../../UsersPortal/Components/UsersShared/Hotels/Hotels'
@@ -9,15 +8,12 @@ import LandingPageFooter from '../../Shared/Components/LandingPageFooter/Landing
 export default function Home() {
   return (
     <div>
-home
-  <CalenderBooking/> 
-<MostPopularAds/> 
- <Houses/>
- <Hotels/> 
-<Ads/> 
-{/* <LandingPageFooter/> */}
-
-{/* <Reviews/> */}
+<CalenderBooking/>
+<MostPopularAds/>
+<Houses/>
+<Hotels/>
+<Ads/>
+<Reviews/>
   </div>
   )
 }
