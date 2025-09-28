@@ -18,6 +18,7 @@ import img8 from "../../../assets/images/ic_bedroom (1).svg";
 import BookingDetails from '../../UsersPortal/Components/UsersShared/BookingDetails/BookingDetails'
 import { useAuthContext } from '../../../Context/Context'
 import ReviewForm from '../../UsersPortal/Components/ReviewForm/ReviewForm'
+import CommentForm from '../../UsersPortal/Components/CommentForm/CommentForm'
 const StyleBox=styled(Box)(()=>({
   display:'flex',
   width:"90%",
@@ -233,7 +234,7 @@ export default function DetailsPage() {
           }}
 >
 <ReviewForm roomId={roomDetails?._id!}/>
-
+<CommentForm roomId={roomDetails?._id!}/> 
 </StyleBox>
 :""
 }
