@@ -5,7 +5,6 @@ import dayjs from "dayjs";
 import { Box, Button, Popover, TextField } from "@mui/material";
 import { CalendarMonth } from "@mui/icons-material";
 import { useState } from "react";
-import { t } from "i18next";
 import type { RangeKeyDict } from "react-date-range";
 
 interface DatePickerProps {

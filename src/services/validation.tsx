@@ -44,3 +44,23 @@ export const PHONE_VALIDATION = {
                 required:"code is Required",
 
               }
+
+
+              export const getReviewValidationRules = () => {
+  return {
+    rating: {
+      required: {
+        value: true,
+        message: "this feild is required",
+      },
+      min: { value: 1, message: "Rating must be at least 1" },
+      max: { value: 5, message: "Rating cannot exceed 5" },
+    },
+    review: {
+      required: {
+        value: true,
+        message: "this feild is required",
+      },
+    },
+  };
+};

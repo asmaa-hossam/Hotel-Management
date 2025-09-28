@@ -109,3 +109,9 @@ export const USERS_URL={
 export const BOOKINGG_USER_URL={
 CREATE_BOOKING:`https://upskilling-egypt.com:3000/api/v0/portal/booking`
 }
+
+//ROOMREVIEWS
+
+export const ROOM_REVIEWS={
+  CREATE_REVIEW:`https://upskilling-egypt.com:3000/api/v0/portal/room-reviews`
+}
