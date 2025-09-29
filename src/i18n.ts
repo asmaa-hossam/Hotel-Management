@@ -31,8 +31,8 @@ import arDetails from "../locales/ar/details.json";
 import enRegister from "../locales/en/register.json";
 import arRegister from "../locales/ar/register.json";
 
-import enforgetPassword from "../locales/en/forgetPassword.json"; 
-import arforgetPassword from "../locales/ar/forgetPassword.json"; 
+import enforgetPassword from "../locales/en/forgetpassword.json"; 
+import arforgetPassword from "../locales/ar/forgetpassword.json"; 
 
 import enChangePassword from "../locales/en/changePassword.json";
 import arChangePassword from "../locales/ar/changePassword.json"; 
