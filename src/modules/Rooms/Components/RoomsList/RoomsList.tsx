@@ -67,6 +67,8 @@ export default function RoomsList() {
   ) => {
     setPage(newPage);
     GetAllRooms(newPage + 1, rowsPerPage);
+    console.log(event);
+    
   };
 
   /**

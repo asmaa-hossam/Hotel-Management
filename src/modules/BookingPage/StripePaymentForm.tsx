@@ -1,5 +1,5 @@
 import { CardElement, AddressElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { Box, Button, Typography, Alert, CircularProgress } from "@mui/material";
+import { Box, Button, Alert, CircularProgress } from "@mui/material";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { toast } from "react-toastify";

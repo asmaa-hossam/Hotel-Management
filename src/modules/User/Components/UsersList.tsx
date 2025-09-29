@@ -63,7 +63,10 @@ export default function UsersList() {
   ) => {
     setPage(newPage);
     fetchUsers(newPage + 1, rowsPerPage);
+    console.log(event);
+    
   };
+
 
   /**
    * معالجة تغيير عدد الصفوف في الصفحة

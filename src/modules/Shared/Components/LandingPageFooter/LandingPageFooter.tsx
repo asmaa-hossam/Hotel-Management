@@ -1,7 +1,5 @@
-import React from "react";
-import { Container, Box, Typography, Divider } from "@mui/material";
+import { Container, Box, Typography, Divider, Grid } from "@mui/material";
 import logo from "../../../../assets/images/Staycation..svg";
-import { Grid } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 export default function Footer() {
@@ -9,12 +7,13 @@ export default function Footer() {
   const isRTL = i18n.language === 'ar';
 
   return (
+    <>
     <Container sx={{ direction: isRTL ? "rtl" : "ltr" }}>
       <Divider sx={{ borderColor: "#E5E5E5", mb: 4 }} />
 
       <Grid container spacing={10}>
         {/* Logo + text */}
-        <Grid item xs={12} md={4}>
+      <Grid size={{sm:12 ,md:4}} >
           <Box>
             <img src={logo} alt="Staycation" />
             <Typography
@@ -44,10 +43,10 @@ export default function Footer() {
               {t("description.line2")}
             </Typography>
           </Box>
-        </Grid>
+       </Grid>
 
         {/* Column 1 */}
-        <Grid item xs={6} md={2}>
+        <Grid size={{sm:6 ,md:2}}>
           <Typography
             sx={{ 
               fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
@@ -97,7 +96,7 @@ export default function Footer() {
         </Grid>
 
         {/* Column 2 */}
-        <Grid item xs={6} md={2}>
+        <Grid size={{sm:6 ,md:2}}>
           <Typography
             sx={{ 
               fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
@@ -147,7 +146,7 @@ export default function Footer() {
         </Grid>
 
         {/* Contact */}
-        <Grid item xs={12} md={3}>
+        <Grid size={{sm:6 ,md:2}}>
           <Typography
             sx={{ 
               fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
@@ -209,5 +208,6 @@ export default function Footer() {
         </Typography>
       </Box>
     </Container>
+    </>
   );
 }

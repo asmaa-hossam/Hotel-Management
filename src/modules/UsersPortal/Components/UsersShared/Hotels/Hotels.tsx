@@ -1,4 +1,3 @@
-import React from 'react'
 import PhotoGrid from '../../../../Shared/Components/photoGrid/PhotoGrid'
 import hotels1 from '../../../../../assets/images/hotels1.png'
 import hotels2 from '../../../../../assets/images/hotels2.png'

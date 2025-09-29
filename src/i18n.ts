@@ -31,8 +31,9 @@ import arDetails from "../locales/ar/details.json";
 import enRegister from "../locales/en/register.json";
 import arRegister from "../locales/ar/register.json";
 
-import enForgetPassword from "../locales/en/forgetPassword.json"; 
-import arForgetPassword from "../locales/ar/forgetPassword.json"; 
+import enforgetPassword from "../locales/en/forgetPassword.json"; 
+import arforgetPassword from "../locales/ar/forgetPassword.json"; 
+
 import enChangePassword from "../locales/en/changePassword.json";
 import arChangePassword from "../locales/ar/changePassword.json"; 
 import enAuth from "../locales/en/auth.json";
@@ -58,7 +59,7 @@ i18n.use(initReactI18next).init({
       explore: enExplore,
       details: enDetails,
       register: enRegister,
-      forgetPassword: enForgetPassword  ,
+      forgetPassword: enforgetPassword  ,
           changePassword: enChangePassword,
           auth:enAuth,
           comment:enComment,
@@ -76,7 +77,7 @@ i18n.use(initReactI18next).init({
       explore: arExplore,
       details: arDetails,
       register: arRegister,
-      forgetPassword: arForgetPassword ,
+      forgetPassword: arforgetPassword ,
           changePassword: arChangePassword,
           auth:arAuth,
                     comment:arComment,

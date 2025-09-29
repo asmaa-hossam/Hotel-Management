@@ -3,7 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import 'swiper/swiper-bundle.min.css';
 import 'swiper/swiper.min.css';
-import { Box,  } from "@mui/material";
+import { Box } from "@mui/material";
 import { useState,useEffect } from "react";
 import { ads_URL } from "../../../../../services/urls";
 import axios from "axios";

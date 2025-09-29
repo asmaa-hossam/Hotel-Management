@@ -1,5 +1,5 @@
 // src/components/Facilities/EditFacilityModal.tsx
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Modal,
   Box,
