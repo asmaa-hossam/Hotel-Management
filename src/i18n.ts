@@ -40,6 +40,10 @@ import arAuth from "../locales/ar/auth.json";
 import enComment from "../locales/en/comment.json";
 import arComment from "../locales/ar/comment.json"; 
 
+import enReviewForm from '../locales/en/rate.json';
+import arReviewForm from '../locales/ar/rate.json';
+
+
 i18n.use(initReactI18next).init({
   resources: {
     en: { 
@@ -57,8 +61,8 @@ i18n.use(initReactI18next).init({
       forgetPassword: enForgetPassword  ,
           changePassword: enChangePassword,
           auth:enAuth,
-          comment:enComment
-
+          comment:enComment,
+         review: enReviewForm
     },
     ar: { 
       login: arLogin,
@@ -75,14 +79,14 @@ i18n.use(initReactI18next).init({
       forgetPassword: arForgetPassword ,
           changePassword: arChangePassword,
           auth:arAuth,
-                    comment:arComment
-
+                    comment:arComment,
+                 review: arReviewForm
 
     },
   },
   lng: "en",
   fallbackLng: "en",
-  ns: ["login", "navbar", "ads", "mostPopularAds", "favorites", "booking", "photoGrid", "footer", "explore", "details", "register", "forgetPassword","changePassword","auth","comment"], 
+  ns: ["login", "navbar", "ads", "mostPopularAds", "favorites", "booking", "photoGrid", "footer", "explore", "details", "register", "forgetPassword","changePassword","auth","comment","review"], 
   defaultNS: "login",
   interpolation: { 
     escapeValue: false,

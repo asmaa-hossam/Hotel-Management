@@ -1,5 +1,5 @@
 // CalenderBooking.tsx
-import React, { useState } from "react";
+import  { useState } from "react";
 import DatePicker from "./DatePicker";
 import {
   Box,
@@ -90,7 +90,7 @@ const float = keyframes`
   50% { transform: translateY(-10px); }
 `;
   return (
-    <Box sx={{p:15}}>
+    <Box pt="50px">
       {/* parent Grid */}
       <Grid container spacing={2}>
         {/* first Grid child */}
@@ -227,7 +227,7 @@ const float = keyframes`
             borderRadius: "105px 20px 20px 20px",
             position: "absolute",
             bottom: "40px",
-            right: "40px",
+          
             
             // Animation بسيط
             animation: `${float} 3s ease-in-out infinite`,

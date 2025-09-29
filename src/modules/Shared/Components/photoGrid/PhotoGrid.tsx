@@ -30,18 +30,7 @@ const PhotoGrid = ({ gridTitle, photos }: PhotoGridProps) => {
   if (isXs) cols = 1;
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        maxWidth: 1200,
-        mx: "auto",
-        px: 2,
-        py: 2,
-        borderRadius: 3,
-        overflow: "hidden",
-        textAlign: "left",
-      }}
-    >
+  <>
       {/* Title */}
       <Typography
         variant="h5"
@@ -137,7 +126,7 @@ const PhotoGrid = ({ gridTitle, photos }: PhotoGridProps) => {
           </ImageListItem>
         ))}
       </ImageList>
-    </Box>
+   </>
   );
 };
 

@@ -224,6 +224,7 @@ export default function DetailsPage() {
 
 {loginData?.role==="user"?<StyleBox
   sx={{
+    
             flexDirection: {
               xs: "column",
               lg: "row",

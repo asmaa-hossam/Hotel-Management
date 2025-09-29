@@ -1,0 +1,8 @@
+{
+  "rateTitle": "Rate",
+  "messageTitle": "Message",
+  "send": "Rate",
+  "sending": "Sending...",
+  "success": "Review added successfully!",
+  "error": "Something went wrong while sending the review"
+}

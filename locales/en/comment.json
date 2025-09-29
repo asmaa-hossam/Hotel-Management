@@ -3,6 +3,6 @@
   "commentPlaceholder": "Write your comment here...",
   "send": "Send",
   "sending": "Sending...",
-  "commentSuccess": "Your comment has been submitted!",
-  "commentError": "Error submitting comment"
+  "commentSuccess": "Your comment was added successfully!",
+  "commentError": "Failed to send comment"
 }

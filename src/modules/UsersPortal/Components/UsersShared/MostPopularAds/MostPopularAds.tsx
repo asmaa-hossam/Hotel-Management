@@ -263,17 +263,7 @@ const MostPopularAds: React.FC = () => {
 
   return (
     <Box
-      sx={{
-        width: "100%",
-        maxWidth: 1200,
-        mx: "auto",
-        px: 2,
-        py: 2,
-        borderRadius: 3,
-        overflow: "hidden",
-        textAlign: isRTL ? "right" : "left",
-        direction: isRTL ? "rtl" : "ltr",
-      }}
+     
     >
       <Box
         sx={{

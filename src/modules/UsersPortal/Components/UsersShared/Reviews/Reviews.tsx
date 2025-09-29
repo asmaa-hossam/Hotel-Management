@@ -109,11 +109,7 @@ const Reviews = () => {
   };
 
   return (
-    <Box sx={{  width: "100%",
-        maxWidth: 1200,
-        mx: "auto",
-        px: 2,
-        py: 2, }}>
+    
       <Box
         sx={{
           display: "flex",
@@ -236,7 +232,7 @@ const Reviews = () => {
           ))}
         </Slider>
       </Box>
-    </Box>
+  
   );
 };
 

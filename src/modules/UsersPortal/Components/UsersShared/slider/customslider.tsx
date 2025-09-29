@@ -67,11 +67,7 @@ function UnevenSetsInfinite({ slides }: UnevenSetsInfiniteProps) {
   return (
     <Box 
       sx={{
-        width: "100%",
-        maxWidth: 1200,
-        mx: "auto",
-        px: 5,
-        py: 5,
+      
         borderRadius: 3,
         overflow: "hidden",
         textAlign: isRTL ? "right" : "left", // Dynamic text alignment

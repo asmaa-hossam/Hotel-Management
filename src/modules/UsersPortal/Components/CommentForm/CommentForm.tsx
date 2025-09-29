@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
@@ -9,10 +10,11 @@ import {
 } from "@mui/material";
 import styled from "@emotion/styled";
 import { Controller, useForm } from "react-hook-form";
-import {  axiosinstance, COMMENTS_URLS } from "../../../../services/urls"
+import { axiosinstance, COMMENTS_URLS } from "../../../../services/urls";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { getCommentValidationRules } from "../../../../services/validation";
+import { useTranslation } from "react-i18next";
 
 const StyledTextField = styled(TextField)(() => ({
   width: "32.25rem",
@@ -22,6 +24,7 @@ const StyledTextField = styled(TextField)(() => ({
     marginTop: "4rem",
   },
 }));
+
 const StyledButton = styled(Button)(() => ({
   height: "50px",
   fontSize: "18px",
@@ -35,6 +38,7 @@ const StyledButton = styled(Button)(() => ({
     color: "#c0c0c0",
   },
 }));
+
 type Comment = {
   roomId: string;
   comment: string;
@@ -43,7 +47,16 @@ interface AddCommentResponse {
   success: boolean;
   message: string;
 }
+
 const CommentForm = ({ roomId }: { roomId: string }) => {
+  const { t, i18n } = useTranslation("comment");
+
+  // RTL handling
+  useEffect(() => {
+    const dir = i18n.language === "ar" ? "rtl" : "ltr";
+    document.documentElement.dir = dir;
+  }, [i18n.language]);
+
   const {
     formState: { isSubmitting },
     handleSubmit,
@@ -51,28 +64,31 @@ const CommentForm = ({ roomId }: { roomId: string }) => {
     reset,
   } = useForm<Comment>({
     defaultValues: {
-      roomId: roomId,
+      roomId,
       comment: "",
     },
     mode: "onChange",
   });
+
   const validationRules = getCommentValidationRules();
+
   const onSubmit = async (data: Comment) => {
-    console.log(data);
     try {
       const response = await axiosinstance.post<AddCommentResponse>(
         COMMENTS_URLS.addComment,
-        { ...data, roomId: roomId }
+        { ...data, roomId }
       );
       if (response.status === 200) {
-        toast.success(response?.data?.message || "Comment added successfully");
+        toast.success(response?.data?.message || t("commentSuccess"));
         reset();
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         toast.error(
-          error.response?.data?.message || "Something went wrong, try again"
+          error.response?.data?.message || t("commentError")
         );
+      } else {
+        toast.error(t("commentError"));
       }
       console.log(error);
     }
@@ -87,12 +103,10 @@ const CommentForm = ({ roomId }: { roomId: string }) => {
         width: "100%",
       }}
     >
-      <Typography
-        variant="subtitle2"
-        sx={{ fontWeight: "500", fontSize: "20px" }}
-      >
-        Add Your Comment
+      <Typography variant="subtitle2" sx={{ fontWeight: "500", fontSize: "20px" }}>
+        {t("addComment")}
       </Typography>
+
       <Box
         sx={{ display: "flex", flexDirection: "column" }}
         component={"form"}
@@ -105,6 +119,8 @@ const CommentForm = ({ roomId }: { roomId: string }) => {
           render={({ field, fieldState }) => (
             <FormControl>
               <StyledTextField
+                {...field}
+                placeholder={t("commentPlaceholder")}
                 type="text"
                 multiline
                 rows={4}
@@ -114,18 +130,16 @@ const CommentForm = ({ roomId }: { roomId: string }) => {
                     xl: "516px",
                   },
                 }}
-                {...field}
               />
               {fieldState?.error && (
-                <FormHelperText
-                  sx={{ color: "#EB5148", fontWeight: 600, fontSize: 12 }}
-                >
+                <FormHelperText sx={{ color: "#EB5148", fontWeight: 600, fontSize: 12 }}>
                   {fieldState.error.message}
                 </FormHelperText>
               )}
             </FormControl>
           )}
         />
+
         <StyledButton
           variant="contained"
           type="submit"
@@ -138,11 +152,7 @@ const CommentForm = ({ roomId }: { roomId: string }) => {
             },
           }}
         >
-          {isSubmitting ? (
-            <CircularProgress sx={{ color: "white" }} size={"1rem"} />
-          ) : (
-            "Send"
-          )}
+          {isSubmitting ? <CircularProgress sx={{ color: "white" }} size={"1rem"} /> : t("send")}
         </StyledButton>
       </Box>
     </Box>

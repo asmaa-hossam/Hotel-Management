@@ -7,7 +7,6 @@ import Home from './modules/Home/Components/Home'
 import ExplorPage from './modules/ExplorePage/Components/ExplorPage'
 import DetailsPage from './modules/DetailsPage/Components/DetailsPage'
 import Favourite from './modules/Favourites/Components/Favourite'
-import UserProtectedRoute from './modules/Shared/Components/ProtectedRout/UserProtectedRoute'
 import AuthLayout from './modules/Shared/Components/AuthLayout/AuthLayout'
 import Register from './modules/Authontication/Components/Register/Register'
 import Login from './modules/Authontication/Components/Login/Login'
@@ -45,9 +44,9 @@ export default function App() {
         {path:"details/:roomid",element:<DetailsPage/>},
 
         {path:"favourite",element:(
-        //  <UserProtectedRoute>
+       
           <Favourite/>
-          // </UserProtectedRoute>
+        
         )
         }
     ]
