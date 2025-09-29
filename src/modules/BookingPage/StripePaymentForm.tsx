@@ -8,13 +8,17 @@ import "react-toastify/dist/ReactToastify.css";
 // import axios instance and booking URLs
 import { axiosinstance, BASEURLDEV } from "../../services/urls";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface PaymentFormProps {
   bookingId: string;
   totalPrice: number;
 }
 
-export default function PaymentForm({ bookingId, totalPrice }: PaymentFormProps) {
+export default function PaymentForm({ bookingId }: PaymentFormProps) {
+    const { t, i18n } = useTranslation("booking");
+  
+  const isRTL = i18n.language === 'ar';
   const stripe = useStripe();
   const elements = useElements();
   const [success, setSuccess] = useState(false);
@@ -83,7 +87,7 @@ export default function PaymentForm({ bookingId, totalPrice }: PaymentFormProps)
       {success && <Alert severity="success">Payment Successful! 🎉</Alert>}
       {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
 
-      <Typography variant="h6" color="#152C5B"> Total Payment:  ${totalPrice}</Typography>
+      {/* <Typography variant="h6" color="#152C5B"> Total Payment:  ${totalPrice}</Typography> */}
 
       {/* Card Field */}
       <Box
@@ -109,23 +113,31 @@ export default function PaymentForm({ bookingId, totalPrice }: PaymentFormProps)
         <AddressElement options={{ mode: "billing" }} />
       </Box>
 
-      <Button
+            <Button
         type="submit"
         variant="contained"
         color="primary"
-        disabled={loading} // disable button when loading
-        startIcon={loading ? <CircularProgress size={20} color="inherit" /> : null} // show spinner
+        disabled={loading}
+        startIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}
+        sx={{ 
+          fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+          height: "48px"
+        }}
       >
-        {loading ? "Processing..." : "Pay Now"}
+        {loading ? t("payment.processing") : t("payment.payNow")}
       </Button>
-       <Button
-    type="button"  
-    sx={{ border: "1px black solid" }}
-    color="inherit"
-    onClick={() => navigate("/")} // navigate to home
-  >
-    Cancel
-  </Button>
+        <Button
+        type="button"  
+        sx={{ 
+          border: "1px black solid",
+          fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+          height: "48px"
+        }}
+        color="inherit"
+        onClick={() => navigate("/")}
+      >
+        {t("payment.cancel")}
+      </Button>
     </Box>
   );
 }

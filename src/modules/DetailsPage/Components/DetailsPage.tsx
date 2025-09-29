@@ -19,13 +19,19 @@ import BookingDetails from '../../UsersPortal/Components/UsersShared/BookingDeta
 import { useAuthContext } from '../../../Context/Context'
 import ReviewForm from '../../UsersPortal/Components/ReviewForm/ReviewForm'
 import CommentForm from '../../UsersPortal/Components/CommentForm/CommentForm'
+import { useTranslation } from 'react-i18next'
+
 const StyleBox=styled(Box)(()=>({
+
   display:'flex',
   width:"90%",
   marginInline:"auto",
   mb:"2rem"
 }))
 export default function DetailsPage() {
+   const { t } = useTranslation("details")
+  
+  // const isRTL = i18n.language === 'ar'
   let {loginData}=useAuthContext()
   let [roomDetails,setRoomDetails]=useState<RoomsData>()
   let {roomid}=useParams()
@@ -94,7 +100,7 @@ export default function DetailsPage() {
                 fontSize: "14px"
               }}
             >
-              Home → Room Details
+              {t("breadcrumb")}
             </Typography>
 
             {/* Room Title */}

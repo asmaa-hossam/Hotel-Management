@@ -8,11 +8,15 @@
     "register": "إنشاء حساب",
     "logout": "تسجيل الخروج"
   },
-  "ads": {
-    "title": "الإعلانات الأكثر شيوعًا",
+  "mostPopularAds": {
+    "title": "الإعلانات الأكثر شعبية",
     "capacity": "السعة",
-    "price": "{{price}} لليلة",
-    "loginRequiredTitle": "مطلوب تسجيل الدخول",
-    "loginRequired": "يجب تسجيل الدخول لإضافة للمفضلة."
+    "pricePerNight": "${{price}} لكل ليلة",
+    "loginRequiredTitle": "تسجيل الدخول مطلوب",
+    "loginRequiredMessage": "يجب تسجيل الدخول لإضافة المفضلة.",
+    "loginBtn": "تسجيل الدخول",
+    "registerBtn": "إنشاء حساب"
   }
+
 }
+

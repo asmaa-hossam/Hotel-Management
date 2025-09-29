@@ -1,0 +1,57 @@
+{
+  "mainTitle": {
+    "line1": "انسى العمل المزدحم،",
+    "line2": "ابدأ عطلتك القادمة"
+  },
+  "subtitle": {
+    "line1": "نوفر لك ما تحتاجه للاستمتاع بعطلتك مع العائلة.",
+    "line2": "حان الوقت لصنع ذكريات لا تنسى أخرى."
+  },
+  "bookingTitle": "ابدأ الحجز",
+  "datePickerError": "يرجى اختيار تاريخ البدء والانتهاء.",
+  "fetchError": "فشل في جلب الغرف",
+  "capacityLabel": "السعة",
+  "personCount_one": "{{count}} شخص",
+  "personCount_other": "{{count}} أشخاص",
+  "exploreButton": "استكشف",
+  "searching": "جاري البحث...",
+  "paymentTitle": "أكمل عملية الدفع",
+  "noBookingFound": "لم يتم العثور على حجز. ارجع وحاول مرة أخرى.",
+  "logoAlt": "شعار ستاي كيشن",
+  "bookingDetails": {
+    "title": "ابدأ حجزك",
+    "subtitle": "اختر تواريخك وأكد حجزك"
+  },
+  "perNight": "لكل ليلة",
+  "discountText": "خصم 20% متوفر!",
+  "selectDates": "اختر تواريخك",
+  "totalAmount": "المبلغ الإجمالي",
+  "bookingSummary": "لـ {{capacity}} شخص • {{nights}} ليلة",
+  "bookingSummary_plural": "لـ {{capacity}} أشخاص • {{nights}} ليالي",
+  "processing": "جاري المعالجة...",
+  "continueBooking": "متابعة الحجز",
+  "bookingSuccess": "تم إنشاء الحجز بنجاح",
+  "bookingError": "حدث خطأ، يرجى المحاولة مرة أخرى.",
+  "modal": {
+    "title": "متابعة الحجز",
+    "description": "تحتاج إلى تسجيل الدخول لمتابعة حجزك. يرجى تسجيل الدخول أو إنشاء حساب للمتابعة.",
+    "login": "تسجيل الدخول؟",
+    "signup": "إنشاء حساب؟"
+  },
+  "datePicker": {
+    "pickStart": "اختر البداية",
+    "pickEnd": "اختر النهاية",
+    "startDate": "تاريخ البدء",
+    "endDate": "تاريخ الانتهاء"
+  }
+  ,
+  "payment": {
+    "payNow": "ادفع الآن",
+    "cancel": "إلغاء",
+    "processing": "جاري المعالجة...",
+    "success": "تم الدفع بنجاح!",
+    "paymentFailed": "فشل في الدفع",
+    "requestFailed": "فشل في طلب الدفع",
+    "totalPayment": "إجمالي الدفع"
+  }
+}

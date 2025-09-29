@@ -4,10 +4,12 @@ import { axiosinstance, USERS_URL } from '../../../services/urls'
 import { useEffect, useState } from 'react'
 import  type {ResRoomData,RoomsData}from '../../../services/interfaces'
 import roomimg from '../../../assets/images/room.png'
+import { useTranslation } from 'react-i18next'
 
 export default function ExplorePage() {
     const [loading, setLoading] = useState<boolean>(false);
     const [availableRooms, setAvailableRooms] = useState<RoomsData[]>([]);
+const { t } = useTranslation("explore");
 
     let [URLSearchParams] = useSearchParams()
     let startDate = URLSearchParams.get("startDate")
@@ -47,7 +49,7 @@ export default function ExplorePage() {
                     mb: '30px' 
                 }}
             >
-                Explore ALL Rooms
+                {t("title")}
             </Typography>
 
             {loading && (
@@ -141,8 +143,8 @@ export default function ExplorePage() {
                                         margin: 0
                                     }}
                                 >
-                                    ${roomItem.price} 
-                                    <span> Per night</span>
+                                 ${roomItem.price} 
+                                    <span> {t("perNight")}</span>
                                 </Typography>
                                
                             </Box>

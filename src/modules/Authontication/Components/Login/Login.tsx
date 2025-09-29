@@ -30,6 +30,13 @@ export default function Login() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation("login");
 
+  const isRTL = i18n.language === 'ar';
+
+  // Language switcher handler
+  const switchLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
   const {
     control,
     handleSubmit,
@@ -49,13 +56,13 @@ export default function Login() {
 
       localStorage.setItem("token", token);
       SaveLogenData();
-      toast.success(res?.data?.message || t("login"));
+      toast.success(res?.data?.message || t("loginSuccess"));
 
       if (user.role === "admin") navigate("/dashboard");
       else navigate("/");
     } catch (error: any) {
       console.error("Login error:", error);
-      toast.error(error?.response?.data?.message || t("login"));
+      toast.error(error?.response?.data?.message || t("loginError"));
     } finally {
       setLoading(false); 
     }
@@ -69,23 +76,83 @@ export default function Login() {
         mx: "auto",
         mt: 6,
         px: 2,
-        direction: i18n.language === "ar" ? "rtl" : "ltr",
-        textAlign: i18n.language === "ar" ? "right" : "left",
+        pb: 4,
+        direction: isRTL ? "rtl" : "ltr"
       }}
     >
-      <Typography variant="h5" gutterBottom sx={{ fontWeight: 500, fontSize: "30px", py: 1 }}>
+      {/* Language Switcher Buttons - Same as Register page */}
+      <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end", mb: 2, flexDirection: isRTL ? "row-reverse" : "row" }}>
+        <Button
+          onClick={() => switchLanguage("en")}
+          variant={i18n.language === "en" ? "contained" : "outlined"}
+          size="small"
+          sx={{
+            minWidth: "60px",
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: "12px",
+            fontWeight: i18n.language === "en" ? "600" : "400",
+            borderRadius: "20px",
+          }}
+        >
+          EN
+        </Button>
+        <Button
+          onClick={() => switchLanguage("ar")}
+          variant={i18n.language === "ar" ? "contained" : "outlined"}
+          size="small"
+          sx={{
+            minWidth: "60px",
+            fontFamily: "'Tajawal', sans-serif",
+            fontSize: "12px",
+            fontWeight: i18n.language === "ar" ? "600" : "400",
+            borderRadius: "20px",
+          }}
+        >
+          AR
+        </Button>
+      </Box>
+
+      <Typography 
+        variant="h5" 
+        gutterBottom 
+        sx={{ 
+          fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+          fontWeight: 500, 
+          fontSize: "30px", 
+          py: 1,
+          textAlign: isRTL ? "right" : "left"
+        }}
+      >
         {t("signin")}
       </Typography>
 
-      <Typography variant="body2" sx={{ mb: 1 }}>
+      <Typography 
+        variant="body2" 
+        sx={{ 
+          mb: 1,
+          fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+          textAlign: isRTL ? "right" : "left"
+        }}
+      >
         {t("no_account")}
       </Typography>
 
-      <Typography variant="body2" sx={{ mb: 3 }}>
+      <Typography 
+        variant="body2" 
+        sx={{ 
+          mb: 3,
+          fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+          textAlign: isRTL ? "right" : "left"
+        }}
+      >
         <Link
           href="/register"
           underline="none"
-          sx={{ fontWeight: 600, color: "primary.main" }}
+          sx={{ 
+            fontWeight: 600, 
+            color: "red",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif"
+          }}
         >
           {t("register_here")}
         </Link>
@@ -93,7 +160,15 @@ export default function Login() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Email */}
-        <Typography variant="subtitle2" sx={{ mb: 0.5, color: "#152C5B" }}>
+        <Typography 
+          variant="subtitle2" 
+          sx={{ 
+            mb: 0.5, 
+            color: "#152C5B",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+            textAlign: isRTL ? "right" : "left"
+          }}
+        >
           {t("email")}
         </Typography>
         <Controller
@@ -106,16 +181,35 @@ export default function Login() {
               fullWidth
               size="small"
               variant="outlined"
-              placeholder={t("placeholder")}
+              placeholder={t("emailPlaceholder")}
               error={!!errors.email}
               helperText={errors.email?.message}
-              sx={{ mb: 2 }}
+              sx={{ 
+                mb: 2,
+                "& .MuiOutlinedInput-root": {
+                  backgroundColor: "#F5F6F8",
+                  "&:hover": { backgroundColor: "#f1f5fdff" },
+                  "&.Mui-focused": { backgroundColor: "#f1f5fdff" },
+                },
+                "& .MuiInputBase-input": {
+                  fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+                  textAlign: isRTL ? "right" : "left",
+                },
+              }}
             />
           )}
         />
 
         {/* Password */}
-        <Typography variant="subtitle2" sx={{ mb: 0.5, color: "#152C5B" }}>
+        <Typography 
+          variant="subtitle2" 
+          sx={{ 
+            mb: 0.5, 
+            color: "#152C5B",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+            textAlign: isRTL ? "right" : "left"
+          }}
+        >
           {t("password")}
         </Typography>
         <Controller
@@ -129,7 +223,7 @@ export default function Login() {
               size="small"
               variant="outlined"
               type={showPassword ? "text" : "password"}
-              placeholder={t("placeholder")}
+              placeholder={t("passwordPlaceholder")}
               error={!!errors.password}
               helperText={errors.password?.message}
               InputProps={{
@@ -141,17 +235,29 @@ export default function Login() {
                   </InputAdornment>
                 ),
               }}
-              sx={{ mb: 2 }}
+              sx={{ 
+                mb: 2,
+                "& .MuiOutlinedInput-root": {
+                  backgroundColor: "#F5F6F8",
+                  "&:hover": { backgroundColor: "#f1f5fdff" },
+                  "&.Mui-focused": { backgroundColor: "#f1f5fdff" },
+                },
+                "& .MuiInputBase-input": {
+                  fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+                  textAlign: isRTL ? "right" : "left",
+                },
+              }}
             />
           )}
         />
 
-        <Box sx={{ textAlign: "right", mb: 3 }}>
+        <Box sx={{ textAlign: isRTL ? "left" : "right", mb: 3 }}>
           <Link
             href="/forgetPassword"
             variant="caption"
             color="text.secondary"
             underline="none"
+            sx={{ fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif" }}
           >
             {t("forgot_password")}
           </Link>
@@ -163,16 +269,20 @@ export default function Login() {
           color="primary"
           type="submit"
           disabled={loading}
-          sx={{ height: 45 }}
+          sx={{ 
+            height: 45,
+            textTransform: "none",
+            borderRadius: "8px",
+            backgroundColor: "#2F49D1",
+            fontWeight: "bold",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+            "&:disabled": {
+              backgroundColor: "#ccc",
+            },
+          }}
         >
           {loading ? <CircularProgress size={24} color="inherit" /> : t("login")}
         </Button>
-
-        {/* Language Switch */}
-        <Box sx={{ mt: 2, textAlign: "center" }}>
-          <Button onClick={() => i18n.changeLanguage("en")}>English</Button>
-          <Button onClick={() => i18n.changeLanguage("ar")}>العربية</Button>
-        </Box>
       </form>
     </Box>
   );

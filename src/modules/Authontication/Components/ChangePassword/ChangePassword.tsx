@@ -1,17 +1,25 @@
 import { useState } from "react";
 import { Auth_URL, axiosinstance } from "../../../../services/urls";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
-import { Box, Button, FormLabel, IconButton, InputAdornment, TextField, Alert, Typography } from "@mui/material";
+import { Box, Button, FormLabel, IconButton, InputAdornment, TextField, Alert, Typography, CircularProgress } from "@mui/material";
 import { toast } from "react-toastify";
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import type { ChangePasswordData, ChangePasswordRes } from '../../../../services/interfaces';
 import { CONFIRM_PASSWORD_VALIDATION, PASSWORD_VALIDATION } from "../../../../services/validation";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function ChangePassword() {
   const navigate = useNavigate();
   const [submitError, setSubmitError] = useState<string>("");
+  const { t, i18n } = useTranslation("changePassword");
+  const isRTL = i18n.language === 'ar';
   
+  // Language switcher handler
+  const switchLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
   const {
     formState: { errors, isSubmitting },
     control,
@@ -58,7 +66,7 @@ export default function ChangePassword() {
       console.error("Change password error:", error);
       
       const errorMessage = error?.response?.data?.message || 
-                          error?.message || "someThing went wronge"
+                          error?.message || t('defaultError')
       
       setSubmitError(errorMessage);
       toast.error(errorMessage);
@@ -69,7 +77,7 @@ export default function ChangePassword() {
     ...CONFIRM_PASSWORD_VALIDATION,
     validate: (value: string) => {
       if (value !== newPassword) {
-        return "Passwords do not match"
+        return t('passwordMismatch')
       }
       return true;
     }
@@ -86,31 +94,87 @@ export default function ChangePassword() {
         WebkitTextFillColor: "#5d5e61",
       },
     },
-    "& input": { color: "#5d5e61" },
+    "& .MuiInputBase-input": {
+      color: "#5d5e61",
+      fontFamily: isRTL ? "'Tajawal', sans-serif" : "Poppins, sans-serif",
+      textAlign: isRTL ? "right" : "left",
+    },
+    "& .MuiFormHelperText-root": {
+      fontFamily: isRTL ? "'Tajawal', sans-serif" : "Poppins, sans-serif",
+      textAlign: isRTL ? "right" : "left",
+    }
   };
 
   const commonLabelSx = {
     mb: "8px",
     fontSize: "16px",
     fontWeight: "400",
-    fontFamily: "Poppins",
+    fontFamily: isRTL ? "'Tajawal', sans-serif" : "Poppins, sans-serif",
     color: "rgba(21, 44, 91, 1)",
-    display: "block"
+    display: "block",
+    textAlign: isRTL ? "right" : "left",
   };
 
   return (
-    <Box sx={{ width: "100%", maxWidth: 600, mx: "auto", mt: 6, px: 2 }}>
+    <Box sx={{ 
+      width: "100%", 
+      maxWidth: 600, 
+      mx: "auto", 
+      mt: 6, 
+      px: 2,
+      pb: 4,
+      direction: isRTL ? "rtl" : "ltr"
+    }}>
+
+      {/* Language Switcher Buttons */}
+      <Box sx={{ 
+        display: "flex", 
+        gap: 1, 
+        justifyContent: "flex-end", 
+        mb: 2, 
+        flexDirection: isRTL ? "row-reverse" : "row" 
+      }}>
+        <Button
+          onClick={() => switchLanguage("en")}
+          variant={i18n.language === "en" ? "contained" : "outlined"}
+          size="small"
+          sx={{
+            minWidth: "60px",
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: "12px",
+            fontWeight: i18n.language === "en" ? "600" : "400",
+            borderRadius: "20px",
+          }}
+        >
+          EN
+        </Button>
+        <Button
+          onClick={() => switchLanguage("ar")}
+          variant={i18n.language === "ar" ? "contained" : "outlined"}
+          size="small"
+          sx={{
+            minWidth: "60px",
+            fontFamily: "'Tajawal', sans-serif",
+            fontSize: "12px",
+            fontWeight: i18n.language === "ar" ? "600" : "400",
+            borderRadius: "20px",
+          }}
+        >
+          AR
+        </Button>
+      </Box>
 
       <Typography
         gutterBottom
         sx={{
-          fontFamily: "Poppins, sans-serif",
+          fontFamily: isRTL ? "'Tajawal', sans-serif" : "Poppins, sans-serif",
           fontWeight: 500,
           fontSize: "30px",
           py: 1,
+          textAlign: isRTL ? "right" : "left",
         }}
       >
-       Change Password
+        {t('title')}
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -122,7 +186,7 @@ export default function ChangePassword() {
         )}
 
         <FormLabel sx={commonLabelSx}>
-          Old Password
+          {t('oldPassword')}
         </FormLabel>
         <Controller
           name="oldPassword"
@@ -132,7 +196,7 @@ export default function ChangePassword() {
             <TextField
               {...field}
               variant="outlined"
-              placeholder="please enter old password ..."
+              placeholder={t('oldPasswordPlaceholder')}
               type={showPasswords.old ? "text" : "password"}
               error={!!errors.oldPassword}
               helperText={errors.oldPassword?.message}
@@ -152,12 +216,15 @@ export default function ChangePassword() {
                   </InputAdornment>
                 )
               }}
+              inputProps={{
+                dir: isRTL ? 'rtl' : 'ltr'
+              }}
             />
           )}
         />
 
         <FormLabel sx={commonLabelSx}>
-          New Password
+          {t('newPassword')}
         </FormLabel>
         <Controller
           name="newPassword"
@@ -167,7 +234,7 @@ export default function ChangePassword() {
             <TextField
               {...field}
               variant="outlined"
-              placeholder="please enter new Password"
+              placeholder={t('newPasswordPlaceholder')}
               type={showPasswords.new ? "text" : "password"}
               error={!!errors.newPassword}
               helperText={errors.newPassword?.message}
@@ -187,12 +254,15 @@ export default function ChangePassword() {
                   </InputAdornment>
                 )
               }}
+              inputProps={{
+                dir: isRTL ? 'rtl' : 'ltr'
+              }}
             />
           )}
         />
 
         <FormLabel sx={commonLabelSx}>
-          Confirm Passwors
+          {t('confirmPassword')}
         </FormLabel>
         <Controller
           name="confirmPassword"
@@ -202,7 +272,7 @@ export default function ChangePassword() {
             <TextField
               {...field}
               variant="outlined"
-              placeholder="please confirm Password"
+              placeholder={t('confirmPasswordPlaceholder')}
               type={showPasswords.confirm ? "text" : "password"}
               error={!!errors.confirmPassword}
               helperText={errors.confirmPassword?.message}
@@ -222,6 +292,9 @@ export default function ChangePassword() {
                   </InputAdornment>
                 )
               }}
+              inputProps={{
+                dir: isRTL ? 'rtl' : 'ltr'
+              }}
             />
           )}
         />
@@ -238,6 +311,7 @@ export default function ChangePassword() {
             textTransform: "none",
             borderRadius: "8px",
             backgroundColor: "#2F49D1",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "Poppins, sans-serif",
             fontWeight: "bold",
             fontSize: "16px",
             "&:hover": {
@@ -248,7 +322,7 @@ export default function ChangePassword() {
             }
           }}
         >
-          {isSubmitting ? "save...." : "Change Password"}
+          {isSubmitting ? <CircularProgress size={24} color="inherit" /> : t('submitButton')}
         </Button>
       </form>
     </Box>

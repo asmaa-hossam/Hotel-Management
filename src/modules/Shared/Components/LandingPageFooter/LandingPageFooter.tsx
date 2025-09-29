@@ -1,83 +1,196 @@
-
 import React from "react";
 import { Container, Box, Typography, Divider } from "@mui/material";
 import logo from "../../../../assets/images/Staycation..svg";
 import { Grid } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+  const { t, i18n } = useTranslation("footer");
+  const isRTL = i18n.language === 'ar';
+
   return (
-    <Container>
+    <Container sx={{ direction: isRTL ? "rtl" : "ltr" }}>
       <Divider sx={{ borderColor: "#E5E5E5", mb: 4 }} />
 
       <Grid container spacing={10}>
         {/* Logo + text */}
-        <Grid  sx = {{xs:12 ,md :"4"}}>
+        <Grid item xs={12} md={4}>
           <Box>
             <img src={logo} alt="Staycation" />
             <Typography
               sx={{
-                fontFamily: "Poppins",
+                fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
                 fontWeight: 300,
                 fontSize: "16px",
                 color: "#B0B0B0",
                 mt: 2,
-                width:"258px"
+                width: "258px",
+                textAlign: isRTL ? "right" : "left"
               }}
             >
-              We kaboom your beauty holiday 
+              {t("description.line1")}
             </Typography>
             <Typography
               sx={{
-                fontFamily: "Poppins",
+                fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
                 fontWeight: 300,
                 fontSize: "16px",
                 color: "#B0B0B0",
                 mt: 2,
-                width:"258px"
+                width: "258px",
+                textAlign: isRTL ? "right" : "left"
               }}
             >
-           instantly and memorable.
+              {t("description.line2")}
             </Typography>
           </Box>
         </Grid>
 
-
-
         {/* Column 1 */}
-        <Grid     sx= {{xs:"6", md:"2"}}>
+        <Grid item xs={6} md={2}>
           <Typography
-            sx={{ fontFamily: "Poppins", fontWeight: 500, color: "#152C5B", mb: 2,fontsize:"18px",height:"24px"  }}
+            sx={{ 
+              fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+              fontWeight: 500, 
+              color: "#152C5B", 
+              mb: 2,
+              fontSize: "18px",
+              height: "24px",
+              textAlign: isRTL ? "right" : "left"
+            }}
           >
-            For Beginners
+            {t("forBeginners.title")}
           </Typography>
-          <Typography sx={{ color: "#B0B0B0",fontFamily: "Poppins", fontWeight: 300, mb: 2 ,fontsize:"18px",height:"24px"  }}>New Account</Typography>
-          <Typography sx={{ color: "#B0B0B0",fontFamily: "Poppins", fontWeight: 300, mb: 2 ,fontsize:"18px",height:"24px"  }}>Start Booking a Room</Typography>
-          <Typography sx={{ color: "#B0B0B0",fontFamily: "Poppins", fontWeight: 300, mb: 2 ,fontsize:"18px",height:"24px"  }}>Use Payments</Typography>
+          <Typography sx={{ 
+            color: "#B0B0B0",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+            fontWeight: 300, 
+            mb: 2,
+            fontSize: "18px",
+            height: "24px",
+            textAlign: isRTL ? "right" : "left"
+          }}>
+            {t("forBeginners.newAccount")}
+          </Typography>
+          <Typography sx={{ 
+            color: "#B0B0B0",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+            fontWeight: 300, 
+            mb: 2,
+            fontSize: "18px",
+            height: "24px",
+            textAlign: isRTL ? "right" : "left"
+          }}>
+            {t("forBeginners.startBooking")}
+          </Typography>
+          <Typography sx={{ 
+            color: "#B0B0B0",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+            fontWeight: 300, 
+            mb: 2,
+            fontSize: "18px",
+            height: "24px",
+            textAlign: isRTL ? "right" : "left"
+          }}>
+            {t("forBeginners.usePayments")}
+          </Typography>
         </Grid>
 
         {/* Column 2 */}
-        <Grid xs={6} md={2}>
+        <Grid item xs={6} md={2}>
           <Typography
-            sx={{ fontFamily: "Poppins", fontWeight: 500, color: "#152C5B", mb: 2 ,fontsize:"18px",height:"24px" }}
+            sx={{ 
+              fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+              fontWeight: 500, 
+              color: "#152C5B", 
+              mb: 2,
+              fontSize: "18px",
+              height: "24px",
+              textAlign: isRTL ? "right" : "left"
+            }}
           >
-            Explore Us
+            {t("exploreUs.title")}
           </Typography>
-          <Typography sx={{ color: "#B0B0B0",fontFamily: "Poppins", fontWeight: 300, mb: 2 ,fontsize:"18px",height:"24px"  }}>Our Careers</Typography>
-          <Typography sx={{ color: "#B0B0B0",fontFamily: "Poppins", fontWeight: 300, mb: 2 ,fontsize:"18px" ,height:"24px" }}>Privacy</Typography>
-          <Typography sx={{ color: "#B0B0B0",fontFamily: "Poppins", fontWeight: 300, mb: 2 ,fontsize:"18px",height:"24px"  }}>Terms & Conditions</Typography>
+          <Typography sx={{ 
+            color: "#B0B0B0",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+            fontWeight: 300, 
+            mb: 2,
+            fontSize: "18px",
+            height: "24px",
+            textAlign: isRTL ? "right" : "left"
+          }}>
+            {t("exploreUs.ourCareers")}
+          </Typography>
+          <Typography sx={{ 
+            color: "#B0B0B0",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+            fontWeight: 300, 
+            mb: 2,
+            fontSize: "18px",
+            height: "24px",
+            textAlign: isRTL ? "right" : "left"
+          }}>
+            {t("exploreUs.privacy")}
+          </Typography>
+          <Typography sx={{ 
+            color: "#B0B0B0",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+            fontWeight: 300, 
+            mb: 2,
+            fontSize: "18px",
+            height: "24px",
+            textAlign: isRTL ? "right" : "left"
+          }}>
+            {t("exploreUs.termsConditions")}
+          </Typography>
         </Grid>
 
         {/* Contact */}
-        <Grid xs={12} md={3}>
+        <Grid item xs={12} md={3}>
           <Typography
-            sx={{ fontFamily: "Poppins", fontWeight: 500, color: "#152C5B", mb: 2 }}
+            sx={{ 
+              fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+              fontWeight: 500, 
+              color: "#152C5B", 
+              mb: 2,
+              textAlign: isRTL ? "right" : "left"
+            }}
           >
-            Connect Us
+            {t("connectUs.title")}
           </Typography>
-          <Typography sx={{ color: "#B0B0B0",fontFamily: "Poppins", fontWeight: 300, mb: 2 ,fontsize:"18px",height:"24px" }}>support@staycation.id</Typography>
-          <Typography sx={{ color: "#B0B0B0",fontFamily: "Poppins", fontWeight: 300, mb: 2 ,fontsize:"18px",height:"24px"  }}>021 - 2208 - 1996</Typography>
-          <Typography sx={{ color: "#B0B0B0",fontFamily: "Poppins", fontWeight: 300, mb: 2 ,fontsize:"18px",height:"24px"  }}>
-            Staycation, Kemang, Jakarta
+          <Typography sx={{ 
+            color: "#B0B0B0",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+            fontWeight: 300, 
+            mb: 2,
+            fontSize: "18px",
+            height: "24px",
+            textAlign: isRTL ? "right" : "left"
+          }}>
+            {t("connectUs.email")}
+          </Typography>
+          <Typography sx={{ 
+            color: "#B0B0B0",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+            fontWeight: 300, 
+            mb: 2,
+            fontSize: "18px",
+            height: "24px",
+            textAlign: isRTL ? "right" : "left"
+          }}>
+            {t("connectUs.phone")}
+          </Typography>
+          <Typography sx={{ 
+            color: "#B0B0B0",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+            fontWeight: 300, 
+            mb: 2,
+            fontSize: "18px",
+            height: "24px",
+            textAlign: isRTL ? "right" : "left"
+          }}>
+            {t("connectUs.address")}
           </Typography>
         </Grid>
       </Grid>
@@ -86,19 +199,15 @@ export default function Footer() {
       <Box sx={{ textAlign: "center", mt: 4, p: 2 }}>
         <Typography
           sx={{
-            fontFamily: "Poppins",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
             fontWeight: 300,
             fontSize: "16px",
             color: "#B0B0B0",
           }}
         >
-          Copyright 2019 • All rights reserved • Staycation
+          {t("copyright")}
         </Typography>
       </Box>
     </Container>
   );
 }
-
-      
-
-

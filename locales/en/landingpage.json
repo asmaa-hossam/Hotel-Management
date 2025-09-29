@@ -8,11 +8,16 @@
     "register": "Register",
     "logout": "Logout"
   },
-  "ads": {
+  "mostPopularAds": {
     "title": "Most Popular Ads",
     "capacity": "Capacity",
-    "price": "{{price}} per night",
+    "pricePerNight": "${{price}} per night",
     "loginRequiredTitle": "Login Required",
-    "loginRequired": "You must be logged in to add favorites."
+    "loginRequiredMessage": "You must be logged in to add favorites.",
+    "loginBtn": "Login",
+    "registerBtn": "Register"
   }
+
+
+   
 }

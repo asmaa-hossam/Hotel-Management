@@ -196,7 +196,6 @@
 // export default MostPopularAds;
 
 
-
 import React, { useEffect, useState } from "react";
 import { 
   Box, Card, CardMedia, Typography, Chip, IconButton, Dialog, 
@@ -206,13 +205,13 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CloseIcon from "@mui/icons-material/Close";
- import { useFavorites } from "../../../../../Context/FavoritesContext";
+import { useFavorites } from "../../../../../Context/FavoritesContext";
 import { useAuthContext } from "../../../../../Context/Context"; 
 import { useNavigate } from "react-router-dom";
 import loginBg from "../../../../../assets/images/Group 33.png";
 import { ads_PORTAL_URL } from "../../../../../services/urls";
 import { axiosinstance } from "../../../../../services/urls";
-
+import { useTranslation } from "react-i18next";
 
 interface Ad {
   _id: string;
@@ -232,36 +231,37 @@ const MostPopularAds: React.FC = () => {
   const { loginData } = useAuthContext();
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation("navbar");
 
-useEffect(() => {
-  const fetchAds = async () => {
-    try {
-      const res = await axiosinstance.get(ads_PORTAL_URL.FETCH);
-      if (res.data.success && res.data.data.ads) {
-        setAds(res.data.data.ads);
-      } else {
+  const isRTL = i18n.language === 'ar';
+
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const res = await axiosinstance.get(ads_PORTAL_URL.FETCH);
+        if (res.data.success && res.data.data.ads) {
+          setAds(res.data.data.ads);
+        } else {
+          setAds([]);
+        }
+      } catch (error) {
+        console.error(error);
         setAds([]);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error(error);
-      setAds([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchAds();
-}, []);
-
+    };
+    fetchAds();
+  }, []);
 
   const handleFavoriteClick = (roomId: string) => {
     if (!loginData) setOpenModal(true);
     else toggleFavorite(roomId);
   };
 
-  if (loading) return <Typography>Loading ads...</Typography>;
+  if (loading) return <Typography>{t("mostPopularAds.loading", "Loading ads...")}</Typography>;
 
   return (
-    // <Box sx={{ padding: 2 }}>
     <Box
       sx={{
         width: "100%",
@@ -271,33 +271,36 @@ useEffect(() => {
         py: 2,
         borderRadius: 3,
         overflow: "hidden",
-        textAlign: "left",
+        textAlign: isRTL ? "right" : "left",
+        direction: isRTL ? "rtl" : "ltr",
       }}
     >
-
-       <Box
-      sx={{
-        width: "100%",
-        maxWidth: 1200,
-        mx: "auto",
-        px: 2,
-        py: 2,
-        borderRadius: 3,
-        overflow: "hidden",
-        textAlign: "left",
-      }}
-    >
-        <Typography variant="h5" mb={2} sx={{
-          fontFamily: "Poppins, sans-serif",
-          fontWeight: 600,
-          fontSize: { xs: "20px", sm: "22px", md: "24px" },
-          mb: 2,
-          color: "#152C5B",
-        }}>
-        Most Popular Ads
-      </Typography>
-    </Box>
-    
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: 1200,
+          mx: "auto",
+          px: 2,
+          py: 2,
+          borderRadius: 3,
+          overflow: "hidden",
+          textAlign: isRTL ? "right" : "left",
+        }}
+      >
+        <Typography 
+          variant="h5" 
+          mb={2} 
+          sx={{
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+            fontWeight: 600,
+            fontSize: { xs: "20px", sm: "22px", md: "24px" },
+            mb: 2,
+            color: "#152C5B",
+          }}
+        >
+          {t("mostPopularAds.title")}
+        </Typography>
+      </Box>
 
       <Box
         sx={{
@@ -341,7 +344,7 @@ useEffect(() => {
               sx={{
                 position: "absolute",
                 top: 0,
-                left: 0,
+                [isRTL ? 'right' : 'left']: 0,
                 width: "100%",
                 height: "100%",
                 bgcolor: "rgba(0,0,0,0.3)",
@@ -353,7 +356,10 @@ useEffect(() => {
                 transition: "opacity 0.3s ease",
               }}
             >
-              <IconButton sx={{ color: "#fff" }}>
+              <IconButton 
+                sx={{ color: "#fff" }}
+                onClick={() => navigate(`/details/${ad.room._id}`)}
+              >
                 <VisibilityIcon />
               </IconButton>
               <IconButton
@@ -365,15 +371,14 @@ useEffect(() => {
             </Box>
 
             <Chip
-              label={`$${ad.room.price} per night`}
+              label={t("${{price}} per night", { price: ad.room.price })}
               sx={{
                 position: "absolute",
                 top: 0,
-                right: 0,
                 bgcolor: "#FF498B",
                 color: "#fff",
                 fontWeight: "bold",
-                borderRadius: "0 15px 0 15px",
+                borderRadius: isRTL ? "0px 15px 0 15px" : "15px 0px 15px 0",
               }}
             />
 
@@ -381,39 +386,78 @@ useEffect(() => {
               sx={{
                 position: "absolute",
                 bottom: 8,
-                left: 8,
+                [isRTL ? 'right' : 'left']: 8,
                 color: "#fff",
                 zIndex: 2,
                 padding: "10px",
               }}
             >
-              <Typography variant="subtitle1" fontWeight="bold">
+              <Typography 
+                variant="subtitle1" 
+                fontWeight="bold"
+                sx={{ fontFamily: isRTL ? "'Tajawal', sans-serif" : "inherit" }}
+              >
                 {ad.room.roomNumber}
               </Typography>
-              <Typography variant="body2">Capacity: {ad.room.capacity}</Typography>
+              <Typography 
+                variant="body2"
+                sx={{ fontFamily: isRTL ? "'Tajawal', sans-serif" : "inherit" }}
+              >
+                {t("mostPopularAds.capacity")}: {ad.room.capacity}
+              </Typography>
             </Box>
           </Card>
         ))}
       </Box>
 
-      {/* Modal login */}
-      <Dialog open={openModal} onClose={() => setOpenModal(false)}>
-        <DialogTitle sx={{ fontWeight: "bold", color: "#152C5B", display: "flex", justifyContent: "space-between", alignItems: "center", px: 2, py: 1.5 }}>
-          Login Required
-          <IconButton onClick={() => setOpenModal(false)} edge="end" aria-label="close" sx={{ color: "#152C5B" }}>
+      {/* Login Modal */}
+      <Dialog 
+        open={openModal} 
+        onClose={() => setOpenModal(false)}
+        dir={isRTL ? "rtl" : "ltr"}
+      >
+        <DialogTitle 
+          sx={{ 
+            fontWeight: "bold", 
+            color: "#152C5B", 
+            display: "flex", 
+            justifyContent: "space-between", 
+            alignItems: "center", 
+            px: 2, 
+            py: 1.5,
+            flexDirection: isRTL ? "row-reverse" : "row",
+          }}
+        >
+          {t("mostPopularAds.loginRequiredTitle")}
+          <IconButton 
+            onClick={() => setOpenModal(false)} 
+            edge="end" 
+            aria-label="close" 
+            sx={{ color: "#152C5B" }}
+          >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
 
         <DialogContent>
-          <Typography>You must be logged in to add favorites.</Typography>
+          <Typography sx={{ fontFamily: isRTL ? "'Tajawal', sans-serif" : "inherit" }}>
+            {t("mostPopularAds.loginRequiredMessage")}
+          </Typography>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => navigate("/login")} variant="contained" color="primary">
-            Login
+        <DialogActions sx={{ flexDirection: isRTL ? "row-reverse" : "row" }}>
+          <Button 
+            onClick={() => navigate("/login")} 
+            variant="contained" 
+            color="primary"
+          >
+            {t("mostPopularAds.loginBtn")}
           </Button>
-          <Button onClick={() => navigate("/register")} variant="outlined" color="secondary">
-            Register
+          <Button 
+            onClick={() => navigate("/register")} 
+            variant="outlined" 
+            color="secondary"
+          >
+            {t("mostPopularAds.registerBtn")}
           </Button>
         </DialogActions>
       </Dialog>
@@ -422,32 +466,3 @@ useEffect(() => {
 };
 
 export default MostPopularAds;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

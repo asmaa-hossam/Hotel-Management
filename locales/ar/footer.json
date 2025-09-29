@@ -1,0 +1,25 @@
+{
+  "description": {
+    "line1": "نحن نجعلك تقضي عطلة جميلة",
+    "line2": "على الفور ولا تنسى."
+  },
+  "forBeginners": {
+    "title": "للمبتدئين",
+    "newAccount": "حساب جديد",
+    "startBooking": "ابدأ حجز غرفة",
+    "usePayments": "استخدام المدفوعات"
+  },
+  "exploreUs": {
+    "title": "استكشفنا",
+    "ourCareers": "وظائفنا",
+    "privacy": "الخصوصية",
+    "termsConditions": "الشروط والأحكام"
+  },
+  "connectUs": {
+    "title": "اتصل بنا",
+    "email": "support@staycation.id",
+    "phone": "021 - 2208 - 1996",
+    "address": "ستاي كيشن، كيمانغ، جاكرتا"
+  },
+  "copyright": "حقوق الطبع والنشر 2019 • جميع الحقوق محفوظة • ستاي كيشن"
+}

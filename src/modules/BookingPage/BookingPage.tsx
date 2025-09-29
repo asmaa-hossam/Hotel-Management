@@ -2,21 +2,73 @@ import { Elements } from "@stripe/react-stripe-js";
 import { useLocation } from "react-router-dom";
 import { stripePromise } from "../../services/stripe";
 import PaymentForm from "./StripePaymentForm";
-import { Box, Typography } from "@mui/material";
-import logo from "../../assets/images/Staycation..svg"
+import { Box, Typography, Button } from "@mui/material";
+import logo from "../../assets/images/Staycation..svg";
+import { useTranslation } from "react-i18next";
 
 export default function BookingPage() {
   const location = useLocation();
   const { bookingId, totalPrice } = location.state || {};
+  const { t, i18n } = useTranslation("booking");
+  
+  const isRTL = i18n.language === 'ar';
   console.log(totalPrice);
+
+  // Language switcher handler
+  const switchLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
 
   return (
     <Box 
       sx={{ 
         margin: "2rem auto",
         width: "100%",
+        direction: isRTL ? "rtl" : "ltr"
       }}
     >
+      {/* Language Switcher Buttons */}
+      <Box 
+        sx={{ 
+          display: "flex", 
+          justifyContent: "flex-end", 
+          gap: 1, 
+          mb: 2,
+          px: 2,
+          flexDirection: isRTL ? "row-reverse" : "row"
+        }}
+      >
+        <Button
+          onClick={() => switchLanguage('en')}
+          variant={i18n.language === 'en' ? "contained" : "outlined"}
+          size="small"
+          sx={{
+            minWidth: '60px',
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: '12px',
+            fontWeight: i18n.language === 'en' ? '600' : '400',
+            borderRadius: '20px',
+          }}
+        >
+          EN
+        </Button>
+        
+        <Button
+          onClick={() => switchLanguage('ar')}
+          variant={i18n.language === 'ar' ? "contained" : "outlined"}
+          size="small"
+          sx={{
+            minWidth: '60px',
+            fontFamily: "'Tajawal', sans-serif",
+            fontSize: '12px',
+            fontWeight: i18n.language === 'ar' ? '600' : '400',
+            borderRadius: '20px',
+          }}
+        >
+          AR
+        </Button>
+      </Box>
+
       {/* Centered Logo - Full Width */}
       <Box 
         sx={{ 
@@ -31,7 +83,7 @@ export default function BookingPage() {
       >
         <img 
           src={logo} 
-          alt="Staycation Logo" 
+          alt={t("logoAlt")} 
           style={{ 
             maxWidth: "150px", 
             height: "auto" 
@@ -57,9 +109,15 @@ export default function BookingPage() {
           component="h2" 
           align="center" 
           gutterBottom
-          sx={{ fontWeight: "bold", marginBottom: "2rem" ,color:"#152C5B"}}
+          sx={{ 
+            fontWeight: "bold", 
+            marginBottom: "2rem",
+            color: "#152C5B",
+            fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+            textAlign: isRTL ? "right" : "left"
+          }}
         >
-          Complete Your Payment
+          {t("paymentTitle")}
         </Typography>
         
         {bookingId ? (
@@ -67,8 +125,15 @@ export default function BookingPage() {
             <PaymentForm bookingId={bookingId} totalPrice={totalPrice} />
           </Elements>
         ) : (
-          <Typography variant="body1" align="center">
-            No booking found. Go back and try again.
+          <Typography 
+            variant="body1" 
+            align="center"
+            sx={{ 
+              fontFamily: isRTL ? "'Tajawal', sans-serif" : "'Poppins', sans-serif",
+              textAlign: isRTL ? "right" : "left"
+            }}
+          >
+            {t("noBookingFound")}
           </Typography>
         )}
       </Box>

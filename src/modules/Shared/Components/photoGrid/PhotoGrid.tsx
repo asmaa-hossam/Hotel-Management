@@ -2,6 +2,8 @@ import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
+import { useTranslation } from "react-i18next";
+
 
 type Photo = {
   url: string;
@@ -19,6 +21,7 @@ const PhotoGrid = ({ gridTitle, photos }: PhotoGridProps) => {
   const isXs = useMediaQuery(theme.breakpoints.down("sm")); // <600px
   const isSm = useMediaQuery(theme.breakpoints.between("sm", "md")); // 600-900
   const isMd = useMediaQuery(theme.breakpoints.between("md", "lg")); // 900-1200
+  const { t, i18n } = useTranslation("photoGrid");
 
   // Determine columns based on screen size
   let cols = 4;
@@ -48,9 +51,11 @@ const PhotoGrid = ({ gridTitle, photos }: PhotoGridProps) => {
           fontSize: { xs: "20px", sm: "22px", md: "24px" },
           mb: 2,
           color: "#152C5B",
+             textAlign: i18n.language === 'ar' ? "right" : "left",
+    direction: i18n.language === 'ar' ? "rtl" : "ltr",
         }}
       >
-        {gridTitle}
+        {t(gridTitle)}
       </Typography>
 
       {/* Image List */}
@@ -85,7 +90,7 @@ const PhotoGrid = ({ gridTitle, photos }: PhotoGridProps) => {
                     color: "#fff",
                   }}
                 >
-                  Popular Choice
+                  {t("popularChoice")}
                 </Typography>
               </Box>
             )}

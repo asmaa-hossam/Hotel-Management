@@ -173,3 +173,14 @@ export interface Review{
     rating:number,
     review:string
 }
+// ProfileType = نفس User
+export type ProfileType = User;
+
+// ApiResponse للبيانات الراجعة من API
+export interface ApiResponse {
+  data: {
+    user: ProfileType;
+  };
+  message?: string;
+  success?: boolean;
+}

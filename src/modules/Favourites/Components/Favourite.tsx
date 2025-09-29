@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Box, Card, CardMedia, Typography, IconButton, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardMedia,
+  Typography,
+  IconButton,
+  CircularProgress,
+} from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useFavorites } from "../../../Context/FavoritesContext";
 import loginBg from "../../../assets/images/Group 33.png";
 import NoData from "../../Shared/Components/NoData/NoData";
 import { axiosinstance, ads_PORTAL_URL } from "../../../services/urls";
+import { useTranslation } from "react-i18next";
 
 interface Ad {
   _id: string;
@@ -19,8 +27,9 @@ interface Ad {
 
 const FavoritesPage: React.FC = () => {
   const [ads, setAds] = useState<Ad[]>([]);
-  const [adsLoading, setAdsLoading] = useState(true); // Local loading for ads
-  const { favorites, toggleFavorite, loading: favLoading } = useFavorites();
+  const [adsLoading, setAdsLoading] = useState(true);
+  const { favorites, toggleFavorite } = useFavorites();
+  const { t } = useTranslation("favorites");
 
   useEffect(() => {
     const fetchAds = async () => {
@@ -43,7 +52,7 @@ const FavoritesPage: React.FC = () => {
   const favAds = ads.filter((ad) => favorites.has(ad.room._id));
 
   // Show loading if favorites or ads are still loading
-  if (favLoading || adsLoading) {
+  if (adsLoading) {
     return (
       <Box
         sx={{
@@ -67,13 +76,12 @@ const FavoritesPage: React.FC = () => {
         position="relative"
         padding="30px"
       >
-        <Typography   sx={{ color: "#B0B0B0", fontSize: "18px",mt:"20px" }}>
-          Home / Favorites
+        <Typography sx={{ color: "#B0B0B0", fontSize: "18px", mt: "20px" }}>
+          {t("breadcrumb")}
         </Typography>
 
         <Typography
           variant="h6"
-           
           sx={{
             color: "#152C5B",
             position: "absolute",
@@ -83,7 +91,7 @@ const FavoritesPage: React.FC = () => {
             fontWeight: 600,
           }}
         >
-          Your Favorites
+          {t("title")}
         </Typography>
       </Box>
 
@@ -137,7 +145,11 @@ const FavoritesPage: React.FC = () => {
                   sx={{ color: "#fff" }}
                   onClick={() => toggleFavorite(ad.room._id)}
                 >
-                  {favorites.has(ad.room._id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                  {favorites.has(ad.room._id) ? (
+                    <FavoriteIcon />
+                  ) : (
+                    <FavoriteBorderIcon />
+                  )}
                 </IconButton>
               </Box>
 
@@ -156,7 +168,7 @@ const FavoritesPage: React.FC = () => {
                   {ad.room.roomNumber}
                 </Typography>
                 <Typography variant="body2">
-                  Capacity: {ad.room.capacity}
+                  {t("capacity")}: {ad.room.capacity}
                 </Typography>
               </Box>
             </Card>

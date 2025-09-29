@@ -1,0 +1,8 @@
+{
+  "addComment": "أضف تعليقك",
+  "commentPlaceholder": "اكتب تعليقك هنا...",
+  "send": "إرسال",
+  "sending": "جاري الإرسال...",
+  "commentSuccess": "تم إرسال تعليقك بنجاح!",
+  "commentError": "خطأ في إرسال التعليق"
+}

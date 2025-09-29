@@ -1,0 +1,27 @@
+{
+  "register": {
+    "title": "إنشاء حساب",
+    "subtitle1": "إذا كان لديك حساب بالفعل",
+    "subtitle2": "يمكنك",
+    "loginLink": "تسجيل الدخول هنا!",
+    "userNameLabel": "اسم المستخدم",
+    "userNamePlaceholder": "الرجاء الكتابة هنا ...",
+    "emailLabel": "البريد الإلكتروني",
+    "emailPlaceholder": "أدخل البريد الإلكتروني",
+    "phoneLabel": "الهاتف",
+    "phonePlaceholder": "أدخل رقم الهاتف",
+    "countryLabel": "البلد",
+    "countryPlaceholder": "أدخل اسم البلد",
+    "passwordLabel": "كلمة المرور",
+    "passwordPlaceholder": "الرجاء الكتابة هنا ...",
+    "confirmPasswordLabel": "تأكيد كلمة المرور",
+    "confirmPasswordPlaceholder": "الرجاء الكتابة هنا ...",
+    "profileImageLabel": "صورة الملف الشخصي",
+    "uploadImage": "رفع صورة",
+    "changeImage": "تغيير الصورة",
+    "submitButton": "إنشاء حساب",
+    "passwordsNotMatch": "كلمات المرور غير متطابقة",
+    "successMessage": "تم التسجيل بنجاح! يمكنك الآن تسجيل الدخول.",
+    "errorMessage": "فشل التسجيل. الرجاء المحاولة مرة أخرى."
+  }
+}
