@@ -8,3 +8,6 @@ export type RegisterFormInputs = {
   role: string;
   profileImage: File | null;
 };
+
+//ads
+export type ModalType = "view" | "edit" | "create" | null;

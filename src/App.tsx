@@ -1,4 +1,3 @@
-import React from 'react'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -8,7 +7,6 @@ import Home from './modules/Home/Components/Home'
 import ExplorPage from './modules/ExplorePage/Components/ExplorPage'
 import DetailsPage from './modules/DetailsPage/Components/DetailsPage'
 import Favourite from './modules/Favourites/Components/Favourite'
-import UserProtectedRoute from './modules/Shared/Components/ProtectedRout/UserProtectedRoute'
 import AuthLayout from './modules/Shared/Components/AuthLayout/AuthLayout'
 import Register from './modules/Authontication/Components/Register/Register'
 import Login from './modules/Authontication/Components/Login/Login'
@@ -30,6 +28,7 @@ import UsersList from './modules/User/Components/UsersList'
 import Facilities from './modules/Facilities/Components/Facilities'
 import { ThemeProvider } from '@mui/material/styles'
 import theme from './themes/themes'
+ 
 export default function App() {
 
 
@@ -42,18 +41,18 @@ export default function App() {
       { index:true,element:<Home/>},
        {path:"home", element:<Home/>},
        {path:"explore",element:<ExplorPage/>},
-        {path:"details",element:<DetailsPage/>},
+        {path:"details/:roomid",element:<DetailsPage/>},
 
         {path:"favourite",element:(
-        //  <UserProtectedRoute>
+       
           <Favourite/>
-          // </UserProtectedRoute>
+        
         )
         }
     ]
   },
   {
-path:"booking",
+path:"booking/:roomId",
 element:<BookingPage/>,
 errorElement:<NotFound/>,
 children:[
@@ -78,9 +77,9 @@ children:[
   },
   {
     path:"",element:(
-    // <ProtectedRoute>
+    <ProtectedRoute>
 <MasterLayout/>
-    // </ProtectedRoute>
+    </ProtectedRoute>
     ),
     errorElement:<NotFound/>,
     children:[
@@ -88,7 +87,7 @@ children:[
       {path:"rooms",element:<RoomsList/>},
       {path:"roomsForm",element:<RoomsForm/>},
        { path: "advertisments", element:<Advertisments/> },
-        { path: "booking", element:<BookingList/> },
+        { path: "bookingg", element:<BookingList/> },
         { path: "users", element:<UsersList/> },
        { path: "facilities", element:<Facilities/> },
 

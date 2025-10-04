@@ -1,0 +1,25 @@
+{
+  "description": {
+    "line1": "We kaboom your beauty holiday",
+    "line2": "instantly and memorable."
+  },
+  "forBeginners": {
+    "title": "For Beginners",
+    "newAccount": "New Account",
+    "startBooking": "Start Booking a Room",
+    "usePayments": "Use Payments"
+  },
+  "exploreUs": {
+    "title": "Explore Us",
+    "ourCareers": "Our Careers",
+    "privacy": "Privacy",
+    "termsConditions": "Terms & Conditions"
+  },
+  "connectUs": {
+    "title": "Connect Us",
+    "email": "support@staycation.id",
+    "phone": "021 - 2208 - 1996",
+    "address": "Staycation, Kemang, Jakarta"
+  },
+  "copyright": "Copyright 2019 • All rights reserved • Staycation"
+}

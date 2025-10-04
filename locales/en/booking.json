@@ -1,0 +1,57 @@
+{
+  "mainTitle": {
+    "line1": "Forget Busy Work,",
+    "line2": "Start Next Vacation"
+  },
+  "subtitle": {
+    "line1": "We provide what you need to enjoy your holiday with family.",
+    "line2": "Time to make another memorable moments."
+  },
+  "bookingTitle": "Start Booking",
+  "datePickerError": "Please pick a start and end date.",
+  "fetchError": "Failed to fetch rooms",
+  "capacityLabel": "Capacity",
+  "personCount_one": "{{count}} person",
+  "personCount_other": "{{count}} persons",
+  "exploreButton": "Explore",
+  "searching": "Searching...",
+  "paymentTitle": "Complete Your Payment",
+  "noBookingFound": "No booking found. Go back and try again.",
+  "logoAlt": "Staycation Logo",
+  "bookingDetails": {
+    "title": "Start Your Booking",
+    "subtitle": "Select your dates and confirm your reservation"
+  },
+  "perNight": "per night",
+  "discountText": "20% Discount Available!",
+  "selectDates": "Select Your Dates",
+  "totalAmount": "Total Amount",
+  "bookingSummary": "For {{capacity}} person • {{nights}} night",
+  "bookingSummary_plural": "For {{capacity}} persons • {{nights}} nights",
+  "processing": "Processing...",
+  "continueBooking": "Continue Booking",
+  "bookingSuccess": "Booking created successfully",
+  "bookingError": "Something went wrong, please try again.",
+  "modal": {
+    "title": "Continue Booking",
+    "description": "You need to log in to continue with your booking. Please log in or sign up to proceed.",
+    "login": "Login?",
+    "signup": "Sign Up?"
+  },
+  "datePicker": {
+    "pickStart": "Pick Start",
+    "pickEnd": "Pick End",
+    "startDate": "Start Date",
+    "endDate": "End Date"
+  },
+  "payment": {
+    "payNow": "Pay Now",
+    "cancel": "Cancel",
+    "processing": "Processing...",
+    "success": "Payment Successful!",
+    "paymentFailed": "Payment failed",
+    "requestFailed": "Payment request failed",
+    "totalPayment": "Total Payment"
+  }
+  
+}

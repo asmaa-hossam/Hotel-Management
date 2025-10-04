@@ -1,0 +1,17 @@
+{
+  "breadcrumb": "Home → Room Details",
+  "defaultRoomName": "Village Angga",
+  "roomImageAlt": "Room image",
+  "fetchError": "Failed to fetch room details",
+  "description": "Minimal techno is a minimalist subgenre of techno music. It is characterized by a stripped-down aesthetic that exploits the use of repetition and understated development. Minimal techno is thought to have been originally developed in the early 1990s by Detroit-based producers Robert Hood and Daniel Bell.\n\nSuch trends saw the demise of the soul-infused techno that typified the original Detroit sound. Robert Hood has noted that he and Daniel Bell both realized something was missing from techno in the post-rave era.\n\nDesign is a plan or specification for the construction of an object or system or for the implementation of an activity or process, or the result of that plan or specification in the form of a prototype, product or process. The national agency for design: enabling Singapore to use design for economic growth and to make lives better.",
+  "facilities": {
+    "bedroom": "bed room",
+    "livingRoom": "living room",
+    "bathroom": "bath room",
+    "diningRoom": "dining room",
+    "mbps": "mbp/s",
+    "unitReady": "unit ready",
+    "refrigerator": "refrigrator",
+    "television": "television"
+  }
+}

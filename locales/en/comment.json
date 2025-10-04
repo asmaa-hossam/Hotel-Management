@@ -1,0 +1,8 @@
+{
+  "addComment": "Add Your Comment",
+  "commentPlaceholder": "Write your comment here...",
+  "send": "Send",
+  "sending": "Sending...",
+  "commentSuccess": "Your comment was added successfully!",
+  "commentError": "Failed to send comment"
+}

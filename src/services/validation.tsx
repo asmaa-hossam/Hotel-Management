@@ -41,6 +41,41 @@ export const PHONE_VALIDATION = {
               }
 
                  export const OTP_VALIDATION={
-                required:"Country is Required",
+                required:"code is Required",
 
               }
+
+
+              export const getReviewValidationRules = () => {
+  return {
+    rating: {
+      required: {
+        value: true,
+        message: "this feild is required",
+      },
+      min: { value: 1, message: "Rating must be at least 1" },
+      max: { value: 5, message: "Rating cannot exceed 5" },
+    },
+    review: {
+      required: {
+        value: true,
+        message: "this feild is required",
+      },
+    },
+  };
+};
+
+export const getCommentValidationRules = () => {
+  return {
+    comment: {
+      required: {
+        value: true,
+        message: "this field is required"
+      },
+      maxLength: {
+        value: 200,
+        message: "Comment must be less than 200 characters",
+      },
+    },
+  };
+};

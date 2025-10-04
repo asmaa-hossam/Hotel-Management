@@ -1,0 +1,22 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "explore": "اكتشف",
+    "reviews": "المراجعات",
+    "favorites": "المفضلة",
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "logout": "تسجيل الخروج"
+  },
+  "mostPopularAds": {
+    "title": "الإعلانات الأكثر شعبية",
+    "capacity": "السعة",
+    "pricePerNight": "${{price}} لكل ليلة",
+    "loginRequiredTitle": "تسجيل الدخول مطلوب",
+    "loginRequiredMessage": "يجب تسجيل الدخول لإضافة المفضلة.",
+    "loginBtn": "تسجيل الدخول",
+    "registerBtn": "إنشاء حساب"
+  }
+
+}
+

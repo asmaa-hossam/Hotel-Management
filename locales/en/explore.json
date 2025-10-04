@@ -1,0 +1,10 @@
+{
+  "title": "Explore ALL Rooms",
+  "perNight": "Per night",
+  "hotelName": "Ocean Land",
+  "location": "Bandung, Indonesia",
+  "roomImageAlt": "Room image",
+  "noRoomsAvailable": "No rooms available for the selected dates",
+  "loading": "Loading rooms...",
+  "error": "Failed to load rooms"
+}
